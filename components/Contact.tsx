@@ -128,20 +128,34 @@ const Contact = () => {
 
         setLoading(true);
         try {
-            const res = await fetch('/api/contact', {
+            // Submit to MongoDB
+            const res = await fetch('/api/submit-contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({
+                    name: formData.name,
+                    email: formData.email,
+                    company: formData.company,
+                    message: formData.message,
+                }),
             });
-            if (!res.ok) throw new Error();
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.error || 'Failed to submit');
+            }
+
             toast.success("Thank you! We'll get back to you within 24 hours.");
+
+            // Reset form
             setFormData({ name: '', email: '', company: '', message: '', website: '' });
             setOtpVerified(false);
             setOtpSent(false);
             setOtpInput('');
             setOtpTimer(0);
-        } catch {
-            toast.error('Failed to send message.');
+        } catch (error: any) {
+            toast.error(error.message || 'Failed to send message.');
         } finally {
             setLoading(false);
         }
