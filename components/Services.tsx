@@ -1,6 +1,6 @@
 'use client';
 
-import { Brain, Layout, Server, ShoppingBag, Search, Code, ArrowRight } from 'lucide-react';
+import { Brain, Layout, Server, ShoppingBag, Search, Code, ArrowRight, Rocket, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Reveal } from '@/components/Reveal';
 import Image from 'next/image';
@@ -10,43 +10,57 @@ const services = [
         title: 'Web Development',
         description: 'Scalable applications engineered with precision and modern technology standards.',
         icon: Code,
-        image: '/images/service_webdev.gif',
+        image: '/images/service_webdev.png',
         number: '01',
     },
     {
         title: 'UI / UX Design',
         description: 'Interfaces crafted with attention to detail and user-centric design principles.',
         icon: Layout,
-        image: '/images/service_uiux.gif',
+        image: '/images/service_uiux.png',
         number: '02',
     },
     {
         title: 'Hosting Services',
         description: 'Reliable infrastructure built for performance, security, and scalability.',
         icon: Server,
-        image: '/images/service_hosting.gif',
+        image: '/images/service_hosting.png',
         number: '03',
     },
     {
         title: 'Web Design',
         description: 'Thoughtful designs that communicate your brand with clarity and purpose.',
         icon: Brain,
-        image: '/images/web_design.gif',
+        image: '/images/web_design.png',
         number: '04',
     },
     {
         title: 'WordPress & Shopify',
         description: 'E-commerce solutions tailored to your business objectives and growth.',
         icon: ShoppingBag,
-        image: '/images/service_webdev.gif',
+        image: '/images/service_ecommerce.png',
         number: '05',
     },
     {
         title: 'SEO Optimization',
         description: 'Strategic optimization focused on sustainable growth and visibility.',
         icon: Search,
-        image: '/images/service_webdev.gif',
+        image: '/images/service_seo.png',
         number: '06',
+    },
+    {
+        title: 'MVP Development',
+        description: 'Rapid prototyping and minimum viable product development for quick market validation.',
+        icon: Rocket,
+        image: '/images/service_mvp.png',
+        number: '07',
+    },
+    {
+        title: 'API Development',
+        description: 'Robust and scalable API solutions for seamless integration and data exchange.',
+        icon: Zap,
+        image: '/images/service_api.png',
+        number: '08',
     },
 ];
 
@@ -71,7 +85,7 @@ const ServiceCard = ({ service, index }: { service: typeof services[0]; index: n
                     transition={{ duration: 0.3 }}
                 >
                     {/* Image Section */}
-                    <div className="relative h-56 overflow-hidden bg-black/40">
+                    <div className="relative h-40 overflow-hidden bg-black/40">
                         <motion.div
                             whileHover={{ scale: 1.05 }}
                             transition={{ duration: 0.6, ease: 'easeOut' }}
@@ -87,25 +101,25 @@ const ServiceCard = ({ service, index }: { service: typeof services[0]; index: n
                         </motion.div>
 
                         {/* Number Badge */}
-                        <div className="absolute top-4 right-4 w-12 h-12 rounded-full border border-white/20 backdrop-blur-md flex items-center justify-center">
-                            <span className="text-white/60 text-sm font-light">{service.number}</span>
+                        <div className="absolute top-3 right-3 w-10 h-10 rounded-full border border-white/20 backdrop-blur-md flex items-center justify-center">
+                            <span className="text-white/60 text-xs font-light">{service.number}</span>
                         </div>
                     </div>
 
                     {/* Content Section */}
-                    <div className="p-8">
+                    <div className="p-6">
                         {/* Icon */}
-                        <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:bg-white/10 group-hover:border-white/20 transition-all duration-300">
+                        <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 group-hover:bg-white/10 group-hover:border-white/20 transition-all duration-300">
                             <service.icon className="w-5 h-5 text-white/70" strokeWidth={1.5} />
                         </div>
 
                         {/* Title */}
-                        <h3 className="text-2xl font-light text-white mb-3 tracking-tight">
+                        <h3 className="text-xl font-light text-white mb-2 tracking-tight">
                             {service.title}
                         </h3>
 
                         {/* Description */}
-                        <p className="text-sm text-white/50 leading-relaxed mb-6 font-light">
+                        <p className="text-sm text-white/50 leading-relaxed mb-4 font-light">
                             {service.description}
                         </p>
 
@@ -130,7 +144,7 @@ const ServiceCard = ({ service, index }: { service: typeof services[0]; index: n
 
 const Services = () => {
     return (
-        <section className="relative min-h-screen py-32 bg-black" id="services">
+        <section className="relative min-h-screen py-20 bg-black" id="services">
             {/* Subtle Radial Gradient */}
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-zinc-900/20 via-black to-black" />
 
@@ -176,7 +190,7 @@ const Services = () => {
                 </div>
 
                 {/* Services Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     {services.map((service, index) => (
                         <ServiceCard key={index} service={service} index={index} />
                     ))}

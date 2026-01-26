@@ -2,36 +2,71 @@
 
 import { motion } from 'framer-motion';
 import { Reveal } from '@/components/Reveal';
-import { Check } from 'lucide-react';
 
 const plans = [
     {
         name: 'Starter',
-        price: '2,999',
-        description: 'Perfect for startups and small businesses looking to establish a digital presence.',
-        features: ['Custom Web Design', 'Mobile Responsive', 'SEO Basic Setup', '1 Month Support', '5 Pages'],
-        popular: false
+        price: '4,999',
+        subtitle: 'For simple websites',
+        features: [
+            'Landing page design',
+            'Mobile responsive layout',
+            'Contact form',
+            'Basic SEO setup',
+            '5-7 days delivery'
+        ],
+        popular: false,
+        buttonText: 'Get Started'
     },
     {
         name: 'Professional',
-        price: '5,999',
-        description: 'Comprehensive solution for growing businesses needing scalable applications.',
-        features: ['Advanced Web App', 'CMS Integration', 'SEO Pro Package', '3 Months Support', 'Speed Optimization', 'Analytics Dashboard'],
-        popular: true
+        price: '24,999',
+        subtitle: 'For application needs',
+        features: [
+            'Custom web application',
+            'Database integration',
+            'User authentication',
+            'Admin dashboard',
+            '4–6 weeks delivery',
+            '1 month support'
+        ],
+        popular: true,
+        buttonText: 'Get Started'
     },
     {
         name: 'Enterprise',
         price: 'Custom',
-        description: 'Tailored software architecture for large-scale operations and complex needs.',
-        features: ['Full-Stack Development', 'Custom Infrastructure', '24/7 Priority Support', 'Security Audits', 'Load Balancing', 'Dedicated Team'],
-        popular: false
+        subtitle: 'For larger projects',
+        features: [
+            'Full-stack web solution',
+            'Cloud deployment',
+            'External API integration',
+            'Native or cross-platform mobile apps',
+            'Dedicated development time',
+            '3-6 month support'
+        ],
+        popular: false,
+        buttonText: 'Contact Us'
     },
 ];
 
 const Pricing = () => {
     return (
-        <section className="py-24 bg-[#000000]" id="pricing">
-            <div className="max-w-7xl mx-auto px-6">
+        <section className="relative min-h-screen py-20 bg-black" id="pricing">
+            {/* Subtle Radial Gradient */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-zinc-900/20 via-black to-black" />
+
+            {/* Very Subtle Grid */}
+            <div
+                className="absolute inset-0 opacity-[0.015]"
+                style={{
+                    backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                                     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)`,
+                    backgroundSize: '80px 80px',
+                }}
+            />
+
+            <div className="relative max-w-7xl mx-auto px-6">
                 {/* Header */}
                 <div className="text-center mb-24">
                     <Reveal>
@@ -47,7 +82,7 @@ const Pricing = () => {
 
                     <Reveal delay={0.1}>
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-6 tracking-tight">
-                            Simple, Transparent
+                            Simple, Transparent Pricing
                         </h2>
                     </Reveal>
 
@@ -57,7 +92,7 @@ const Pricing = () => {
 
                     <Reveal delay={0.3}>
                         <p className="text-lg text-white/40 max-w-2xl mx-auto font-light leading-relaxed">
-                            Choose the plan that fits your business stage. No hidden fees, just value.
+                            Choose the perfect plan for your project. All plans include our commitment to quality and excellence.
                         </p>
                     </Reveal>
                 </div>
@@ -69,35 +104,42 @@ const Pricing = () => {
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 }}
-                            className={`relative p-8 rounded-3xl border ${plan.popular ? 'border-indigo-500 bg-[#0f0f0f] shadow-2xl shadow-indigo-500/10' : 'border-white/10 bg-[#000000] hover:border-white/20'} transition-all`}
+                            transition={{ delay: index * 0.1, duration: 0.5 }}
+                            className={`relative rounded-2xl p-8 ${plan.popular
+                                ? 'bg-gradient-to-b from-blue-900/40 to-blue-950/20 border-2 border-blue-500/50'
+                                : 'bg-white/[0.02] border border-white/10 hover:border-white/20'
+                                } transition-all duration-300`}
                         >
                             {plan.popular && (
-                                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-indigo-500 text-white px-4 py-1 rounded-full text-sm font-bold tracking-wide">
+                                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-xs font-bold tracking-wide uppercase">
                                     MOST POPULAR
                                 </div>
                             )}
 
                             <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
-                            <div className="flex items-baseline gap-1 mb-4">
-                                <span className="text-gray-400 text-lg">$</span>
-                                <span className="text-4xl font-bold text-white">{plan.price}</span>
-                            </div>
-                            <p className="text-gray-400 text-sm mb-8 h-12 leading-relaxed">
-                                {plan.description}
-                            </p>
+                            <p className="text-sm text-white/50 mb-6 font-light">{plan.subtitle}</p>
 
-                            <ul className="space-y-4 mb-8">
+                            <div className="mb-8">
+                                <div className="flex items-baseline gap-1">
+                                    <span className="text-white/60 text-xl">₹</span>
+                                    <span className="text-5xl font-bold text-white">{plan.price}</span>
+                                </div>
+                                <p className="text-sm text-white/40 mt-2 font-light">per project</p>
+                            </div>
+
+                            <ul className="space-y-3 mb-8">
                                 {plan.features.map((feature, i) => (
-                                    <li key={i} className="flex items-start gap-3 text-sm text-gray-300">
-                                        <Check size={18} className="text-indigo-400 min-w-[18px]" />
+                                    <li key={i} className="text-sm text-white/60 font-light">
                                         {feature}
                                     </li>
                                 ))}
                             </ul>
 
-                            <button className={`w-full py-4 rounded-xl font-bold transition-all ${plan.popular ? 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/25' : 'bg-white/5 hover:bg-white/10 text-white border border-white/5'}`}>
-                                {plan.price === 'Custom' ? 'Contact Sales' : 'Get Started'}
+                            <button className={`w-full py-3 rounded-xl font-medium transition-all ${plan.popular
+                                ? 'bg-blue-600 hover:bg-blue-500 text-white'
+                                : 'bg-white/5 hover:bg-white/10 text-white border border-white/10'
+                                }`}>
+                                {plan.buttonText}
                             </button>
                         </motion.div>
                     ))}

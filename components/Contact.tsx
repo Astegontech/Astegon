@@ -1,12 +1,163 @@
 'use client';
 
+import { useState, useEffect, FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { Reveal } from '@/components/Reveal';
-import { Mail, MapPin, Send } from 'lucide-react';
+import { Mail, MapPin } from 'lucide-react';
+import { toast, Toaster } from 'react-hot-toast';
+
+interface FormData {
+    name: string;
+    email: string;
+    company: string;
+    message: string;
+    website: string;
+}
 
 const Contact = () => {
+    const [formData, setFormData] = useState<FormData>({
+        name: '',
+        email: '',
+        company: '',
+        message: '',
+        website: '',
+    });
+
+    const [mounted, setMounted] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    // OTP states
+    const [otpSent, setOtpSent] = useState(false);
+    const [otpInput, setOtpInput] = useState('');
+    const [otpVerified, setOtpVerified] = useState(false);
+    const [otpLoading, setOtpLoading] = useState(false);
+    const [otpTimer, setOtpTimer] = useState(300); // 5 minutes
+    const [resendCooldown, setResendCooldown] = useState(0);
+
+    useEffect(() => setMounted(true), []);
+
+    // OTP countdown timer
+    useEffect(() => {
+        if (otpSent && otpTimer > 0) {
+            const interval = setInterval(() => setOtpTimer(prev => prev - 1), 1000);
+            return () => clearInterval(interval);
+        }
+    }, [otpSent, otpTimer]);
+
+    // Resend cooldown timer
+    useEffect(() => {
+        if (resendCooldown > 0) {
+            const timer = setInterval(() => setResendCooldown(prev => prev - 1), 1000);
+            return () => clearInterval(timer);
+        }
+    }, [resendCooldown]);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    // Send OTP
+    const sendOtp = async () => {
+        if (!isValidEmail(formData.email)) {
+            toast.error('Please enter a valid email.');
+            return;
+        }
+        setOtpLoading(true);
+        try {
+            const res = await fetch('/api/send-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: formData.email }),
+            });
+            const data = await res.json();
+            if (res.ok) {
+                setOtpSent(true);
+                setOtpTimer(300);
+                setResendCooldown(30);
+                toast.success('OTP sent to your email!');
+            } else {
+                toast.error(data.error || 'Failed to send OTP.');
+            }
+        } catch {
+            toast.error('Something went wrong.');
+        } finally {
+            setOtpLoading(false);
+        }
+    };
+
+    // Verify OTP
+    const verifyOtp = async () => {
+        if (!otpInput) {
+            toast.error('Enter the OTP.');
+            return;
+        }
+        setOtpLoading(true);
+        try {
+            const res = await fetch('/api/verify-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: formData.email, otp: otpInput }),
+            });
+            const data = await res.json();
+            if (res.ok) {
+                setOtpVerified(true);
+                toast.success('Email verified! You can now submit the form.');
+            } else {
+                toast.error(data.error || 'Invalid OTP.');
+            }
+        } catch {
+            toast.error('Something went wrong.');
+        } finally {
+            setOtpLoading(false);
+        }
+    };
+
+    // Submit contact form
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!otpVerified) {
+            toast.error('Please verify your email first.');
+            return;
+        }
+        if (!formData.name || !formData.message) {
+            toast.error('Please fill all required fields.');
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+            if (!res.ok) throw new Error();
+            toast.success("Thank you! We'll get back to you within 24 hours.");
+            setFormData({ name: '', email: '', company: '', message: '', website: '' });
+            setOtpVerified(false);
+            setOtpSent(false);
+            setOtpInput('');
+            setOtpTimer(0);
+        } catch {
+            toast.error('Failed to send message.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (!mounted) return null;
+
+    const formatTime = (seconds: number) => {
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    };
+
     return (
         <section className="py-16 bg-[#000000] border-t border-white/5" id="contact">
+            <Toaster position="top-right" />
             <div className="max-w-7xl mx-auto px-6">
                 {/* Header */}
                 <div className="text-center mb-20">
@@ -84,52 +235,126 @@ const Contact = () => {
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className="flex-1"
                     >
-                        <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                            {/* Name Input */}
-                            <div className="relative group">
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            {/* Honeypot */}
+                            <input
+                                type="text"
+                                name="website"
+                                value={formData.website}
+                                onChange={handleChange}
+                                tabIndex={-1}
+                                autoComplete="off"
+                                className="hidden"
+                            />
+
+                            {/* Email + OTP */}
+                            <div>
+                                <label className="block text-sm font-medium mb-2 text-white/70">Email *</label>
+                                <div className="flex flex-col sm:flex-row gap-2">
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        required
+                                        className="flex-1 px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
+                                        disabled={otpVerified}
+                                        placeholder="Enter your email"
+                                    />
+                                    {!otpVerified && (
+                                        <button
+                                            type="button"
+                                            onClick={sendOtp}
+                                            disabled={otpLoading || resendCooldown > 0}
+                                            className="px-4 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition disabled:opacity-50 whitespace-nowrap"
+                                        >
+                                            {otpLoading
+                                                ? 'Sending…'
+                                                : resendCooldown > 0
+                                                    ? `Resend (${resendCooldown}s)`
+                                                    : otpSent
+                                                        ? 'Resend OTP'
+                                                        : 'Send OTP'}
+                                        </button>
+                                    )}
+                                    {otpVerified && (
+                                        <span className="px-4 py-3 bg-green-600/20 text-green-400 rounded-lg border border-green-500/30">
+                                            ✓ Verified
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+
+                            {otpSent && !otpVerified && (
+                                <div>
+                                    <label className="block text-sm font-medium mb-2 text-white/70">
+                                        Enter OTP (expires in {formatTime(otpTimer)}) *
+                                    </label>
+                                    <div className="flex flex-col sm:flex-row gap-2">
+                                        <input
+                                            type="text"
+                                            value={otpInput}
+                                            onChange={(e) => setOtpInput(e.target.value)}
+                                            className="flex-1 px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
+                                            placeholder="Enter OTP"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={verifyOtp}
+                                            disabled={otpLoading}
+                                            className="px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-500 transition whitespace-nowrap"
+                                        >
+                                            {otpLoading ? 'Verifying…' : 'Verify OTP'}
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Name */}
+                            <div>
+                                <label className="block text-sm font-medium mb-2 text-white/70">Name *</label>
                                 <input
                                     type="text"
-                                    placeholder="Your Name"
-                                    className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all duration-300"
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    required
+                                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
                                 />
-                                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-indigo-500/20 to-purple-500/20 opacity-0 group-focus-within:opacity-100 blur-xl transition-opacity duration-500 -z-10" />
                             </div>
 
-                            {/* Email Input */}
-                            <div className="relative group">
+                            {/* Company */}
+                            <div>
+                                <label className="block text-sm font-medium mb-2 text-white/70">Company</label>
                                 <input
-                                    type="email"
-                                    placeholder="Your Email"
-                                    className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all duration-300"
+                                    type="text"
+                                    name="company"
+                                    value={formData.company}
+                                    onChange={handleChange}
+                                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
                                 />
-                                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-indigo-500/20 to-purple-500/20 opacity-0 group-focus-within:opacity-100 blur-xl transition-opacity duration-500 -z-10" />
                             </div>
 
-                            {/* Message Textarea */}
-                            <div className="relative group">
+                            {/* Message */}
+                            <div>
+                                <label className="block text-sm font-medium mb-2 text-white/70">Message *</label>
                                 <textarea
+                                    name="message"
+                                    value={formData.message}
+                                    onChange={handleChange}
+                                    required
                                     rows={6}
-                                    placeholder="Your Message"
-                                    className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all duration-300 resize-none"
+                                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all resize-none"
                                 />
-                                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-indigo-500/20 to-purple-500/20 opacity-0 group-focus-within:opacity-100 blur-xl transition-opacity duration-500 -z-10" />
                             </div>
 
-                            {/* Enhanced Submit Button */}
-                            <motion.button
+                            <button
                                 type="submit"
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                                className="relative w-full py-4 bg-white text-black font-medium rounded-xl overflow-hidden group hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
+                                disabled={loading || !otpVerified}
+                                className="w-full py-4 bg-white text-black font-medium rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 transition-colors"
                             >
-                                <motion.div
-                                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-                                    animate={{ x: ['-200%', '200%'] }}
-                                    transition={{ duration: 2, repeat: Infinity, ease: 'linear', repeatDelay: 1 }}
-                                />
-                                <span className="relative">Send Message</span>
-                                <Send size={18} className="relative group-hover:translate-x-1 transition-transform" />
-                            </motion.button>
+                                {loading ? 'Sending…' : 'Send Message'}
+                            </button>
                         </form>
                     </motion.div>
                 </div>
