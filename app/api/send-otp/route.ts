@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import { otpStore } from '../lib/otpStore';
+import connectDB from '../lib/mongodb';
+import OTPModel from '../lib/models/OTP';
 
 export async function POST(req: NextRequest) {
     try {
@@ -10,12 +11,19 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
         }
 
+        // Connect to MongoDB
+        await connectDB();
+
         // Generate 6-digit OTP
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
-        const expires = Date.now() + 5 * 60 * 1000; // 5 minutes
+        const expires = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
 
-        // Store OTP
-        otpStore.set(email, { otp, expires });
+        // Store OTP in MongoDB (upsert - update if exists, create if not)
+        await OTPModel.findOneAndUpdate(
+            { email: email.toLowerCase() },
+            { otp, expires, createdAt: new Date() },
+            { upsert: true, new: true }
+        );
 
         // Configure nodemailer
         const transporter = nodemailer.createTransport({

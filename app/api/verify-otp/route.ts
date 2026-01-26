@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { otpStore } from '../lib/otpStore';
+import connectDB from '../lib/mongodb';
+import OTPModel from '../lib/models/OTP';
 
 export async function POST(req: NextRequest) {
     try {
@@ -9,23 +10,29 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Email and OTP are required' }, { status: 400 });
         }
 
-        const stored = otpStore.get(email);
+        // Connect to MongoDB
+        await connectDB();
+
+        // Find OTP record
+        const stored = await OTPModel.findOne({ email: email.toLowerCase() });
 
         if (!stored) {
             return NextResponse.json({ error: 'OTP not found or expired' }, { status: 400 });
         }
 
-        if (stored.expires < Date.now()) {
-            otpStore.delete(email);
+        // Check if OTP has expired
+        if (stored.expires < new Date()) {
+            await OTPModel.deleteOne({ email: email.toLowerCase() });
             return NextResponse.json({ error: 'OTP has expired' }, { status: 400 });
         }
 
+        // Verify OTP
         if (stored.otp !== otp) {
             return NextResponse.json({ error: 'Invalid OTP' }, { status: 400 });
         }
 
         // OTP verified successfully, remove it
-        otpStore.delete(email);
+        await OTPModel.deleteOne({ email: email.toLowerCase() });
 
         return NextResponse.json({ success: true, message: 'Email verified successfully' });
     } catch (error) {
