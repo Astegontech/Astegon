@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { Reveal } from '@/components/Reveal';
 
 const plans = [
@@ -135,12 +136,12 @@ const Pricing = () => {
                                 ))}
                             </ul>
 
-                            <button className={`w-full py-3 rounded-xl font-medium transition-all ${plan.popular
+                            <Link href="/#contact" className={`block w-full py-3 rounded-xl font-medium text-center transition-all ${plan.popular
                                 ? 'bg-blue-600 hover:bg-blue-500 text-white'
                                 : 'bg-white/5 hover:bg-white/10 text-white border border-white/10'
                                 }`}>
                                 {plan.buttonText}
-                            </button>
+                            </Link>
                         </motion.div>
                     ))}
                 </div>

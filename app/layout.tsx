@@ -16,6 +16,9 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/PageTransition';
 
+
+import { GoogleAnalytics } from '@next/third-parties/google';
+
 export default function RootLayout({
   children,
 }: {
@@ -33,6 +36,7 @@ export default function RootLayout({
           <Footer />
         </SmoothScroll>
       </body>
+      <GoogleAnalytics gaId="G-3RGW48JDTX" />
     </html>
   );
 }
