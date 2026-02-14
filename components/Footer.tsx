@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Twitter, Linkedin, Github, Facebook, Instagram } from 'lucide-react';
+import { Twitter, Linkedin, Github, Instagram } from 'lucide-react';
 
 const Footer = () => {
     return (
@@ -10,7 +10,7 @@ const Footer = () => {
                     <Link href="/" className="flex items-center gap-3 mb-6 group w-fit">
                         <div className="w-10 h-10 flex items-center justify-center relative">
                             <Image
-                                src="/logos/logo-1.svg"
+                                src="/logos/logo-2.svg"
                                 alt="Astegon Logo"
                                 width={40}
                                 height={40}
@@ -24,8 +24,13 @@ const Footer = () => {
                     </p>
                     <div className="flex gap-4">
                         {/* Social placeholders */}
-                        {[Facebook, Twitter, Instagram, Linkedin, Github].map((Icon, i) => (
-                            <a key={i} href="#" className="p-2 rounded-full bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white transition-colors">
+                        {[
+                            { Icon: Twitter, href: 'https://x.com/astegontech' },
+                            { Icon: Instagram, href: 'https://instagram.com/astegontech' },
+                            { Icon: Linkedin, href: 'https://www.linkedin.com/company/astegon/about/' },
+                            { Icon: Github, href: 'https://github.com/astegontech' }
+                        ].map(({ Icon, href }, i) => (
+                            <a key={i} href={href} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white transition-colors">
                                 <Icon size={18} />
                             </a>
                         ))}
@@ -58,8 +63,8 @@ const Footer = () => {
             <div className="max-w-7xl mx-auto px-6 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p className="text-gray-500 text-sm">© 2024 AsteGon Inc. All rights reserved.</p>
                 <div className="flex gap-8 text-sm text-gray-500">
-                    <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-                    <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+                    <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+                    <Link href="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</Link>
                 </div>
             </div>
         </footer>

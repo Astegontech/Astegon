@@ -28,7 +28,7 @@ const plans = [
             'Database integration',
             'User authentication',
             'Admin dashboard',
-            '4–6 weeks delivery',
+            '8–10 weeks delivery',
             '1 month support'
         ],
         popular: true,

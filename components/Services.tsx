@@ -129,7 +129,7 @@ const ServiceCard = ({ service, index }: { service: typeof services[0]; index: n
                             whileHover={{ x: 4 }}
                             transition={{ duration: 0.2 }}
                         >
-                            <span className="font-light">Learn more</span>
+                            <a href="#contact" className="font-light">Learn more</a>
                             <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
                         </motion.div>
                     </div>
