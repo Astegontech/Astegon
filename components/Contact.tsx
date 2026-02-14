@@ -222,7 +222,7 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <h4 className="text-white font-bold mb-1">Email Us</h4>
-                                    <p className="text-gray-400">contact@astegon.com</p>
+                                    <a href="mailto:contact@astegon.com" className="text-gray-400 hover:text-white transition-colors">contact@astegon.com</a>
                                 </div>
                             </motion.div>
 
