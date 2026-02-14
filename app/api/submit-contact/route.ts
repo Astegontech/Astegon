@@ -81,6 +81,8 @@ export async function POST(req: NextRequest) {
                             <p style="white-space: pre-wrap; color: #666;">${message}</p>
                         </div>
                         <p style="color: #666; font-size: 14px;">Best regards,<br>The AsteGon Team</p>
+                        <p style="color: #666; font-size: 14px;">Email: contact@astegon.com</p>
+                        <p style="color: #666; font-size: 14px;">Website: https://astegon.com</p>
                     </div>
                 </div>
             `,
