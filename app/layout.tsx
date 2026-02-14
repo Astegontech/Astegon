@@ -7,6 +7,9 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'AsteGon - Transforming Context Into Intelligent Action',
   description: 'Enterprise-grade context intelligence platform.',
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 import SmoothScroll from '@/components/SmoothScroll';

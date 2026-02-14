@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Hexagon, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 const Header = () => {
     const pathname = usePathname();
@@ -99,15 +100,21 @@ const Header = () => {
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center gap-2 sm:gap-3 group z-[101]">
+                    <Link href="/" className="flex items-end gap-0.5 group z-[101]">
                         <motion.div
-                            className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center bg-white/5 border border-white/10 rounded-xl group-hover:bg-white group-hover:border-white transition-all duration-300"
-                            whileHover={{ scale: 1.05, rotate: 5 }}
+                            className="w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center relative"
+                            whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >
-                            <Hexagon className="w-5 h-5 sm:w-6 sm:h-6 text-white group-hover:text-black transition-colors duration-300" strokeWidth={2} />
+                            <Image
+                                src="/logos/logo-2.svg"
+                                alt="Astegon Logo"
+                                width={48}
+                                height={48}
+                                className="w-full h-full object-contain"
+                            />
                         </motion.div>
-                        <span className="text-lg sm:text-xl font-bold text-white tracking-tight">Astegon</span>
+                        <span className="text-xl sm:text-2xl font-bold text-white tracking-tight leading-none mb-1.5">stegon</span>
                     </Link>
 
                     {/* Desktop Nav Items */}
@@ -213,8 +220,8 @@ const Header = () => {
                                                 href={item.href}
                                                 onClick={() => handleNavClick(item.href)}
                                                 className={`block px-4 py-3 rounded-lg text-lg font-medium transition-all duration-200 ${isActive(item.href)
-                                                        ? 'bg-white/10 text-white'
-                                                        : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                                    ? 'bg-white/10 text-white'
+                                                    : 'text-gray-400 hover:bg-white/5 hover:text-white'
                                                     }`}
                                             >
                                                 {item.name}

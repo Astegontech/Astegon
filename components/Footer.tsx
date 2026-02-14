@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { Twitter, Linkedin, Github, Hexagon, Facebook, Instagram } from 'lucide-react';
+import Image from 'next/image';
+import { Twitter, Linkedin, Github, Facebook, Instagram } from 'lucide-react';
 
 const Footer = () => {
     return (
@@ -7,8 +8,14 @@ const Footer = () => {
             <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
                 <div className="col-span-1 md:col-span-2">
                     <Link href="/" className="flex items-center gap-3 mb-6 group w-fit">
-                        <div className="w-10 h-10 flex items-center justify-center bg-white/10 rounded-xl group-hover:bg-white transition-all duration-300">
-                            <Hexagon className="w-6 h-6 text-white group-hover:text-black transition-colors duration-300" strokeWidth={2} />
+                        <div className="w-10 h-10 flex items-center justify-center relative">
+                            <Image
+                                src="/logos/logo-1.svg"
+                                alt="Astegon Logo"
+                                width={40}
+                                height={40}
+                                className="w-full h-full object-contain"
+                            />
                         </div>
                         <span className="text-xl font-bold text-white tracking-tight">Astegon</span>
                     </Link>

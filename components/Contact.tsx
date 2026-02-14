@@ -222,7 +222,7 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <h4 className="text-white font-bold mb-1">Email Us</h4>
-                                    <p className="text-gray-400">astegontech@gmail.com</p>
+                                    <p className="text-gray-400">contact@astegon.com</p>
                                 </div>
                             </motion.div>
 
@@ -288,7 +288,7 @@ const Contact = () => {
                                                     ? `Resend (${resendCooldown}s)`
                                                     : otpSent
                                                         ? 'Resend OTP'
-                                                        : 'Send OTP'}
+                                                        : 'Verify Mail'}
                                         </button>
                                     )}
                                     {otpVerified && (

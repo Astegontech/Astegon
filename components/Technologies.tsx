@@ -5,8 +5,9 @@ import { Reveal } from '@/components/Reveal';
 import {
     SiReact, SiNextdotjs, SiTypescript, SiNodedotjs, SiPython,
     SiPostgresql, SiAmazon, SiDocker, SiFigma, SiTailwindcss,
-    SiGraphql, SiPrisma, SiGit, SiJavascript
+    SiGraphql, SiPrisma, SiGit, SiJavascript, SiMongodb, SiSpringboot, SiExpo
 } from 'react-icons/si';
+import { FaJava } from 'react-icons/fa';
 
 const techs = [
     { name: 'React', icon: SiReact },
@@ -23,6 +24,10 @@ const techs = [
     { name: 'Prisma', icon: SiPrisma },
     { name: 'JavaScript', icon: SiJavascript },
     { name: 'Git', icon: SiGit },
+    { name: 'MongoDB', icon: SiMongodb },
+    { name: 'Springboot', icon: SiSpringboot },
+    { name: 'Java', icon: FaJava },
+    { name: 'Expo', icon: SiExpo },
 ];
 
 const Technologies = () => {
