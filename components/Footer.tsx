@@ -27,7 +27,7 @@ const Footer = () => {
                         {[
                             { Icon: Twitter, href: 'https://x.com/astegontech' },
                             { Icon: Instagram, href: 'https://instagram.com/astegontech' },
-                            { Icon: Linkedin, href: 'https://www.linkedin.com/company/astegon/about/' },
+                            { Icon: Linkedin, href: 'https://www.linkedin.com/company/astegon/' },
                             { Icon: Github, href: 'https://github.com/astegontech' }
                         ].map(({ Icon, href }, i) => (
                             <a key={i} href={href} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white transition-colors">

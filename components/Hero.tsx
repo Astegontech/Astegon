@@ -128,7 +128,7 @@ const Hero = () => {
                     transition={{ delay: 0.6, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
                     className="text-lg md:text-xl text-gray-400 max-w-2xl mb-8 font-light leading-relaxed"
                 >
-                    Precision engineering for the digital age.
+                    Precision Engineering for the Digital Age.
                 </motion.p>
 
                 {/* CTAs */}
