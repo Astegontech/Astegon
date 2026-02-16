@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Reveal } from '@/components/Reveal';
+import { Reveal } from '@/components/ui/Reveal';
 
 const plans = [
     {
@@ -82,7 +82,7 @@ const Pricing = () => {
                     </Reveal>
 
                     <Reveal delay={0.1}>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-6 tracking-tight">
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-6 tracking-tight font-heading">
                             Simple, Transparent Pricing
                         </h2>
                     </Reveal>
@@ -117,13 +117,13 @@ const Pricing = () => {
                                 </div>
                             )}
 
-                            <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
+                            <h3 className="text-2xl font-bold text-white mb-2 font-heading">{plan.name}</h3>
                             <p className="text-sm text-white/50 mb-6 font-light">{plan.subtitle}</p>
 
                             <div className="mb-8">
                                 <div className="flex items-baseline gap-1">
                                     <span className="text-white/60 text-xl">₹</span>
-                                    <span className="text-5xl font-bold text-white">{plan.price}</span>
+                                    <span className="text-5xl font-bold text-white font-heading">{plan.price}</span>
                                 </div>
                                 <p className="text-sm text-white/40 mt-2 font-light">per project</p>
                             </div>

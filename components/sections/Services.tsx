@@ -2,7 +2,7 @@
 
 import { Brain, Layout, Server, ShoppingBag, Search, Code, ArrowRight, Rocket, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { Reveal } from '@/components/Reveal';
+import { Reveal } from '@/components/ui/Reveal';
 import Image from 'next/image';
 
 const services = [
@@ -114,7 +114,7 @@ const ServiceCard = ({ service, index }: { service: typeof services[0]; index: n
                         </div>
 
                         {/* Title */}
-                        <h3 className="text-xl font-light text-white mb-2 tracking-tight">
+                        <h3 className="text-xl font-light text-white mb-2 tracking-tight font-heading">
                             {service.title}
                         </h3>
 
@@ -173,7 +173,7 @@ const Services = () => {
                     </Reveal>
 
                     <Reveal delay={0.1}>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-6 tracking-tight">
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-6 tracking-tight font-heading">
                             What We Do
                         </h2>
                     </Reveal>

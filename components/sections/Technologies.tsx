@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Reveal } from '@/components/Reveal';
+import { Reveal } from '@/components/ui/Reveal';
 import {
     SiReact, SiNextdotjs, SiTypescript, SiNodedotjs, SiPython,
     SiPostgresql, SiAmazon, SiDocker, SiFigma, SiTailwindcss,
@@ -53,7 +53,7 @@ const Technologies = () => {
                 </Reveal>
 
                 <Reveal delay={0.1}>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-6 tracking-tight">
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-6 tracking-tight font-heading">
                         Technologies We Master
                     </h2>
                 </Reveal>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, FormEvent } from 'react';
 import { motion } from 'framer-motion';
-import { Reveal } from '@/components/Reveal';
+import { Reveal } from '@/components/ui/Reveal';
 import { Mail, MapPin } from 'lucide-react';
 import { toast, Toaster } from 'react-hot-toast';
 
@@ -187,7 +187,7 @@ const Contact = () => {
                     </Reveal>
 
                     <Reveal delay={0.1}>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-6 tracking-tight">
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-6 tracking-tight font-heading">
                             Let's Connect
                         </h2>
                     </Reveal>
@@ -221,7 +221,7 @@ const Contact = () => {
                                     <Mail size={24} />
                                 </div>
                                 <div>
-                                    <h4 className="text-white font-bold mb-1">Email Us</h4>
+                                    <h4 className="text-white font-bold mb-1 font-heading">Email Us</h4>
                                     <a href="mailto:contact@astegon.com" className="text-gray-400 hover:text-white transition-colors">contact@astegon.com</a>
                                 </div>
                             </motion.div>
@@ -234,7 +234,7 @@ const Contact = () => {
                                     <MapPin size={24} />
                                 </div>
                                 <div>
-                                    <h4 className="text-white font-bold mb-1">Global HQ</h4>
+                                    <h4 className="text-white font-bold mb-1 font-heading">Global HQ</h4>
                                     <p className="text-gray-400">BTM Layout, Bangalore, Karnataka</p>
                                 </div>
                             </motion.div>

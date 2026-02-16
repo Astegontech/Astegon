@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { Reveal } from '@/components/Reveal';
+import { Reveal } from '@/components/ui/Reveal';
 import { ExternalLink, Github } from 'lucide-react';
 
 const projects = [
@@ -87,7 +87,7 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0], index: n
 
                 <div className="p-8">
                     <div className="flex justify-between items-start mb-4">
-                        <h3 className="text-xl font-bold text-white group-hover:text-indigo-400 transition-colors">
+                        <h3 className="text-xl font-bold text-white group-hover:text-indigo-400 transition-colors font-heading">
                             {project.title}
                         </h3>
                         <div className="flex gap-2">
@@ -130,7 +130,7 @@ const Projects = () => {
                 {/* Header */}
                 <div className="text-center mb-6">
                     <Reveal delay={0.1}>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-6 tracking-tight">
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-6 tracking-tight font-heading">
                             Our Work
                         </h2>
                     </Reveal>

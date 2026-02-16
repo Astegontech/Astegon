@@ -18,6 +18,10 @@ const config: Config = {
                     200: '#FED7AA',
                 },
             },
+            fontFamily: {
+                sans: ['var(--font-sora)', 'sans-serif'],
+                heading: ['var(--font-space-grotesk)', 'sans-serif'],
+            },
         },
     },
     plugins: [],

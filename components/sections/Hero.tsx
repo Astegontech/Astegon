@@ -92,7 +92,7 @@ const Hero = () => {
                             initial={{ opacity: 0, filter: 'blur(10px)', y: 20 }}
                             animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                             transition={{ delay: i * 0.1, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-                            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white leading-[0.9] inline-block mr-4 md:mr-6"
+                            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white leading-[0.9] inline-block mr-4 md:mr-6 font-heading"
                         >
                             {word}
                         </motion.span>
@@ -105,7 +105,7 @@ const Hero = () => {
                             initial={{ opacity: 0, filter: 'blur(10px)', y: 20 }}
                             animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                             transition={{ delay: 0.2 + i * 0.1, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-                            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white leading-[0.9] inline-block mr-4 md:mr-6"
+                            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white leading-[0.9] inline-block mr-4 md:mr-6 font-heading"
                         >
                             {word}
                         </motion.span>
@@ -116,7 +116,7 @@ const Hero = () => {
                         initial={{ opacity: 0, filter: 'blur(10px)', y: 20 }}
                         animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                         transition={{ delay: 0.4, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-                        className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-white to-indigo-300 leading-[0.9] inline-block"
+                        className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-white to-indigo-300 leading-[0.9] inline-block font-heading"
                     >
                         Solutions
                     </motion.span>
@@ -126,7 +126,7 @@ const Hero = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-                    className="text-lg md:text-xl text-gray-400 max-w-2xl mb-8 font-light leading-relaxed"
+                    className="text-lg md:text-xl text-gray-400 max-w-2xl mb-8 font-light leading-relaxed font-heading"
                 >
                     Precision Engineering for the Digital Age.
                 </motion.p>
@@ -150,7 +150,7 @@ const Hero = () => {
                         />
                         <Link
                             href="/#contact"
-                            className="relative flex items-center justify-center px-6 py-2 bg-white text-black font-medium text-lg group-hover:bg-gray-100 transition-colors w-full sm:w-auto min-w-[180px]"
+                            className="relative flex items-center justify-center px-6 py-2 bg-white text-black font-medium text-lg group-hover:bg-gray-100 transition-colors w-full sm:w-auto min-w-[180px] font-heading"
                         >
                             Start Project
                         </Link>
@@ -163,7 +163,7 @@ const Hero = () => {
                     >
                         <Link
                             href="/#projects"
-                            className="relative flex items-center justify-center gap-2 px-6 py-2 bg-white/5 backdrop-blur-sm border border-white/20 text-white font-medium text-lg hover:bg-white/10 hover:border-white/40 transition-all duration-300 w-full sm:w-auto min-w-[180px] rounded-full"
+                            className="relative flex items-center justify-center gap-2 px-6 py-2 bg-white/5 backdrop-blur-sm border border-white/20 text-white font-medium text-lg hover:bg-white/10 hover:border-white/40 transition-all duration-300 w-full sm:w-auto min-w-[180px] rounded-full font-heading"
                         >
                             View Work
                             <motion.span

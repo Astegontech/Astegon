@@ -1,8 +1,16 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Sora, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const sora = Sora({
+  subsets: ['latin'],
+  variable: '--font-sora',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-space-grotesk',
+});
 
 export const metadata: Metadata = {
   title: 'AsteGon - Transforming Context Into Intelligent Action',
@@ -12,12 +20,12 @@ export const metadata: Metadata = {
   },
 };
 
-import SmoothScroll from '@/components/SmoothScroll';
+import SmoothScroll from '@/components/layout/SmoothScroll';
 
 
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import PageTransition from '@/components/PageTransition';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import PageTransition from '@/components/layout/PageTransition';
 
 
 import { GoogleAnalytics } from '@next/third-parties/google';
@@ -29,7 +37,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body suppressHydrationWarning={true} className={`${inter.className} bg-neutral-950 text-white antialiased overflow-x-hidden selection:bg-white/20 selection:text-white`}>
+      <body suppressHydrationWarning={true} className={`${sora.variable} ${spaceGrotesk.variable} font-sans bg-neutral-950 text-white antialiased overflow-x-hidden selection:bg-white/20 selection:text-white`}>
 
         <SmoothScroll>
           <Header />
