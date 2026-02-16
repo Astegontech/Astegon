@@ -100,21 +100,22 @@ const Header = () => {
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
                     {/* Logo */}
-                    <Link href="/" className="flex items-end gap-0.5 group z-[101]">
+                    {/* Logo */}
+                    <Link href="/" className="flex items-center gap-2 group z-[101]">
                         <motion.div
-                            className="w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center relative"
+                            className="relative flex items-center justify-start"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >
                             <Image
-                                src="/logos/logo-2.svg"
+                                src="/logos/Astegon_Logo.svg"
                                 alt="Astegon Logo"
-                                width={48}
-                                height={48}
-                                className="w-full h-full object-contain"
+                                width={350}
+                                height={100}
+                                className="w-auto h-10 sm:h-14 object-contain"
+                                priority
                             />
                         </motion.div>
-                        <span className="text-xl sm:text-2xl font-bold text-white tracking-tight leading-none mb-1.5">stegon</span>
                     </Link>
 
                     {/* Desktop Nav Items */}
