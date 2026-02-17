@@ -172,9 +172,9 @@ const Contact = () => {
     return (
         <section className="py-16 bg-[#000000] border-t border-white/5" id="contact">
             <Toaster position="top-right" />
-            <div className="max-w-7xl mx-auto px-6">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6">
                 {/* Header */}
-                <div className="text-center mb-20">
+                <div className="mb-20">
                     <Reveal>
                         <motion.div
                             className="inline-block mb-4 text-xs font-light text-white/40 tracking-[0.3em] uppercase"
@@ -193,17 +193,17 @@ const Contact = () => {
                     </Reveal>
 
                     <Reveal delay={0.2}>
-                        <div className="w-16 h-px bg-white/20 mx-auto mb-8" />
+                        <div className="w-16 h-px bg-white/20 mb-8" />
                     </Reveal>
 
                     <Reveal delay={0.3}>
-                        <p className="text-lg text-white/40 max-w-2xl mx-auto font-light leading-relaxed">
+                        <p className="text-lg text-white/40 max-w-2xl font-light leading-relaxed">
                             Have a project in mind? We'd love to hear about it. Send us a message and we'll get back to you within 24 hours.
                         </p>
                     </Reveal>
                 </div>
 
-                <div className="flex flex-col md:flex-row gap-16">
+                <div className="flex flex-col md:flex-row gap-16 -mx-2">
                     {/* Info */}
                     <motion.div
                         className="flex-1"

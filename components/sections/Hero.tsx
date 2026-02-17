@@ -14,7 +14,7 @@ const Hero = () => {
     const bgY = useTransform(scrollY, [0, 500], [0, 50]);
 
     return (
-        <section ref={containerRef} className="relative top-0 min-h-screen w-full overflow-hidden flex flex-col items-center justify-center bg-[#000000] selection:bg-indigo-500/30 z-0 pb-0">
+        <section ref={containerRef} id="home" className="relative top-0 min-h-screen w-full overflow-hidden flex flex-col items-center justify-center bg-[#000000] selection:bg-indigo-500/30 z-0 pb-0">
             {/* Animated Background */}
             <motion.div
                 style={{ y: bgY, opacity }}
@@ -82,7 +82,7 @@ const Hero = () => {
             {/* Content */}
             <motion.div
                 style={{ y, opacity, scale }}
-                className="relative z-20 max-w-7xl mx-auto px-6 text-center flex flex-col items-center origin-center"
+                className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 text-center flex flex-col items-center origin-center"
             >
                 {/* Word-by-Word Reveal */}
                 <div className="mb-6">

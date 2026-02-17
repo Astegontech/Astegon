@@ -5,19 +5,18 @@ import { Twitter, Linkedin, Github, Instagram } from 'lucide-react';
 const Footer = () => {
     return (
         <footer className="bg-[#000000] border-t border-white/5 py-12 relative z-10">
-            <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
                 <div className="col-span-1 md:col-span-2">
-                    <Link href="/" className="flex items-center gap-3 mb-6 group w-fit">
-                        <div className="w-10 h-10 flex items-center justify-center relative">
-                            <Image
-                                src="/logos/logo-2.svg"
-                                alt="Astegon Logo"
-                                width={40}
-                                height={40}
-                                className="w-full h-full object-contain"
-                            />
-                        </div>
-                        <span className="text-xl font-bold text-white tracking-tight">Astegon</span>
+                    <Link href="/" className="flex items-center gap-2 group z-[101]">
+
+                        <Image
+                            src="/logos/Astegon_Logo.svg"
+                            alt="Astegon Logo"
+                            width={750}
+                            height={350}
+                            className="w-auto h-10 sm:h-14 object-contain -ml-2"
+                            priority
+                        />
                     </Link>
                     <p className="text-gray-400 text-sm leading-relaxed max-w-sm mb-6">
                         Transforming digital context into intelligent action. We build enterprise-grade software that powers the future of business.
@@ -30,7 +29,13 @@ const Footer = () => {
                             { Icon: Linkedin, href: 'https://www.linkedin.com/company/astegon/' },
                             { Icon: Github, href: 'https://github.com/astegontech' }
                         ].map(({ Icon, href }, i) => (
-                            <a key={i} href={href} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white transition-colors">
+                            <a
+                                key={i}
+                                href={href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`p-2 rounded-full bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white transition-colors ${i === 0 ? '-ml-2' : ''}`}
+                            >
                                 <Icon size={18} />
                             </a>
                         ))}
@@ -60,7 +65,7 @@ const Footer = () => {
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-6 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p className="text-gray-500 text-sm">© 2024 AsteGon Inc. All rights reserved.</p>
                 <div className="flex gap-8 text-sm text-gray-500">
                     <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>

@@ -67,9 +67,9 @@ const About = () => {
                 }}
             />
 
-            <div className="relative max-w-7xl mx-auto px-6">
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
                 {/* Header */}
-                <div className="text-center mb-16">
+                <div className="mb-16">
                     <Reveal>
                         <motion.div
                             className="inline-block mb-4 text-xs font-light text-white/40 tracking-[0.3em] uppercase"
@@ -88,7 +88,7 @@ const About = () => {
                     </Reveal>
 
                     <Reveal delay={0.2}>
-                        <div className="w-16 h-px bg-white/20 mx-auto" />
+                        <div className="w-16 h-px bg-white/20" />
                     </Reveal>
                 </div>
 

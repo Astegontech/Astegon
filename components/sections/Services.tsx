@@ -158,9 +158,9 @@ const Services = () => {
                 }}
             />
 
-            <div className="relative max-w-7xl mx-auto px-6">
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
                 {/* Minimal Header */}
-                <div className="text-center mb-24">
+                <div className="mb-24">
                     <Reveal>
                         <motion.div
                             className="inline-block mb-4 text-xs font-light text-white/40 tracking-[0.3em] uppercase"
@@ -179,11 +179,11 @@ const Services = () => {
                     </Reveal>
 
                     <Reveal delay={0.2}>
-                        <div className="w-16 h-px bg-white/20 mx-auto mb-8" />
+                        <div className="w-16 h-px bg-white/20 mb-8" />
                     </Reveal>
 
                     <Reveal delay={0.3}>
-                        <p className="text-lg text-white/40 max-w-2xl mx-auto font-light leading-relaxed">
+                        <p className="text-lg text-white/40 max-w-2xl font-light leading-relaxed">
                             Delivering exceptional digital solutions through meticulous attention to detail and innovative thinking.
                         </p>
                     </Reveal>

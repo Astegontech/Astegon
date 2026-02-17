@@ -21,32 +21,51 @@ const Header = () => {
     ];
 
     useEffect(() => {
-        // Update active section based on URL hash
-        const updateActiveSection = () => {
-            const hash = window.location.hash;
-            if (!hash && pathname === '/') {
-                setActiveSection('#home');
-            } else if (hash) {
-                setActiveSection(hash);
-            } else {
-                setActiveSection(pathname);
+        // Handle scroll for background effect and scroll spy
+        const handleScroll = () => {
+            // Background effect
+            setScrolled(window.scrollY > 20);
+
+            // Scroll spy logic
+            const sections = ['home', 'about', 'services', 'projects', 'pricing', 'technologies', 'contact'];
+            const scrollPosition = window.scrollY + 100; // Offset for header height + buffer
+
+            for (const section of sections) {
+                const element = document.getElementById(section);
+                if (element) {
+                    const offsetTop = element.offsetTop;
+                    const offsetBottom = offsetTop + element.offsetHeight;
+
+                    if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
+                        const newHash = `#${section}`;
+                        // Only update if it changed
+                        if (window.location.hash !== newHash) {
+                            window.history.replaceState(null, '', newHash);
+                            setActiveSection(newHash);
+                        }
+                        break; // Stop after finding the first matching section
+                    }
+                }
             }
         };
 
-        // Track scroll for background effect
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 20);
-        };
-
-        updateActiveSection();
+        // Initial check
         handleScroll();
 
-        window.addEventListener('hashchange', updateActiveSection);
+        // Update active section on hash change (e.g. manual navigation)
+        const handleHashChange = () => {
+            const hash = window.location.hash;
+            if (hash) setActiveSection(hash);
+            else if (pathname === '/') setActiveSection('#home');
+        };
+        handleHashChange();
+
         window.addEventListener('scroll', handleScroll);
+        window.addEventListener('hashchange', handleHashChange);
 
         return () => {
-            window.removeEventListener('hashchange', updateActiveSection);
             window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('hashchange', handleHashChange);
         };
     }, [pathname]);
 
@@ -76,7 +95,10 @@ const Header = () => {
 
     const isActive = (href: string) => {
         if (href === activeSection) return true;
-        if (href.startsWith('/#') && activeSection === href.substring(1)) return true;
+        // Check if both are hashes and match
+        if (href.startsWith('/#') && activeSection.startsWith('#')) {
+            return href.substring(2) === activeSection.substring(1);
+        }
         if (activeSection === href && pathname === href) return true;
         return false;
     };
@@ -99,8 +121,6 @@ const Header = () => {
                 transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-                    {/* Logo */}
-                    {/* Logo */}
                     <Link href="/" className="flex items-center gap-2 group z-[101]">
                         <motion.div
                             className="relative flex items-center justify-start"
@@ -110,8 +130,8 @@ const Header = () => {
                             <Image
                                 src="/logos/Astegon_Logo.svg"
                                 alt="Astegon Logo"
-                                width={350}
-                                height={100}
+                                width={750}
+                                height={350}
                                 className="w-auto h-10 sm:h-14 object-contain"
                                 priority
                             />

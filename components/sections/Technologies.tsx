@@ -40,7 +40,7 @@ const Technologies = () => {
                 <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white/[0.01] rounded-full blur-3xl" />
             </div>
 
-            <div className="max-w-7xl mx-auto px-6 mb-20 text-center relative z-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-20 relative z-10">
                 <Reveal>
                     <motion.div
                         className="inline-block mb-4 text-xs font-light text-white/40 tracking-[0.3em] uppercase"
@@ -59,7 +59,7 @@ const Technologies = () => {
                 </Reveal>
 
                 <Reveal delay={0.2}>
-                    <div className="w-16 h-px bg-white/20 mx-auto" />
+                    <div className="w-16 h-px bg-white/20" />
                 </Reveal>
             </div>
 

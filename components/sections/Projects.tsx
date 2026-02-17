@@ -126,9 +126,9 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0], index: n
 const Projects = () => {
     return (
         <section className="py-24 bg-[#000000] border-t border-white/5" id="projects">
-            <div className="max-w-7xl mx-auto px-6">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6">
                 {/* Header */}
-                <div className="text-center mb-6">
+                <div className="mb-6">
                     <Reveal delay={0.1}>
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-6 tracking-tight font-heading">
                             Our Work
@@ -136,7 +136,7 @@ const Projects = () => {
                     </Reveal>
 
                     <Reveal delay={0.2}>
-                        <div className="w-16 h-px bg-white/20 mx-auto mb-8" />
+                        <div className="w-16 h-px bg-white/20 mb-8" />
                     </Reveal>
                 </div>
 
