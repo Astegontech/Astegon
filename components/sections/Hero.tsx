@@ -98,19 +98,7 @@ const Hero = () => {
                         </motion.span>
                     ))}
                 </div>
-                {/* <div className="mb-6">
-                    {[].map((word, i) => (
-                        <motion.span
-                            key={i}
-                            initial={{ opacity: 0, filter: 'blur(10px)', y: 20 }}
-                            animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
-                            transition={{ delay: 0.2 + i * 0.1, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-                            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white leading-[0.9] inline-block mr-4 md:mr-6 font-heading"
-                        >
-                            {word}
-                        </motion.span>
-                    ))}
-                </div> */}
+
                 <div className="pb-4">
                     <motion.span
                         initial={{ opacity: 0, filter: 'blur(10px)', y: 20 }}
