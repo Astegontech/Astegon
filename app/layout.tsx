@@ -100,6 +100,7 @@ import PageTransition from '@/components/layout/PageTransition';
 
 
 import { GoogleAnalytics } from '@next/third-parties/google';
+import ScrollProgress from '@/components/ui/ScrollProgress';
 
 export default function RootLayout({
   children,
@@ -114,7 +115,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
 
+
+
         <SmoothScroll>
+          <ScrollProgress />
           <Header />
           <PageTransition>
             {children}
