@@ -38,7 +38,7 @@ export const metadata: Metadata = {
         url: '/og-image.png', // Ensure this image exists in public folder or use logo
         width: 1200,
         height: 630,
-        alt: 'AsteGon - Digital Excellence',
+        alt: 'Astegon - Digital Excellence',
       },
     ],
     locale: 'en_US',
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     title: 'Astegon',
     description: 'Transforming Context Into Intelligent Action.',
     // siteId: '1467726470533754880',
-    creator: '@astegontech',
+    creator: '@Astegon',
     images: ['/og-image.png'],
   },
   robots: {
@@ -65,13 +65,14 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: '/icon.svg',
-    shortcut: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
+    shortcut: '/favicon.svg',
+    apple: '/icon.svg',
   },
   verification: {
     google: 'googleeb8c0a86ec770af9',
   },
 };
+
 
 const jsonLd = {
   '@context': 'https://schema.org',
