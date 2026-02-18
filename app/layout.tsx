@@ -34,10 +34,26 @@ export const metadata: Metadata = {
     template: '%s | Astegon',
   },
   description: 'Enterprise-grade context intelligence platform. We build scalable, high-performance digital solutions that power the future of business.',
-  keywords: ['Web Development', 'Software Engineering', 'Next.js', 'React', 'Enterprise Solutions', 'Context Intelligence', 'Digital Transformation', 'App Development'],
-  authors: [{ name: 'Astegon Team' }],
+  keywords: [
+    'Web Development',
+    'Software Engineering',
+    'Next.js',
+    'React',
+    'Enterprise Solutions',
+    'Context Intelligence',
+    'Digital Transformation',
+    'App Development',
+    'AI Integration',
+    'Cloud Architecture',
+    'Scalable Systems'
+  ],
+  authors: [{ name: 'Astegon Team', url: 'https://www.astegon.com' }],
   creator: 'Astegon',
   publisher: 'Astegon',
+  category: 'Technology',
+  alternates: {
+    canonical: '/',
+  },
   formatDetection: {
     email: false,
     address: false,
@@ -48,6 +64,8 @@ export const metadata: Metadata = {
     description: 'Enterprise-grade context intelligence platform. Building the future of digital business.',
     url: 'https://www.astegon.com',
     siteName: 'Astegon',
+    locale: 'en_US',
+    type: 'website',
     images: [
       {
         url: '/og-image.png',
@@ -56,8 +74,6 @@ export const metadata: Metadata = {
         alt: 'Astegon - Digital Excellence',
       },
     ],
-    locale: 'en_US',
-    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
@@ -66,6 +82,12 @@ export const metadata: Metadata = {
     creator: '@Astegon',
     images: ['/og-image.png'],
   },
+  icons: {
+    icon: '/icon.png',
+    shortcut: '/favicon.png',
+    apple: '/icon.png',
+  },
+  manifest: '/manifest.json',
   robots: {
     index: true,
     follow: true,
