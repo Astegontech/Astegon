@@ -15,24 +15,24 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.astegon.com'), // Replace with actual domain
   title: {
-    default: 'AsteGon - Transforming Context Into Intelligent Action',
-    template: '%s | AsteGon',
+    default: 'Astegon - Transforming Context Into Intelligent Action',
+    template: '%s | Astegon',
   },
   description: 'Enterprise-grade context intelligence platform. We build scalable, high-performance digital solutions that power the future of business.',
   keywords: ['Web Development', 'Software Engineering', 'Next.js', 'React', 'Enterprise Solutions', 'Context Intelligence', 'Digital Transformation', 'App Development'],
-  authors: [{ name: 'AsteGon Team' }],
-  creator: 'AsteGon',
-  publisher: 'AsteGon',
+  authors: [{ name: 'Astegon Team' }],
+  creator: 'Astegon',
+  publisher: 'Astegon',
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
   openGraph: {
-    title: 'AsteGon - Transforming Context Into Intelligent Action',
+    title: 'Astegon - Transforming Context Into Intelligent Action',
     description: 'Enterprise-grade context intelligence platform. Building the future of digital business.',
     url: 'https://www.astegon.com',
-    siteName: 'AsteGon',
+    siteName: 'Astegon',
     images: [
       {
         url: '/og-image.png', // Ensure this image exists in public folder or use logo
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AsteGon',
+    title: 'Astegon',
     description: 'Transforming Context Into Intelligent Action.',
     // siteId: '1467726470533754880',
     creator: '@astegontech',
@@ -76,9 +76,9 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'AsteGon',
-  url: 'https://astegon.com',
-  logo: 'https://astegon.com/logos/Astegon_Logo.svg',
+  name: 'Astegon',
+  url: 'https://www.astegon.com',
+  logo: 'https://www.astegon.com/logos/Astegon_Logo.svg',
   sameAs: [
     'https://twitter.com/astegontech',
     'https://www.linkedin.com/company/astegon/',
