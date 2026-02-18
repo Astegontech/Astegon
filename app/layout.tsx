@@ -13,7 +13,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://astegon.com'), // Replace with actual domain
+  metadataBase: new URL('https://www.astegon.com'), // Replace with actual domain
   title: {
     default: 'AsteGon - Transforming Context Into Intelligent Action',
     template: '%s | AsteGon',
