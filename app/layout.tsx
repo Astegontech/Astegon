@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'AsteGon - Transforming Context Into Intelligent Action',
     description: 'Enterprise-grade context intelligence platform. Building the future of digital business.',
-    url: 'https://astegon.com',
+    url: 'https://www.astegon.com',
     siteName: 'AsteGon',
     images: [
       {
