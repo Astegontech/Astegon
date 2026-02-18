@@ -97,6 +97,7 @@ const ServiceCard = ({ service, index }: { service: typeof services[0]; index: n
                                 width={500}
                                 height={300}
                                 className="w-full h-full object-cover"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                             />
                         </motion.div>
 

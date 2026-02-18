@@ -12,8 +12,8 @@ const Footer = () => {
                         <Image
                             src="/logos/Astegon_Logo.svg"
                             alt="Astegon Logo"
-                            width={750}
-                            height={350}
+                            width={300}
+                            height={150}
                             className="w-auto h-10 sm:h-14 object-contain -ml-2"
                             priority
                         />
