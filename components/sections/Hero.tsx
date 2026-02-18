@@ -106,7 +106,7 @@ const Hero = () => {
                         transition={{ delay: 0.4, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
                         className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-white to-indigo-300 leading-[0.9] inline-block font-heading"
                     >
-                        Psych Santya & Amar
+                        Solutions
                     </motion.span>
                 </div>
 
