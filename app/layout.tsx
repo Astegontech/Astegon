@@ -1,5 +1,13 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Sora, Space_Grotesk } from 'next/font/google';
+import { GoogleAnalytics } from '@next/third-parties/google';
+
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import PageTransition from '@/components/layout/PageTransition';
+import SmoothScroll from '@/components/layout/SmoothScroll';
+import ScrollProgress from '@/components/ui/ScrollProgress';
+
 import './globals.css';
 
 const sora = Sora({
@@ -12,8 +20,15 @@ const spaceGrotesk = Space_Grotesk({
   variable: '--font-space-grotesk',
 });
 
+export const viewport: Viewport = {
+  themeColor: '#0a0a0a',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.astegon.com'), // Replace with actual domain
+  metadataBase: new URL('https://www.astegon.com'),
   title: {
     default: 'Astegon - Transforming Context Into Intelligent Action',
     template: '%s | Astegon',
@@ -35,7 +50,7 @@ export const metadata: Metadata = {
     siteName: 'Astegon',
     images: [
       {
-        url: '/og-image.png', // Ensure this image exists in public folder or use logo
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Astegon - Digital Excellence',
@@ -48,7 +63,6 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Astegon',
     description: 'Transforming Context Into Intelligent Action.',
-    // siteId: '1467726470533754880',
     creator: '@Astegon',
     images: ['/og-image.png'],
   },
@@ -63,12 +77,10 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-
   verification: {
     google: 'googleeb8c0a86ec770af9',
   },
 };
-
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -90,17 +102,6 @@ const jsonLd = {
     availableLanguage: ['English']
   }
 };
-
-import SmoothScroll from '@/components/layout/SmoothScroll';
-
-
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
-import PageTransition from '@/components/layout/PageTransition';
-
-
-import { GoogleAnalytics } from '@next/third-parties/google';
-import ScrollProgress from '@/components/ui/ScrollProgress';
 
 export default function RootLayout({
   children,
