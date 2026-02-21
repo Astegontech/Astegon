@@ -66,7 +66,9 @@ const Footer = () => {
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p className="text-gray-500 text-sm">© 2024 AsteGon Inc. All rights reserved.</p>
+                <p className="text-gray-500 text-sm">
+                    <Link href="/admin/contests" className="cursor-pointer hover:text-white transition-colors">©</Link> 2024 AsteGon Inc. All rights reserved.
+                </p>
                 <div className="flex gap-8 text-sm text-gray-500">
                     <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
                     <Link href="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</Link>
