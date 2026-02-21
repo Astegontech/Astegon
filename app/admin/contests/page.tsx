@@ -1,6 +1,6 @@
 import connectDB from '@/app/api/lib/mongodb';
 import ContestRegistrationModel from '@/app/api/lib/models/ContestRegistration';
-import { Calendar, User, Mail, Phone, LinkIcon, Target } from 'lucide-react';
+import { User, Phone, LinkIcon } from 'lucide-react';
 
 export const revalidate = 0; // Ensure fresh data on every load
 
@@ -34,53 +34,80 @@ export default async function AdminRegistrationsPage() {
                     <p className="text-gray-400">No registrations found yet. Share your contest links!</p>
                 </div>
             ) : (
-                <div className="grid gap-6">
-                    {registrations.map((reg) => (
-                        <div key={reg._id} className="bg-white/[0.02] border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-colors">
-                            <div className="flex flex-col md:flex-row justify-between md:items-start gap-4 mb-6">
-                                <div>
-                                    <h3 className="text-xl font-semibold text-white tracking-tight flex items-center gap-2">
-                                        <User className="w-5 h-5 text-gray-400" />
-                                        {reg.fullName}
-                                    </h3>
-                                    <span className="inline-block mt-2 px-3 py-1 bg-purple-500/10 text-purple-400 text-xs font-medium rounded-full border border-purple-500/20">
-                                        Contest: {reg.category}
-                                    </span>
-                                </div>
-                                <div className="text-right flex items-center gap-2 text-sm text-gray-500 font-light">
-                                    <Calendar className="w-4 h-4" />
-                                    {new Date(reg.submittedAt).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })}
-                                </div>
-                            </div>
+                <div className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-x-auto">
+                    <table className="w-full text-left text-sm text-gray-400 min-w-[800px]">
+                        <thead className="bg-white/5 text-xs uppercase border-b border-white/10">
+                            <tr>
+                                <th scope="col" className="px-6 py-4 font-medium text-gray-300">Entrant</th>
+                                <th scope="col" className="px-6 py-4 font-medium text-gray-300">Category</th>
+                                <th scope="col" className="px-6 py-4 font-medium text-gray-300">Contact & Links</th>
+                                <th scope="col" className="px-6 py-4 font-medium text-gray-300">Reason to Win</th>
+                                <th scope="col" className="px-6 py-4 font-medium text-gray-300 text-right">Submitted</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {registrations.map((reg) => (
+                                <tr key={reg._id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                                    {/* Entrant Profile */}
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                                                <User className="w-4 h-4 text-gray-400" />
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <span className="text-white font-medium text-sm">{reg.fullName}</span>
+                                                <a href={`mailto:${reg.email}`} className="text-xs text-gray-500 hover:text-white transition-colors mt-0.5">{reg.email}</a>
+                                            </div>
+                                        </div>
+                                    </td>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 text-sm text-gray-300 font-light mb-6 border-y border-white/5 py-6">
-                                <div className="flex items-center gap-3">
-                                    <Mail className="w-4 h-4 text-gray-500" />
-                                    <a href={`mailto:${reg.email}`} className="hover:text-white transition-colors">{reg.email}</a>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <Phone className="w-4 h-4 text-gray-500" />
-                                    <span>{reg.phone}</span>
-                                </div>
-                                {reg.portfolio && (
-                                    <div className="flex items-center gap-3">
-                                        <LinkIcon className="w-4 h-4 text-gray-500" />
-                                        <a href={reg.portfolio} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors text-blue-400 truncate max-w-xs">{reg.portfolio}</a>
-                                    </div>
-                                )}
-                            </div>
+                                    {/* Category */}
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <span className="inline-block px-3 py-1 bg-purple-500/10 text-purple-400 text-[10px] uppercase tracking-wider font-semibold rounded-full border border-purple-500/20">
+                                            {reg.category}
+                                        </span>
+                                    </td>
 
-                            <div>
-                                <h4 className="flex items-center gap-2 text-sm font-medium text-gray-400 mb-2">
-                                    <Target className="w-4 h-4" />
-                                    Reason to Win
-                                </h4>
-                                <div className="bg-black/30 p-4 rounded-xl border border-white/5 text-sm text-gray-300 leading-relaxed font-light">
-                                    {reg.reason}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+                                    {/* Contact & Links */}
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <div className="flex flex-col gap-1.5 text-xs">
+                                            <div className="flex items-center gap-2">
+                                                <Phone className="w-3.5 h-3.5 text-gray-500" />
+                                                <span>{reg.phone}</span>
+                                            </div>
+                                            {reg.portfolio ? (
+                                                <div className="flex items-center gap-2">
+                                                    <LinkIcon className="w-3.5 h-3.5 text-gray-500" />
+                                                    <a href={reg.portfolio} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-white transition-colors truncate max-w-[150px]">
+                                                        {reg.portfolio}
+                                                    </a>
+                                                </div>
+                                            ) : (
+                                                <div className="flex items-center gap-2 text-gray-600">
+                                                    <LinkIcon className="w-3.5 h-3.5" />
+                                                    <span>No link provided</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </td>
+
+                                    {/* Reason (Truncated) */}
+                                    <td className="px-6 py-4">
+                                        <div className="text-xs text-gray-400 leading-relaxed line-clamp-2 max-w-xs" title={reg.reason}>
+                                            {reg.reason}
+                                        </div>
+                                    </td>
+
+                                    {/* Date */}
+                                    <td className="px-6 py-4 whitespace-nowrap text-right text-xs text-gray-500">
+                                        {new Date(reg.submittedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                                        <br />
+                                        <span className="text-[10px]">{new Date(reg.submittedAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</span>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             )}
         </div>
