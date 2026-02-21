@@ -108,6 +108,11 @@ const Header = () => {
         setMobileMenuOpen(false);
     };
 
+    // Hide the header on contest pages
+    if (pathname?.startsWith('/contest')) {
+        return null;
+    }
+
     return (
         <>
             <motion.header
@@ -172,7 +177,7 @@ const Header = () => {
                             className="relative"
                         >
                             <Link
-                                href="/#contact"
+                                href="/contest"
                                 onClick={() => handleNavClick('#contact')}
                                 className="relative px-6 py-2.5 rounded-full bg-white text-black text-sm font-medium hover:bg-gray-100 transition-colors duration-200 inline-block"
                             >

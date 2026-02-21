@@ -1,0 +1,60 @@
+﻿
+> astegon@0.1.0 build
+> next build
+
+node.exe : ΓÜá Warning: Next.js inferred your workspace root, but it may not be correct.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Users\rajun\AppData\Roaming\ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (ΓÜá Warning: Ne...not be correct.:String) [], 
+    RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+ We detected multiple lockfiles and selected the directory of 
+C:\Users\rajun\package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider 
+removing one of the lockfiles if it's not needed.
+   See 
+https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory 
+for more information.
+ Detected additional lockfiles: 
+   * C:\Users\rajun\Documents\astegon\package-lock.json
+
+Γû▓ Next.js 16.1.1 (Turbopack)
+- Environments: .env
+
+  Creating an optimized production build ...
+Γ£ô Compiled successfully in 2.8s
+  Running TypeScript ...
+  Collecting page data using 11 workers ...
+(node:21912) [MONGOOSE] Warning: Duplicate schema index on {"email":1} found. This is 
+often due to declaring an index using both "index: true" and "schema.index()". Please 
+remove the duplicate index definition.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20616) [MONGOOSE] Warning: Duplicate schema index on {"email":1} found. This is 
+often due to declaring an index using both "index: true" and "schema.index()". Please 
+remove the duplicate index definition.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  Generating static pages using 11 workers (0/20) ...
+(node:15908) [MONGOOSE] Warning: Duplicate schema index on {"email":1} found. This is 
+often due to declaring an index using both "index: true" and "schema.index()". Please 
+remove the duplicate index definition.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  Generating static pages using 11 workers (5/20) 
+Error occurred prerendering page "/contest/thank-you". Read more: 
+https://nextjs.org/docs/messages/prerender-error
+Error: Attempted to call createMotionComponent() from the server but createMotionComponent 
+is on the client. It's not possible to invoke a client function from the server, it can 
+only be rendered as a Component or passed to props of a Client Component.
+    at <unknown> (C:\Users\rajun\Documents\astegon\.next\server\chunks\ssr\Documents_astego
+n_de9b2a85._.js:1:645)
+    at Object.get (C:\Users\rajun\Documents\astegon\.next\server\chunks\ssr\Documents_asteg
+on_de9b2a85._.js:1:96733)
+    at <unknown> (C:\Users\rajun\Documents\astegon\.next\server\chunks\ssr\Documents_astego
+n_de9b2a85._.js:1:104438)
+    at stringify (<anonymous>) {
+  digest: '756870609'
+}
+Export encountered an error on /contest/thank-you/page: /contest/thank-you, exiting the 
+build.
+Γ¿» Next.js build worker exited with code: 1 and signal: null
