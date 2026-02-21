@@ -1,0 +1,4 @@
+app/admin/contests/manage/editor/ContestForm.tsx(151,46): error TS7006: Parameter 'rule' implicitly has an 'any' type.
+app/admin/contests/manage/editor/ContestForm.tsx(151,52): error TS7006: Parameter 'idx' implicitly has an 'any' type.
+app/admin/contests/manage/editor/ContestForm.tsx(168,49): error TS7006: Parameter 'crit' implicitly has an 'any' type.
+app/admin/contests/manage/editor/ContestForm.tsx(168,55): error TS7006: Parameter 'idx' implicitly has an 'any' type.

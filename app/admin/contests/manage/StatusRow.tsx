@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Settings2, Loader2, Check } from 'lucide-react';
+import { Settings2, Loader2, Check, Edit2 } from 'lucide-react';
 import { updateContestStatus } from './actions';
+import Link from 'next/link';
 
 export default function StatusRow({ contest }: { contest: any }) {
     const [isPending, setIsPending] = useState(false);
@@ -44,29 +45,39 @@ export default function StatusRow({ contest }: { contest: any }) {
                 </span>
             </td>
             <td className="px-6 py-4">
-                <form onSubmit={handleUpdate} className="flex items-center gap-3">
-                    <input type="hidden" name="id" value={contest._id} />
-                    <select
-                        name="status"
-                        value={currentStatus}
-                        onChange={(e) => setCurrentStatus(e.target.value)}
-                        className="bg-black border border-white/10 text-white text-xs rounded-lg focus:ring-white/20 focus:border-white/20 block p-2 outline-none"
+                <div className="flex items-center gap-3">
+                    <form onSubmit={handleUpdate} className="flex items-center gap-2">
+                        <input type="hidden" name="id" value={contest._id} />
+                        <select
+                            name="status"
+                            value={currentStatus}
+                            onChange={(e) => setCurrentStatus(e.target.value)}
+                            className="bg-black border border-white/10 text-white text-xs rounded-lg focus:ring-white/20 focus:border-white/20 block p-2 outline-none"
+                        >
+                            <option value="Open">Open</option>
+                            <option value="Live">Live</option>
+                            <option value="Closed">Closed</option>
+                        </select>
+                        <button
+                            type="submit"
+                            disabled={isPending}
+                            className={`p-2 rounded-lg text-white transition-colors border ${success ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400' : 'bg-white/5 hover:bg-white/10 border-white/10'} disabled:opacity-50`}
+                            title="Quick Save Status"
+                        >
+                            {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> :
+                                success ? <Check className="w-4 h-4" /> :
+                                    <Settings2 className="w-4 h-4" />}
+                        </button>
+                    </form>
+
+                    <Link
+                        href={`/admin/contests/manage/editor?id=${contest._id}`}
+                        className="p-2 bg-white/5 border border-white/10 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-colors"
+                        title="Edit Full Contest Details"
                     >
-                        <option value="Open">Open</option>
-                        <option value="Live">Live</option>
-                        <option value="Closed">Closed</option>
-                    </select>
-                    <button
-                        type="submit"
-                        disabled={isPending}
-                        className={`p-2 rounded-lg text-white transition-colors border ${success ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400' : 'bg-white/5 hover:bg-white/10 border-white/10'} disabled:opacity-50`}
-                        title="Save Status"
-                    >
-                        {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> :
-                            success ? <Check className="w-4 h-4" /> :
-                                <Settings2 className="w-4 h-4" />}
-                    </button>
-                </form>
+                        <Edit2 className="w-4 h-4" />
+                    </Link>
+                </div>
             </td>
         </tr>
     );
