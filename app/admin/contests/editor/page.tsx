@@ -1,5 +1,5 @@
 import { getContestById } from '../actions';
-import ContestForm from '@/components/admin/ContestForm';
+import ContestForm from '@/components/contest/ContestForm';
 import Link from 'next/link';
 
 export const revalidate = 0;

@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { getContests } from '@/lib/services/contest';
-import { ContestCard } from '@/components/features/ContestCard';
+import { ContestCard } from '@/components/contest/ContestCard';
 import { Reveal } from '@/components/ui/Reveal';
 
 export const revalidate = 60; // Refresh data frequently

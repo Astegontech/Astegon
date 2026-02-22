@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { getContests, getContestBySlug } from '@/lib/services/contest';
 import { Button } from '@/components/ui/Button';
 import { Calendar, CheckCircle2 } from 'lucide-react';
-import { ProblemSelector } from '@/components/features/ProblemSelector';
+import { ProblemSelector } from '@/components/contest/ProblemSelector';
 
 export const revalidate = 60;
 
