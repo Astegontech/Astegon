@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
-import { saveContest, deleteContest } from '../actions';
+import { saveContest, deleteContest } from '@/app/admin/contests/actions';
 import { Plus, Trash2, X } from 'lucide-react';
 
 export default function ContestForm({ initialData }: { initialData?: any }) {
@@ -23,6 +23,7 @@ export default function ContestForm({ initialData }: { initialData?: any }) {
         iconType: initialData?.iconType || 'Code',
         shortDescription: initialData?.shortDescription || '',
         description: initialData?.description || '',
+        problemStatements: initialData?.problemStatements || [''],
         rules: initialData?.rules || [''],
         criteria: initialData?.criteria || [''],
     });
@@ -31,17 +32,17 @@ export default function ContestForm({ initialData }: { initialData?: any }) {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleArrayChange = (index: number, field: 'rules' | 'criteria', value: string) => {
+    const handleArrayChange = (index: number, field: 'rules' | 'criteria' | 'problemStatements', value: string) => {
         const newArr = [...formData[field]];
         newArr[index] = value;
         setFormData({ ...formData, [field]: newArr });
     };
 
-    const addArrayItem = (field: 'rules' | 'criteria') => {
+    const addArrayItem = (field: 'rules' | 'criteria' | 'problemStatements') => {
         setFormData({ ...formData, [field]: [...formData[field], ''] });
     };
 
-    const removeArrayItem = (index: number, field: 'rules' | 'criteria') => {
+    const removeArrayItem = (index: number, field: 'rules' | 'criteria' | 'problemStatements') => {
         const newArr = [...formData[field]];
         newArr.splice(index, 1);
         setFormData({ ...formData, [field]: newArr });
@@ -55,13 +56,14 @@ export default function ContestForm({ initialData }: { initialData?: any }) {
         // Clean up empty array items before saving
         const cleanedData = {
             ...formData,
+            problemStatements: formData.problemStatements.filter((p: string) => p.trim() !== ''),
             rules: formData.rules.filter((r: string) => r.trim() !== ''),
             criteria: formData.criteria.filter((c: string) => c.trim() !== '')
         };
 
         const res = await saveContest(cleanedData);
         if (res.success) {
-            router.push('/admin/contests/manage');
+            router.push('/admin/contests');
         } else {
             setError(res.message || 'Failed to save contest');
             setIsLoading(false);
@@ -73,7 +75,7 @@ export default function ContestForm({ initialData }: { initialData?: any }) {
         setIsDeleting(true);
         const res = await deleteContest(formData._id);
         if (res.success) {
-            router.push('/admin/contests/manage');
+            router.push('/admin/contests');
         } else {
             setError(res.message || 'Failed to delete contest');
             setIsDeleting(false);
@@ -136,6 +138,24 @@ export default function ContestForm({ initialData }: { initialData?: any }) {
             <div>
                 <label className="block text-sm font-medium text-gray-400 mb-2">Full Description</label>
                 <textarea rows={4} name="description" required value={formData.description} onChange={handleChange} className="w-full bg-black border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/20 resize-none" />
+            </div>
+
+            {/* Problem Statements Array */}
+            <div className="border-t border-white/5 pt-8">
+                <div className="flex justify-between items-center mb-4">
+                    <label className="block text-sm font-medium text-gray-400">Problem Statements</label>
+                    <button type="button" onClick={() => addArrayItem('problemStatements')} className="text-xs flex items-center gap-1 text-purple-400 hover:text-purple-300">
+                        <Plus className="w-3 h-3" /> Add Problem Statement
+                    </button>
+                </div>
+                <div className="space-y-3">
+                    {formData.problemStatements.map((statement: string, idx: number) => (
+                        <div key={idx} className="flex gap-2">
+                            <input type="text" value={statement} onChange={(e) => handleArrayChange(idx, 'problemStatements', e.target.value)} className="flex-1 bg-black border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-white/20" placeholder="Problem Statement detail..." />
+                            <button type="button" onClick={() => removeArrayItem(idx, 'problemStatements')} className="p-2 text-gray-500 hover:text-red-400 transition-colors"><X className="w-4 h-4" /></button>
+                        </div>
+                    ))}
+                </div>
             </div>
 
             {/* Arrays */}

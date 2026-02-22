@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import connectDB from '../lib/mongodb';
-import ContestModel from '../lib/models/Contest';
+import connectDB from '@/lib/mongodb';
+import ContestModel from '@/lib/models/Contest';
 import { contests as staticContests } from '@/data/contests';
 
 export const revalidate = 0; // Ensure fresh data

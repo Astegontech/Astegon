@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { getContests, getContestBySlug } from '@/lib/services/contest';
 import { Button } from '@/components/ui/Button';
 import { Calendar, CheckCircle2 } from 'lucide-react';
+import { ProblemSelector } from '@/components/features/ProblemSelector';
 
 export const revalidate = 60;
 
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
 }
 
-export default async function ContestDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function PublicContestDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params;
     const contest = await getContestBySlug(resolvedParams.slug);
 
@@ -60,6 +61,10 @@ export default async function ContestDetailsPage({ params }: { params: Promise<{
                     </p>
                 </div>
 
+                {/* Problem Statements & CTA */}
+                <ProblemSelector problemStatements={contest.problemStatements} contestSlug={contest.slug} />
+
+
                 <div className="grid md:grid-cols-2 gap-12 mb-12">
                     {/* Rules */}
                     <div>
@@ -90,19 +95,6 @@ export default async function ContestDetailsPage({ params }: { params: Promise<{
                             ))}
                         </ul>
                     </div>
-                </div>
-
-                {/* CTA */}
-                <div className="bg-white/5 border border-white/10 p-8 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6">
-                    <div>
-                        <h3 className="text-xl font-semibold mb-2">Ready to participate?</h3>
-                        <p className="text-gray-400 text-sm">Register now to secure your spot in the contest.</p>
-                    </div>
-                    <Link href={`/contest/register?category=${contest.slug}`} className="w-full sm:w-auto shrink-0">
-                        <Button variant="primary" className="w-full sm:w-auto px-8">
-                            Fill the Form &rarr;
-                        </Button>
-                    </Link>
                 </div>
             </div>
         </main>

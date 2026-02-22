@@ -1,5 +1,5 @@
-import connectDB from '@/app/api/lib/mongodb';
-import ContestModel, { IContest } from '@/app/api/lib/models/Contest';
+import connectDB from '@/lib/mongodb';
+import ContestModel, { IContest } from '@/lib/models/Contest';
 import { contests as staticContests } from '@/data/contests';
 
 export async function getContests(): Promise<IContest[]> {

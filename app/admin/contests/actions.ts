@@ -1,7 +1,7 @@
 'use server';
 
-import connectDB from '@/app/api/lib/mongodb';
-import ContestModel from '@/app/api/lib/models/Contest';
+import connectDB from '@/lib/mongodb';
+import ContestModel from '@/lib/models/Contest';
 import { revalidatePath } from 'next/cache';
 
 export async function updateContestStatus(formData: FormData) {
@@ -15,7 +15,7 @@ export async function updateContestStatus(formData: FormData) {
         await ContestModel.findByIdAndUpdate(id, { status });
 
         revalidatePath('/contest');
-        revalidatePath('/admin/contests/manage');
+        revalidatePath('/admin/contests');
 
         return { success: true };
     } catch (error: any) {
@@ -45,7 +45,7 @@ export async function saveContest(data: any) {
         }
 
         revalidatePath('/contest');
-        revalidatePath('/admin/contests/manage');
+        revalidatePath('/admin/contests');
 
         return { success: true };
     } catch (error: any) {
@@ -70,7 +70,7 @@ export async function deleteContest(id: string) {
         await connectDB();
         await ContestModel.findByIdAndDelete(id);
         revalidatePath('/contest');
-        revalidatePath('/admin/contests/manage');
+        revalidatePath('/admin/contests');
         return { success: true };
     } catch (e: any) {
         return { success: false, message: e.message };

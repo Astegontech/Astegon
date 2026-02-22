@@ -1,18 +1,38 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import connectDB from '@/lib/mongodb';
+import ContactModel from '@/lib/models/Contact';
 
 export async function POST(req: NextRequest) {
     try {
-        const { name, email, company, message, website } = await req.json();
+        const { name, email, company, message } = await req.json();
 
-        // Honeypot check
-        if (website) {
-            return NextResponse.json({ error: 'Spam detected' }, { status: 400 });
-        }
-
+        // Validate required fields
         if (!name || !email || !message) {
-            return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+            return NextResponse.json({
+                error: 'Name, email, and message are required'
+            }, { status: 400 });
         }
+
+        // Validate email format
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            return NextResponse.json({
+                error: 'Invalid email address'
+            }, { status: 400 });
+        }
+
+        // Connect to MongoDB
+        await connectDB();
+
+        // Create new contact submission
+        const contact = await ContactModel.create({
+            name: name.trim(),
+            email: email.toLowerCase().trim(),
+            company: company?.trim() || '',
+            message: message.trim(),
+            verified: true,
+            submittedAt: new Date(),
+        });
 
         // Configure nodemailer
         const transporter = nodemailer.createTransport({
@@ -25,7 +45,7 @@ export async function POST(req: NextRequest) {
             },
         });
 
-        // Send notification to yourself
+        // Send notification to admin
         await transporter.sendMail({
             from: `"Contact Form" <${process.env.SMTP_USER}>`,
             to: process.env.SMTP_USER,
@@ -61,14 +81,22 @@ export async function POST(req: NextRequest) {
                             <p style="white-space: pre-wrap; color: #666;">${message}</p>
                         </div>
                         <p style="color: #666; font-size: 14px;">Best regards,<br>The AsteGon Team</p>
+                        <p style="color: #666; font-size: 14px;">Email: contact@astegon.com</p>
+                        <p style="color: #666; font-size: 14px;">Website: https://astegon.com</p>
                     </div>
                 </div>
             `,
         });
 
-        return NextResponse.json({ success: true, message: 'Message sent successfully' });
+        return NextResponse.json({
+            success: true,
+            message: 'Contact form submitted successfully',
+            contactId: contact._id
+        });
     } catch (error) {
-        console.error('Contact form error:', error);
-        return NextResponse.json({ error: 'Failed to send message' }, { status: 500 });
+        console.error('Contact submission error:', error);
+        return NextResponse.json({
+            error: 'Failed to submit contact form'
+        }, { status: 500 });
     }
 }

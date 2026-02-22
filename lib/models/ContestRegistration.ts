@@ -6,6 +6,7 @@ export interface IContestRegistration extends Document {
     phone: string;
     portfolio?: string;
     category: string;
+    problemStatement: string;
     reason: string;
     submittedAt: Date;
 }
@@ -16,6 +17,7 @@ const ContestRegistrationSchema: Schema = new Schema({
     phone: { type: String, required: true },
     portfolio: { type: String },
     category: { type: String, required: true },
+    problemStatement: { type: String, required: true },
     reason: { type: String, required: true },
     submittedAt: { type: Date, default: Date.now }
 });

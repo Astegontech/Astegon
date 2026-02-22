@@ -1,1 +1,0 @@
-mongodb+srv://foodsastegon:astegon1234@astegon.ad6ckux.mongodb.net/

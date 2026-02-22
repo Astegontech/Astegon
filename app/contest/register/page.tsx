@@ -5,10 +5,11 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 
-export default function RegisterPage() {
+export default function PublicContestRegistrationPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const initialCategory = searchParams.get('category') || '';
+    const initialProblemIndex = searchParams.get('problem');
 
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -17,6 +18,7 @@ export default function RegisterPage() {
         phone: '',
         portfolio: '',
         category: initialCategory,
+        problemStatement: '', // will be set after categories are loaded
         reason: '',
     });
 
@@ -29,13 +31,38 @@ export default function RegisterPage() {
                 const json = await res.json();
                 if (json.success && json.data) {
                     setCategories(json.data);
+
+                    // Set initial problem statement if available
+                    if (initialCategory && initialProblemIndex) {
+                        const selectedCategory = json.data.find((c: any) => c.slug === initialCategory);
+                        const pIndex = parseInt(initialProblemIndex) - 1;
+                        if (selectedCategory && selectedCategory.problemStatements && selectedCategory.problemStatements[pIndex]) {
+                            setFormData(prev => ({
+                                ...prev,
+                                problemStatement: selectedCategory.problemStatements[pIndex]
+                            }));
+                        }
+                    }
                 }
             } catch (err) {
                 console.error('Failed to fetch categories:', err);
             }
         };
         fetchCategories();
-    }, []);
+    }, [initialCategory, initialProblemIndex]);
+
+    // Update problem statement when category changes if needed
+    const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const newCategorySlug = e.target.value;
+        const selectedCategory = categories.find(c => c.slug === newCategorySlug);
+
+        setFormData({
+            ...formData,
+            category: newCategorySlug,
+            // Reset problem statement when category changes unless it has no problems
+            problemStatement: selectedCategory?.problemStatements?.length > 0 ? '' : 'N/A'
+        });
+    };
 
     // Validations
     const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
@@ -45,6 +72,7 @@ export default function RegisterPage() {
         isEmailValid &&
         isPhoneValid &&
         formData.category !== '' &&
+        formData.problemStatement !== '' &&
         formData.reason.trim().length > 0;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -64,7 +92,7 @@ export default function RegisterPage() {
         setIsLoading(true);
 
         try {
-            const res = await fetch('/api/submit-registration', {
+            const res = await fetch('/api/registrations', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
@@ -162,7 +190,7 @@ export default function RegisterPage() {
 
                         {/* Select Category */}
                         <div>
-                            <label htmlFor="category" className="block text-sm font-medium text-gray-300 mb-2">
+                            <label htmlFor="category" className={`block text-sm font-medium mb-2 ${formData.category ? 'text-emerald-400' : 'text-gray-300'}`}>
                                 Select Contest <span className="text-red-400">*</span>
                             </label>
                             <select
@@ -170,8 +198,8 @@ export default function RegisterPage() {
                                 name="category"
                                 required
                                 value={formData.category}
-                                onChange={handleChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white appearance-none focus:outline-none focus:ring-2 focus:ring-white/20 transition-all sm:text-sm"
+                                onChange={handleCategoryChange}
+                                className={`w-full bg-white/5 border rounded-xl px-4 py-3 appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all sm:text-sm ${formData.category ? 'text-emerald-400 border-emerald-500/30 bg-emerald-500/5' : 'text-white border-white/10'}`}
                                 style={{ backgroundColor: '#111' }} // override for dropdown options
                             >
                                 <option value="" disabled className="text-gray-500">
@@ -184,6 +212,41 @@ export default function RegisterPage() {
                                 ))}
                             </select>
                         </div>
+
+                        {/* Problem Statement Selection */}
+                        {(() => {
+                            const selectedCategoryData = categories.find(c => c.slug === formData.category);
+                            const availableProblems = selectedCategoryData?.problemStatements || [];
+
+                            if (availableProblems.length > 0) {
+                                return (
+                                    <div>
+                                        <label htmlFor="problemStatement" className={`block text-sm font-medium mb-2 ${formData.problemStatement ? 'text-emerald-400' : 'text-gray-300'}`}>
+                                            Select Problem Statement <span className="text-red-400">*</span>
+                                        </label>
+                                        <select
+                                            id="problemStatement"
+                                            name="problemStatement"
+                                            required
+                                            value={formData.problemStatement}
+                                            onChange={handleChange}
+                                            className={`w-full bg-white/5 border rounded-xl px-4 py-3 appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all sm:text-sm ${formData.problemStatement ? 'text-emerald-400 border-emerald-500/30 bg-emerald-500/5' : 'text-white border-white/10'}`}
+                                            style={{ backgroundColor: '#111' }}
+                                        >
+                                            <option value="" disabled className="text-gray-500">
+                                                Select a problem statement...
+                                            </option>
+                                            {availableProblems.map((p: string, idx: number) => (
+                                                <option key={idx} value={p}>
+                                                    0{idx + 1}: {p}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                );
+                            }
+                            return null;
+                        })()}
 
                         {/* Portfolio */}
                         <div>

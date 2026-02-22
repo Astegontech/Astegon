@@ -82,24 +82,23 @@ export const ContestCard: React.FC<ContestCardProps> = ({
                             {shortDescription}
                         </p>
 
-                        {/* 3️⃣ Metadata Row */}
-                        <div className="grid grid-cols-2 gap-y-4 sm:flex sm:flex-row sm:gap-6 mb-8 pt-6 border-t border-white/5 text-xs text-white/40 font-light">
-                            {/* <div className="flex items-center gap-2">
-                                <Clock className="w-4 h-4 text-white/20" />
-                                <span>{duration}</span>
-                            </div> */}
-                            <div className="flex items-center gap-2">
-                                <Users className="w-4 h-4 text-white/20" />
-                                <span>{teamSize}</span>
+                        {/* 3️⃣ Metadata Row & CTA */}
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-y-6 pt-6 mt-auto border-t border-white/5 text-xs text-white/40 font-light">
+                            <div className="flex items-center gap-6 flex-wrap">
+                                {/* <div className="flex items-center gap-2">
+                                    <Clock className="w-4 h-4 text-white/20" />
+                                    <span>{duration}</span>
+                                </div> */}
+                                <div className="flex items-center gap-2">
+                                    <Users className="w-4 h-4 text-white/20" />
+                                    <span>{teamSize}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <CalendarDays className="w-4 h-4 text-white/20" />
+                                    <span>Ends {formattedDeadline}</span>
+                                </div>
                             </div>
-                            <div className="flex items-center gap-2 col-span-2 sm:col-span-1">
-                                <CalendarDays className="w-4 h-4 text-white/20" />
-                                <span>Ends {formattedDeadline}</span>
-                            </div>
-                        </div>
 
-                        {/* 5️⃣ CTA Actions */}
-                        <div className="flex items-center justify-between mt-auto">
                             <Link href={`/contest/${slug}`}>
                                 <motion.div
                                     className="inline-flex items-center gap-2 text-sm text-white/50 group-hover:text-white/80 hover:!text-white transition-colors cursor-pointer"
@@ -109,12 +108,6 @@ export const ContestCard: React.FC<ContestCardProps> = ({
                                     <span className="font-light">View Details</span>
                                     <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
                                 </motion.div>
-                            </Link>
-
-                            <Link href={`/contest/register?category=${slug}`}>
-                                <Button variant={status === 'Closed' ? 'outline' : 'secondary'} className={`px-6 py-2 text-xs ${status === 'Closed' ? 'opacity-50 !cursor-not-allowed' : ''}`}>
-                                    {status === 'Closed' ? 'Closed' : 'Register Now'}
-                                </Button>
                             </Link>
                         </div>
                     </div>

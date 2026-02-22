@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     description: 'Registration successful.',
 };
 
-export default function ThankYouPage() {
+export default function PublicContestRegistrationSuccessPage() {
     return (
         <main className="min-h-screen pt-16 pb-24 px-4 sm:px-6 relative flex items-center justify-center selection:bg-white/20">
             {/* Background elements */}

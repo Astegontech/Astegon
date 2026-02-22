@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { getContests } from '@/lib/services/contest';
-import { ContestCard } from '@/components/ContestCard';
+import { ContestCard } from '@/components/features/ContestCard';
 import { Reveal } from '@/components/ui/Reveal';
 
 export const revalidate = 60; // Refresh data frequently
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     description: 'Participate in Astegon technical contests and showcase your skills.',
 };
 
-export default async function ContestPage() {
+export default async function PublicContestsListingPage() {
     const contests = await getContests();
 
     return (
@@ -39,9 +39,6 @@ export default async function ContestPage() {
                         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-6">
                             Compete. Build. <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-500">Innovate.</span>
                         </h1>
-                    </Reveal>
-
-                    <Reveal delay={0.3}>
                         <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
                             Join our technical contests to challenge yourself, solve real-world problems, and showcase your engineering prowess.
                         </p>

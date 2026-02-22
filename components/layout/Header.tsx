@@ -181,7 +181,7 @@ const Header = () => {
                                 onClick={() => handleNavClick('#contact')}
                                 className="relative px-6 py-2.5 rounded-full bg-white text-black text-sm font-medium hover:bg-gray-100 transition-colors duration-200 inline-block"
                             >
-                                Get Started
+                                Give Contest
                             </Link>
 
                             {/* Subtle glow on hover */}

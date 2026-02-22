@@ -6,6 +6,7 @@ export interface IContest extends Document {
     slug: string;
     description: string;
     shortDescription: string;
+    problemStatements: string[];
     rules: string[];
     deadline: string;
     criteria: string[];
@@ -21,6 +22,7 @@ const ContestSchema: Schema = new Schema({
     slug: { type: String, required: true, unique: true },
     description: { type: String, required: true },
     shortDescription: { type: String, required: true },
+    problemStatements: [{ type: String }],
     rules: [{ type: String }],
     deadline: { type: String, required: true },
     criteria: [{ type: String }],

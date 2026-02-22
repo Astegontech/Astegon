@@ -1,10 +1,10 @@
 import { getContestById } from '../actions';
-import ContestForm from './ContestForm';
+import ContestForm from '@/components/admin/ContestForm';
 import Link from 'next/link';
 
 export const revalidate = 0;
 
-export default async function ContestEditorPage({
+export default async function AdminContestEditorPage({
     searchParams,
 }: {
     searchParams: { id?: string };
@@ -19,7 +19,7 @@ export default async function ContestEditorPage({
     return (
         <div>
             <div className="mb-8">
-                <Link href="/admin/contests/manage" className="text-sm text-gray-500 hover:text-white transition-colors block mb-4">
+                <Link href="/admin/contests" className="text-sm text-gray-500 hover:text-white transition-colors block mb-4">
                     &larr; Back to Manage Contests
                 </Link>
                 <h1 className="text-3xl font-bold tracking-tight mb-2">

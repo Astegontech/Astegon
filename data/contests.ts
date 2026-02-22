@@ -4,6 +4,7 @@ export interface Contest {
     slug: string;
     description: string;
     shortDescription: string;
+    problemStatements: string[];
     rules: string[];
     deadline: string;
     criteria: string[];
@@ -20,6 +21,11 @@ export const contests: Contest[] = [
         slug: 'web-development',
         shortDescription: 'Build modern, responsive, and innovative web applications.',
         description: 'Challenge your frontend and backend skills by building a fully functional web application that solves a real-world problem. Focus on modern architecture, responsive design, and exceptional user experience.',
+        problemStatements: [
+            'E-Commerce Platform with real-time inventory management',
+            'AI-powered Customer Support Dashboard',
+            'Collaborative Document Editor with live presence tracking'
+        ],
         rules: [
             'Must use modern web technologies (React/Next.js/Vue/Angular).',
             'Must be responsive across all devices.',
@@ -44,6 +50,11 @@ export const contests: Contest[] = [
         slug: 'software-development',
         shortDescription: 'Create scalable, efficient software systems and tools.',
         description: 'Design and implement a robust software solution. This could be a CLI tool, a desktop application, or a robust backend service API.',
+        problemStatements: [
+            'Distributed Task Queue Server with priority support',
+            'Cross-platform Desktop Database Manager',
+            'High-performance Log Aggregator and Analyzer'
+        ],
         rules: [
             'Language of choice is open (Python, Go, Java, C++, Rust, etc.).',
             'Provide clear documentation on architecture and design decisions.',
@@ -68,6 +79,11 @@ export const contests: Contest[] = [
         slug: 'android-development',
         shortDescription: 'Design and build native or cross-platform Android applications.',
         description: 'Develop an Android application that offers a seamless and engaging mobile experience. Leverage modern mobile frameworks and APIs.',
+        problemStatements: [
+            'Offline-first Personal Finance Tracker',
+            'Location-based AR Travel Guide',
+            'Smart Home IoT Controller Hub'
+        ],
         rules: [
             'Can use Kotlin/Java (Native) or Flutter/React Native (Cross-platform).',
             'Must follow Material Design guidelines.',
@@ -92,6 +108,11 @@ export const contests: Contest[] = [
         slug: 'ios-development',
         shortDescription: 'Craft intuitive and beautiful applications for the Apple ecosystem.',
         description: 'Build an exceptional iOS application. Focus on smooth animations, adherence to Human Interface Guidelines, and robust performance.',
+        problemStatements: [
+            'Machine Learning powered Health & Fitness Coach',
+            'Professional Photo Editing app with CoreImage',
+            'Ambient Productivity Timer with Live Activities'
+        ],
         rules: [
             'Must use Swift/SwiftUI or cross-platform tools compatible with iOS.',
             'Must follow Apple Human Interface Guidelines.',

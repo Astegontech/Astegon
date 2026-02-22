@@ -28,7 +28,7 @@ export default function AdminLayout({
                         </div> */}
 
                         <nav className="space-y-4 px-4 flex-1">
-                            <Link href="/admin/contests" className="flex items-center gap-4 p-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 transition-colors w-full group/link">
+                            <Link href="/admin/registrations" className="flex items-center gap-4 p-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 transition-colors w-full group/link">
                                 <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-lg bg-black/50 border border-white/5 group-hover/link:border-white/20 group-hover/link:bg-white/10 transition-colors">
                                     <Database className="w-5 h-5 group-hover/link:text-emerald-400 transition-colors" />
                                 </div>
@@ -37,7 +37,7 @@ export default function AdminLayout({
                                 </span>
                             </Link>
 
-                            <Link href="/admin/contests/manage" className="flex items-center gap-4 p-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 transition-colors w-full group/link">
+                            <Link href="/admin/contests" className="flex items-center gap-4 p-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 transition-colors w-full group/link">
                                 <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-lg bg-black/50 border border-white/5 group-hover/link:border-white/20 group-hover/link:bg-white/10 transition-colors">
                                     <FolderKanban className="w-5 h-5 group-hover/link:text-purple-400 transition-colors" />
                                 </div>
@@ -50,14 +50,15 @@ export default function AdminLayout({
                 </aside>
 
                 {/* Main Content Area */}
-                <main className="flex-1 w-full min-w-0 p-6 md:p-10 relative overflow-y-auto h-[calc(100vh-4rem)]">
+                <main className="flex-1 w-full min-w-0 p-6 md:p-10 relative">
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.02),transparent_50%)] pointer-events-none fade-in" />
 
-                    <div className="relative z-10 max-w-6xl mx-auto h-full">
+                    <div className="relative z-10 max-w-6xl mx-auto h-full pb-20">
                         {children}
                     </div>
                 </main>
             </div>
+
         </AdminAuth>
     );
 }

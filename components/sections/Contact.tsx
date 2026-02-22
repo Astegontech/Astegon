@@ -66,7 +66,7 @@ const Contact = () => {
         }
         setOtpLoading(true);
         try {
-            const res = await fetch('/api/send-otp', {
+            const res = await fetch('/api/auth/otp/send', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: formData.email }),
@@ -95,7 +95,7 @@ const Contact = () => {
         }
         setOtpLoading(true);
         try {
-            const res = await fetch('/api/verify-otp', {
+            const res = await fetch('/api/auth/otp/verify', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: formData.email, otp: otpInput }),
@@ -129,7 +129,7 @@ const Contact = () => {
         setLoading(true);
         try {
             // Submit to MongoDB
-            const res = await fetch('/api/submit-contact', {
+            const res = await fetch('/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import { Settings2, Loader2, Check, Edit2 } from 'lucide-react';
-import { updateContestStatus } from './actions';
+import { updateContestStatus } from '@/app/admin/contests/actions';
 import Link from 'next/link';
 
-export default function StatusRow({ contest }: { contest: any }) {
+export default function ContestStatusRow({ contest }: { contest: any }) {
     const [isPending, setIsPending] = useState(false);
     const [success, setSuccess] = useState(false);
     const [currentStatus, setCurrentStatus] = useState(contest.status);
@@ -45,7 +45,7 @@ export default function StatusRow({ contest }: { contest: any }) {
                 </span>
             </td>
             <td className="px-6 py-4">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                     <form onSubmit={handleUpdate} className="flex items-center gap-2">
                         <input type="hidden" name="id" value={contest._id} />
                         <select
@@ -71,7 +71,7 @@ export default function StatusRow({ contest }: { contest: any }) {
                     </form>
 
                     <Link
-                        href={`/admin/contests/manage/editor?id=${contest._id}`}
+                        href={`/admin/contests/editor?id=${contest._id}`}
                         className="p-2 bg-white/5 border border-white/10 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-colors"
                         title="Edit Full Contest Details"
                     >

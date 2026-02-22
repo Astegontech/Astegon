@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import connectDB from '../lib/mongodb';
-import ContestRegistrationModel from '../lib/models/ContestRegistration';
+import connectDB from '@/lib/mongodb';
+import ContestRegistrationModel from '@/lib/models/ContestRegistration';
 
 export async function POST(req: NextRequest) {
     try {
-        const { fullName, email, phone, portfolio, category, reason } = await req.json();
+        const { fullName, email, phone, portfolio, category, problemStatement, reason } = await req.json();
 
         // Validate required fields
-        if (!fullName || !email || !phone || !category || !reason) {
+        if (!fullName || !email || !phone || !category || !problemStatement || !reason) {
             return NextResponse.json({
                 error: 'Please fill out all required fields.'
             }, { status: 400 });
@@ -32,6 +32,7 @@ export async function POST(req: NextRequest) {
             phone: phone.trim(),
             portfolio: portfolio?.trim() || '',
             category,
+            problemStatement: problemStatement.trim(),
             reason: reason.trim(),
         });
 
@@ -58,6 +59,7 @@ export async function POST(req: NextRequest) {
                         <p><strong>Name:</strong> ${fullName}</p>
                         <p><strong>Email:</strong> ${email}</p>
                         <p><strong>Phone:</strong> ${phone}</p>
+                        <p><strong>Selected Problem:</strong> ${problemStatement}</p>
                         ${portfolio ? `<p><strong>Portfolio:</strong> <a href="${portfolio}">${portfolio}</a></p>` : ''}
                         <p><strong>Reason to win:</strong></p>
                         <p style="background: #f4f4f4; padding: 10px; border-left: 4px solid #333;">${reason}</p>
