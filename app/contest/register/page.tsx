@@ -64,9 +64,18 @@ export default function PublicContestRegistrationPage() {
         });
     };
 
+    // Track which fields have been touched (to show errors only after interaction)
+    const [touched, setTouched] = useState<Record<string, boolean>>({});
+
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+        setTouched(prev => ({ ...prev, [e.target.name]: true }));
+    };
+
     // Validations
-    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
-    const isPhoneValid = /^\+?[\d\s-]{10,}$/.test(formData.phone);
+    // RFC 5322 compliant email regex
+    const isEmailValid = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/.test(formData.email);
+    // Supports: +91 98765 43210, +1-555-000-0000, 9876543210, (555) 000-0000 etc.
+    const isPhoneValid = /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{3,5}[-\s.]?[0-9]{3,5}$/.test(formData.phone.trim());
     const isFormValid =
         formData.fullName.trim().length > 0 &&
         isEmailValid &&
@@ -167,9 +176,18 @@ export default function PublicContestRegistrationPage() {
                                     required
                                     value={formData.email}
                                     onChange={handleChange}
+                                    onBlur={handleBlur}
                                     placeholder="john@example.com"
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all sm:text-sm"
+                                    className={`w-full bg-white/5 border rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 transition-all sm:text-sm ${touched.email
+                                            ? isEmailValid
+                                                ? 'border-emerald-500/50 focus:ring-emerald-500/20'
+                                                : 'border-red-500/50 focus:ring-red-500/20'
+                                            : 'border-white/10 focus:ring-white/20'
+                                        }`}
                                 />
+                                {touched.email && !isEmailValid && (
+                                    <p className="mt-1.5 text-xs text-red-400">Please enter a valid email address.</p>
+                                )}
                             </div>
                             <div>
                                 <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">
@@ -182,9 +200,18 @@ export default function PublicContestRegistrationPage() {
                                     required
                                     value={formData.phone}
                                     onChange={handleChange}
-                                    placeholder="+1 (555) 000-0000"
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all sm:text-sm"
+                                    onBlur={handleBlur}
+                                    placeholder="+91 98765 43210"
+                                    className={`w-full bg-white/5 border rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 transition-all sm:text-sm ${touched.phone
+                                            ? isPhoneValid
+                                                ? 'border-emerald-500/50 focus:ring-emerald-500/20'
+                                                : 'border-red-500/50 focus:ring-red-500/20'
+                                            : 'border-white/10 focus:ring-white/20'
+                                        }`}
                                 />
+                                {touched.phone && !isPhoneValid && (
+                                    <p className="mt-1.5 text-xs text-red-400">Enter a valid phone number (e.g. +91 98765 43210).</p>
+                                )}
                             </div>
                         </div>
 
