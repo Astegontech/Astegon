@@ -74,8 +74,8 @@ export default function PublicContestRegistrationPage() {
     // Validations
     // RFC 5322 compliant email regex
     const isEmailValid = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/.test(formData.email);
-    // Supports: +91 98765 43210, +1-555-000-0000, 9876543210, (555) 000-0000 etc.
-    const isPhoneValid = /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{3,5}[-\s.]?[0-9]{3,5}$/.test(formData.phone.trim());
+    // Supports: +91 98765 43210 or 9876543210 (10-digit)
+    const isPhoneValid = /^(\+91 \d{5} \d{5}|\d{10})$/.test(formData.phone.trim());
     const isFormValid =
         formData.fullName.trim().length > 0 &&
         isEmailValid &&
@@ -179,10 +179,10 @@ export default function PublicContestRegistrationPage() {
                                     onBlur={handleBlur}
                                     placeholder="john@example.com"
                                     className={`w-full bg-white/5 border rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 transition-all sm:text-sm ${touched.email
-                                            ? isEmailValid
-                                                ? 'border-emerald-500/50 focus:ring-emerald-500/20'
-                                                : 'border-red-500/50 focus:ring-red-500/20'
-                                            : 'border-white/10 focus:ring-white/20'
+                                        ? isEmailValid
+                                            ? 'border-emerald-500/50 focus:ring-emerald-500/20'
+                                            : 'border-red-500/50 focus:ring-red-500/20'
+                                        : 'border-white/10 focus:ring-white/20'
                                         }`}
                                 />
                                 {touched.email && !isEmailValid && (
@@ -203,14 +203,14 @@ export default function PublicContestRegistrationPage() {
                                     onBlur={handleBlur}
                                     placeholder="+91 98765 43210"
                                     className={`w-full bg-white/5 border rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 transition-all sm:text-sm ${touched.phone
-                                            ? isPhoneValid
-                                                ? 'border-emerald-500/50 focus:ring-emerald-500/20'
-                                                : 'border-red-500/50 focus:ring-red-500/20'
-                                            : 'border-white/10 focus:ring-white/20'
+                                        ? isPhoneValid
+                                            ? 'border-emerald-500/50 focus:ring-emerald-500/20'
+                                            : 'border-red-500/50 focus:ring-red-500/20'
+                                        : 'border-white/10 focus:ring-white/20'
                                         }`}
                                 />
                                 {touched.phone && !isPhoneValid && (
-                                    <p className="mt-1.5 text-xs text-red-400">Enter a valid phone number (e.g. +91 98765 43210).</p>
+                                    <p className="mt-1.5 text-xs text-red-400">Use format: +91 98765 43210 or 9876543210.</p>
                                 )}
                             </div>
                         </div>
