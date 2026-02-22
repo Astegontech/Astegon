@@ -20,8 +20,8 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Please enter a valid email address.' }, { status: 400 });
         }
 
-        // Validate phone format (+91 98765 43210 or 9876543210)
-        const phoneRegex = /^(\+91 \d{5} \d{5}|\d{10})$/;
+        // Validate phone format (+91XXXXXXXXXX or XXXXXXXXXX)
+        const phoneRegex = /^(\+91\d{10}|\d{10})$/;
         if (!phoneRegex.test(phone.trim())) {
             return NextResponse.json({ error: 'Please enter a valid phone number.' }, { status: 400 });
         }

@@ -74,8 +74,8 @@ export default function PublicContestRegistrationPage() {
     // Validations
     // RFC 5322 compliant email regex
     const isEmailValid = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/.test(formData.email);
-    // Supports: +91 98765 43210 or 9876543210 (10-digit)
-    const isPhoneValid = /^(\+91 \d{5} \d{5}|\d{10})$/.test(formData.phone.trim());
+    // Supports: +91XXXXXXXXXX or XXXXXXXXXX (10-digit)
+    const isPhoneValid = /^(\+91\d{10}|\d{10})$/.test(formData.phone.trim());
     const isFormValid =
         formData.fullName.trim().length > 0 &&
         isEmailValid &&
@@ -210,7 +210,7 @@ export default function PublicContestRegistrationPage() {
                                         }`}
                                 />
                                 {touched.phone && !isPhoneValid && (
-                                    <p className="mt-1.5 text-xs text-red-400">Use format: +91 98765 43210 or 9876543210.</p>
+                                    <p className="mt-1.5 text-xs text-red-400">Use format: +91xxxxxxxxxx or xxxxxxxxxx.</p>
                                 )}
                             </div>
                         </div>
