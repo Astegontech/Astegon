@@ -91,6 +91,16 @@ export default function PublicContestRegistrationPage() {
         });
     };
 
+    const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const val = e.target.value;
+        // If starts with +91, allow max 13 chars (+91 + 10 digits)
+        // Otherwise allow max 10 digits only
+        const max = val.startsWith('+') ? 13 : 10;
+        if (val.length <= max) {
+            setFormData({ ...formData, phone: val });
+        }
+    };
+
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -199,9 +209,10 @@ export default function PublicContestRegistrationPage() {
                                     name="phone"
                                     required
                                     value={formData.phone}
-                                    onChange={handleChange}
+                                    onChange={handlePhoneChange}
                                     onBlur={handleBlur}
-                                    placeholder="+91 98765 43210"
+                                    placeholder={formData.phone.startsWith('+') ? '+91XXXXXXXXXX' : 'XXXXXXXXXX'}
+                                    maxLength={formData.phone.startsWith('+') ? 13 : 10}
                                     className={`w-full bg-white/5 border rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 transition-all sm:text-sm ${touched.phone
                                         ? isPhoneValid
                                             ? 'border-emerald-500/50 focus:ring-emerald-500/20'
