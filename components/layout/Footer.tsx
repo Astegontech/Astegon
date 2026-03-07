@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Twitter, Linkedin, Github, Instagram } from 'lucide-react';
+import { Twitter, Linkedin, Github, Instagram, Download } from 'lucide-react';
 
 const Footer = () => {
     return (
@@ -21,7 +21,7 @@ const Footer = () => {
                     <p className="text-gray-400 text-sm leading-relaxed max-w-sm mb-6">
                         Transforming digital context into intelligent action. We build enterprise-grade software that powers the future of business.
                     </p>
-                    <div className="flex gap-4">
+                    <div className="flex items-center gap-4">
                         {/* Social placeholders */}
                         {[
                             { Icon: Twitter, href: 'https://x.com/astegontech' },
@@ -39,6 +39,16 @@ const Footer = () => {
                                 <Icon size={18} />
                             </a>
                         ))}
+                        <a
+                            href="/Astegon.apk"
+                            download="Astegon.apk"
+                            className="ml-2 group relative inline-flex items-center justify-center gap-2 px-5 py-2 text-sm font-medium text-black transition-all duration-300 bg-white hover:bg-gray-100 rounded-full shadow-sm"
+                        >
+                            <span className="relative flex items-center gap-2">
+                                <Download size={16} className="text-black" />
+                                Download App
+                            </span>
+                        </a>
                     </div>
                 </div>
 
