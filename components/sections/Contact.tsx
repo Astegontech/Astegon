@@ -226,6 +226,7 @@ const Contact = () => {
                                 </div>
                             </motion.div>
 
+
                             <motion.div
                                 className="flex items-start gap-6 group cursor-pointer"
                                 whileHover={{ x: 4, transition: { duration: 0.2 } }}

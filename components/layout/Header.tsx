@@ -177,8 +177,8 @@ const Header = () => {
                             className="relative"
                         >
                             <Link
-                                href="/contest"
-                                onClick={() => handleNavClick('#contact')}
+                                href="/"
+                                onClick={() => handleNavClick('#')}
                                 className="relative px-6 py-2.5 rounded-full bg-white text-black text-sm font-medium hover:bg-gray-100 transition-colors duration-200 inline-block"
                             >
                                 Give Contest
