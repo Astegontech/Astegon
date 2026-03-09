@@ -9,6 +9,10 @@ interface Props {
     delay?: number;
 }
 
+const styles = {
+    wrapper: "relative overflow-hidden",
+};
+
 export const Reveal = ({ children, width = "fit-content", delay = 0.25 }: Props) => {
     const ref = useRef(null);
     const isInView = useInView(ref);
@@ -23,7 +27,7 @@ export const Reveal = ({ children, width = "fit-content", delay = 0.25 }: Props)
     }, [isInView, mainControls]);
 
     return (
-        <div ref={ref} style={{ position: "relative", width, overflow: "hidden" }}>
+        <div ref={ref} className={styles.wrapper} style={{ width }}>
             <motion.div
                 variants={{
                     hidden: { opacity: 0, y: 75 },

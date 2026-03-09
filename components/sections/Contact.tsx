@@ -169,15 +169,46 @@ const Contact = () => {
         return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
     };
 
+    const styles = {
+        section: "py-16 bg-[#000000] border-t border-white/5",
+        container: "max-w-7xl mx-auto px-4 sm:px-6",
+        headerContainer: "mb-20",
+        eyebrow: "inline-block mb-4 text-xs font-light text-white/40 tracking-[0.3em] uppercase",
+        title: "text-4xl md:text-5xl lg:text-6xl font-light text-white mb-6 tracking-tight font-heading",
+        divider: "w-16 h-px bg-white/20 mb-8",
+        description: "text-lg text-white/40 max-w-2xl font-light leading-relaxed",
+        mainContentGrid: "flex flex-col md:flex-row gap-16 -mx-2",
+        infoColumn: "flex-1",
+        infoGroup: "space-y-8",
+        infoItem: "flex items-start gap-6 group cursor-pointer",
+        iconWrapperEmail: "p-4 rounded-xl bg-indigo-500/10 text-indigo-400 group-hover:bg-indigo-500/20 transition-colors",
+        iconWrapperMap: "p-4 rounded-xl bg-cyan-500/10 text-cyan-400 group-hover:bg-cyan-500/20 transition-colors",
+        infoTitle: "text-white font-bold mb-1 font-heading",
+        infoTextLink: "text-gray-400 hover:text-white transition-colors",
+        infoText: "text-gray-400",
+        formColumn: "flex-1",
+        form: "space-y-6",
+        hiddenInput: "hidden",
+        label: "block text-sm font-medium mb-2 text-white/70",
+        inputGroup: "flex flex-col sm:flex-row gap-2",
+        input: "flex-1 px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all",
+        inputFull: "w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all",
+        textarea: "w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all resize-none",
+        actionButtonPrimary: "px-4 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition disabled:opacity-50 whitespace-nowrap",
+        actionButtonSuccess: "px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-500 transition whitespace-nowrap",
+        badgeSuccess: "px-4 py-3 bg-green-600/20 text-green-400 rounded-lg border border-green-500/30",
+        submitButton: "w-full py-4 bg-white text-black font-medium rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 transition-colors"
+    };
+
     return (
-        <section className="py-16 bg-[#000000] border-t border-white/5" id="contact">
+        <section className={styles.section} id="contact">
             <Toaster position="top-right" />
-            <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className={styles.container}>
                 {/* Header */}
-                <div className="mb-20">
+                <div className={styles.headerContainer}>
                     <Reveal>
                         <motion.div
-                            className="inline-block mb-4 text-xs font-light text-white/40 tracking-[0.3em] uppercase"
+                            className={styles.eyebrow}
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
                             transition={{ duration: 0.8 }}
@@ -187,56 +218,56 @@ const Contact = () => {
                     </Reveal>
 
                     <Reveal delay={0.1}>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-6 tracking-tight font-heading">
+                        <h2 className={styles.title}>
                             Let's Connect
                         </h2>
                     </Reveal>
 
                     <Reveal delay={0.2}>
-                        <div className="w-16 h-px bg-white/20 mb-8" />
+                        <div className={styles.divider} />
                     </Reveal>
 
                     <Reveal delay={0.3}>
-                        <p className="text-lg text-white/40 max-w-2xl font-light leading-relaxed">
+                        <p className={styles.description}>
                             Have a project in mind? We'd love to hear about it. Send us a message and we'll get back to you within 24 hours.
                         </p>
                     </Reveal>
                 </div>
 
-                <div className="flex flex-col md:flex-row gap-16 -mx-2">
+                <div className={styles.mainContentGrid}>
                     {/* Info */}
                     <motion.div
-                        className="flex-1"
+                        className={styles.infoColumn}
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <div className="space-y-8">
+                        <div className={styles.infoGroup}>
                             <motion.div
-                                className="flex items-start gap-6 group cursor-pointer"
+                                className={styles.infoItem}
                                 whileHover={{ x: 4, transition: { duration: 0.2 } }}
                             >
-                                <div className="p-4 rounded-xl bg-indigo-500/10 text-indigo-400 group-hover:bg-indigo-500/20 transition-colors">
+                                <div className={styles.iconWrapperEmail}>
                                     <Mail size={24} />
                                 </div>
                                 <div>
-                                    <h4 className="text-white font-bold mb-1 font-heading">Email Us</h4>
-                                    <a href="mailto:contact@astegon.com" className="text-gray-400 hover:text-white transition-colors">contact@astegon.com</a>
+                                    <h4 className={styles.infoTitle}>Email Us</h4>
+                                    <a href="mailto:contact@astegon.com" className={styles.infoTextLink}>contact@astegon.com</a>
                                 </div>
                             </motion.div>
 
 
                             <motion.div
-                                className="flex items-start gap-6 group cursor-pointer"
+                                className={styles.infoItem}
                                 whileHover={{ x: 4, transition: { duration: 0.2 } }}
                             >
-                                <div className="p-4 rounded-xl bg-cyan-500/10 text-cyan-400 group-hover:bg-cyan-500/20 transition-colors">
+                                <div className={styles.iconWrapperMap}>
                                     <MapPin size={24} />
                                 </div>
                                 <div>
-                                    <h4 className="text-white font-bold mb-1 font-heading">Global HQ</h4>
-                                    <p className="text-gray-400">BTM Layout, Bangalore, Karnataka</p>
+                                    <h4 className={styles.infoTitle}>Global HQ</h4>
+                                    <p className={styles.infoText}>BTM Layout, Bangalore, Karnataka</p>
                                 </div>
                             </motion.div>
                         </div>
@@ -248,9 +279,9 @@ const Contact = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className="flex-1"
+                        className={styles.formColumn}
                     >
-                        <form onSubmit={handleSubmit} className="space-y-6">
+                        <form onSubmit={handleSubmit} className={styles.form}>
                             {/* Honeypot */}
                             <input
                                 type="text"
@@ -259,20 +290,20 @@ const Contact = () => {
                                 onChange={handleChange}
                                 tabIndex={-1}
                                 autoComplete="off"
-                                className="hidden"
+                                className={styles.hiddenInput}
                             />
 
                             {/* Email + OTP */}
                             <div>
-                                <label className="block text-sm font-medium mb-2 text-white/70">Email *</label>
-                                <div className="flex flex-col sm:flex-row gap-2">
+                                <label className={styles.label}>Email *</label>
+                                <div className={styles.inputGroup}>
                                     <input
                                         type="email"
                                         name="email"
                                         value={formData.email}
                                         onChange={handleChange}
                                         required
-                                        className="flex-1 px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
+                                        className={styles.input}
                                         disabled={otpVerified}
                                         placeholder="Enter your email"
                                     />
@@ -281,7 +312,7 @@ const Contact = () => {
                                             type="button"
                                             onClick={sendOtp}
                                             disabled={otpLoading || resendCooldown > 0}
-                                            className="px-4 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition disabled:opacity-50 whitespace-nowrap"
+                                            className={styles.actionButtonPrimary}
                                         >
                                             {otpLoading
                                                 ? 'Sending…'
@@ -293,7 +324,7 @@ const Contact = () => {
                                         </button>
                                     )}
                                     {otpVerified && (
-                                        <span className="px-4 py-3 bg-green-600/20 text-green-400 rounded-lg border border-green-500/30">
+                                        <span className={styles.badgeSuccess}>
                                             ✓ Verified
                                         </span>
                                     )}
@@ -302,22 +333,22 @@ const Contact = () => {
 
                             {otpSent && !otpVerified && (
                                 <div>
-                                    <label className="block text-sm font-medium mb-2 text-white/70">
+                                    <label className={styles.label}>
                                         Enter OTP (expires in {formatTime(otpTimer)}) *
                                     </label>
-                                    <div className="flex flex-col sm:flex-row gap-2">
+                                    <div className={styles.inputGroup}>
                                         <input
                                             type="text"
                                             value={otpInput}
                                             onChange={(e) => setOtpInput(e.target.value)}
-                                            className="flex-1 px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
+                                            className={styles.input}
                                             placeholder="Enter OTP"
                                         />
                                         <button
                                             type="button"
                                             onClick={verifyOtp}
                                             disabled={otpLoading}
-                                            className="px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-500 transition whitespace-nowrap"
+                                            className={styles.actionButtonSuccess}
                                         >
                                             {otpLoading ? 'Verifying…' : 'Verify OTP'}
                                         </button>
@@ -327,46 +358,46 @@ const Contact = () => {
 
                             {/* Name */}
                             <div>
-                                <label className="block text-sm font-medium mb-2 text-white/70">Name *</label>
+                                <label className={styles.label}>Name *</label>
                                 <input
                                     type="text"
                                     name="name"
                                     value={formData.name}
                                     onChange={handleChange}
                                     required
-                                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
+                                    className={styles.inputFull}
                                 />
                             </div>
 
                             {/* Company */}
                             <div>
-                                <label className="block text-sm font-medium mb-2 text-white/70">Company</label>
+                                <label className={styles.label}>Company</label>
                                 <input
                                     type="text"
                                     name="company"
                                     value={formData.company}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
+                                    className={styles.inputFull}
                                 />
                             </div>
 
                             {/* Message */}
                             <div>
-                                <label className="block text-sm font-medium mb-2 text-white/70">Message *</label>
+                                <label className={styles.label}>Message *</label>
                                 <textarea
                                     name="message"
                                     value={formData.message}
                                     onChange={handleChange}
                                     required
                                     rows={6}
-                                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all resize-none"
+                                    className={styles.textarea}
                                 />
                             </div>
 
                             <button
                                 type="submit"
                                 disabled={loading || !otpVerified}
-                                className="w-full py-4 bg-white text-black font-medium rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 transition-colors"
+                                className={styles.submitButton}
                             >
                                 {loading ? 'Sending…' : 'Send Message'}
                             </button>

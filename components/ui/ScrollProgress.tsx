@@ -2,6 +2,10 @@
 
 import { motion, useScroll, useSpring } from 'framer-motion';
 
+const styles = {
+    progressBar: "fixed top-0 left-0 right-0 h-1 bg-indigo-500 origin-left z-[100]"
+};
+
 const ScrollProgress = () => {
     const { scrollYProgress } = useScroll();
     const scaleX = useSpring(scrollYProgress, {
@@ -12,7 +16,7 @@ const ScrollProgress = () => {
 
     return (
         <motion.div
-            className="fixed top-0 left-0 right-0 h-1 bg-indigo-500 origin-left z-[100]"
+            className={styles.progressBar}
             style={{ scaleX }}
         />
     );

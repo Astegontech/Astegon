@@ -64,6 +64,36 @@ const services = [
     },
 ];
 
+const styles = {
+    section: "relative min-h-screen py-20 bg-black",
+    gradientBackground: "absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-zinc-900/20 via-black to-black",
+    gridOverlay: "absolute inset-0 opacity-[0.015]",
+    container: "relative max-w-7xl mx-auto px-4 sm:px-6",
+    headerContainer: "mb-24",
+    eyebrow: "inline-block mb-4 text-xs font-light text-white/40 tracking-[0.3em] uppercase",
+    title: "text-4xl md:text-5xl lg:text-6xl font-light text-white mb-6 tracking-tight font-heading",
+    divider: "w-16 h-px bg-white/20 mb-8",
+    description: "text-lg text-white/40 max-w-2xl font-light leading-relaxed",
+    servicesGrid: "grid grid-cols-1 md:grid-cols-4 gap-8",
+    cardWrapper: "group",
+    cardHeightFixed: "relative h-full",
+    cardInner: "relative h-full bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden backdrop-blur-sm",
+    imageSection: "relative h-40 overflow-hidden bg-black/40",
+    imageMotionWrapper: "w-full h-full",
+    imageStyle: "w-full h-full object-cover",
+    numberBadge: "absolute top-3 right-3 w-10 h-10 rounded-full border border-white/20 backdrop-blur-md flex items-center justify-center",
+    numberText: "text-white/60 text-xs font-light",
+    contentSection: "p-6",
+    iconContainer: "w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 group-hover:bg-white/10 group-hover:border-white/20 transition-all duration-300",
+    iconStyle: "w-5 h-5 text-white/70",
+    serviceTitle: "text-xl font-light text-white mb-2 tracking-tight font-heading",
+    serviceDescription: "text-sm text-white/50 leading-relaxed mb-4 font-light",
+    ctaContainer: "inline-flex items-center gap-2 text-sm text-white/60 group-hover:text-white/90 transition-colors cursor-pointer",
+    ctaLink: "font-light",
+    arrowIcon: "w-4 h-4",
+    bottomBorderGlow: "absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+};
+
 const ServiceCard = ({ service, index }: { service: typeof services[0]; index: number }) => {
     return (
         <motion.div
@@ -75,68 +105,68 @@ const ServiceCard = ({ service, index }: { service: typeof services[0]; index: n
                 delay: index * 0.1,
                 ease: [0.25, 0.1, 0.25, 1],
             }}
-            className="group"
+            className={styles.cardWrapper}
         >
-            <div className="relative h-full">
+            <div className={styles.cardHeightFixed}>
                 {/* Card Container */}
                 <motion.div
-                    className="relative h-full bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden backdrop-blur-sm"
+                    className={styles.cardInner}
                     whileHover={{ borderColor: 'rgba(255, 255, 255, 0.2)' }}
                     transition={{ duration: 0.3 }}
                 >
                     {/* Image Section */}
-                    <div className="relative h-40 overflow-hidden bg-black/40">
+                    <div className={styles.imageSection}>
                         <motion.div
                             whileHover={{ scale: 1.05 }}
                             transition={{ duration: 0.6, ease: 'easeOut' }}
-                            className="w-full h-full"
+                            className={styles.imageMotionWrapper}
                         >
                             <Image
                                 src={service.image}
                                 alt={service.title}
                                 width={500}
                                 height={300}
-                                className="w-full h-full object-cover"
+                                className={styles.imageStyle}
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                             />
                         </motion.div>
 
                         {/* Number Badge */}
-                        <div className="absolute top-3 right-3 w-10 h-10 rounded-full border border-white/20 backdrop-blur-md flex items-center justify-center">
-                            <span className="text-white/60 text-xs font-light">{service.number}</span>
+                        <div className={styles.numberBadge}>
+                            <span className={styles.numberText}>{service.number}</span>
                         </div>
                     </div>
 
                     {/* Content Section */}
-                    <div className="p-6">
+                    <div className={styles.contentSection}>
                         {/* Icon */}
-                        <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 group-hover:bg-white/10 group-hover:border-white/20 transition-all duration-300">
-                            <service.icon className="w-5 h-5 text-white/70" strokeWidth={1.5} />
+                        <div className={styles.iconContainer}>
+                            <service.icon className={styles.iconStyle} strokeWidth={1.5} />
                         </div>
 
                         {/* Title */}
-                        <h3 className="text-xl font-light text-white mb-2 tracking-tight font-heading">
+                        <h3 className={styles.serviceTitle}>
                             {service.title}
                         </h3>
 
                         {/* Description */}
-                        <p className="text-sm text-white/50 leading-relaxed mb-4 font-light">
+                        <p className={styles.serviceDescription}>
                             {service.description}
                         </p>
 
                         {/* CTA Link */}
                         <motion.div
-                            className="inline-flex items-center gap-2 text-sm text-white/60 group-hover:text-white/90 transition-colors cursor-pointer"
+                            className={styles.ctaContainer}
                             whileHover={{ x: 4 }}
                             transition={{ duration: 0.2 }}
                         >
-                            <a href="#contact" className="font-light">Learn more</a>
-                            <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
+                            <a href="#contact" className={styles.ctaLink}>Learn more</a>
+                            <ArrowRight className={styles.arrowIcon} strokeWidth={1.5} />
                         </motion.div>
                     </div>
 
                     {/* Subtle Bottom Border */}
-                    <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className={styles.bottomBorderGlow} />
                 </motion.div>
             </div>
         </motion.div>
@@ -145,13 +175,13 @@ const ServiceCard = ({ service, index }: { service: typeof services[0]; index: n
 
 const Services = () => {
     return (
-        <section className="relative min-h-screen py-20 bg-black" id="services">
+        <section className={styles.section} id="services">
             {/* Subtle Radial Gradient */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-zinc-900/20 via-black to-black" />
+            <div className={styles.gradientBackground} />
 
             {/* Very Subtle Grid */}
             <div
-                className="absolute inset-0 opacity-[0.015]"
+                className={styles.gridOverlay}
                 style={{
                     backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
                                      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)`,
@@ -159,12 +189,12 @@ const Services = () => {
                 }}
             />
 
-            <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
+            <div className={styles.container}>
                 {/* Minimal Header */}
-                <div className="mb-24">
+                <div className={styles.headerContainer}>
                     <Reveal>
                         <motion.div
-                            className="inline-block mb-4 text-xs font-light text-white/40 tracking-[0.3em] uppercase"
+                            className={styles.eyebrow}
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
                             transition={{ duration: 0.8 }}
@@ -174,24 +204,24 @@ const Services = () => {
                     </Reveal>
 
                     <Reveal delay={0.1}>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-6 tracking-tight font-heading">
+                        <h2 className={styles.title}>
                             What We Do
                         </h2>
                     </Reveal>
 
                     <Reveal delay={0.2}>
-                        <div className="w-16 h-px bg-white/20 mb-8" />
+                        <div className={styles.divider} />
                     </Reveal>
 
                     <Reveal delay={0.3}>
-                        <p className="text-lg text-white/40 max-w-2xl font-light leading-relaxed">
+                        <p className={styles.description}>
                             Delivering exceptional digital solutions through meticulous attention to detail and innovative thinking.
                         </p>
                     </Reveal>
                 </div>
 
                 {/* Services Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div className={styles.servicesGrid}>
                     {services.map((service, index) => (
                         <ServiceCard key={index} service={service} index={index} />
                     ))}

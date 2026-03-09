@@ -3,6 +3,11 @@
 import { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
+const styles = {
+  outerRing: "fixed top-0 left-0 rounded-full pointer-events-none z-[9999]",
+  innerDot: "fixed top-0 left-0 rounded-full pointer-events-none z-[9999]"
+};
+
 export default function Cursor() {
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
@@ -62,7 +67,7 @@ export default function Cursor() {
     <>
       {/* Outer Ring - Minimal */}
       <motion.div
-        className="fixed top-0 left-0 rounded-full pointer-events-none z-[9999]"
+        className={styles.outerRing}
         style={{
           width: 32,
           height: 32,
@@ -85,7 +90,7 @@ export default function Cursor() {
 
       {/* Inner Dot - Precise */}
       <motion.div
-        className="fixed top-0 left-0 rounded-full pointer-events-none z-[9999]"
+        className={styles.innerDot}
         style={{
           width: 6,
           height: 6,

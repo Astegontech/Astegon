@@ -7,6 +7,32 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
+const styles = {
+    header: "fixed top-0 left-0 w-full z-[100] border-b border-white/5 transition-all duration-300",
+    container: "max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between",
+    logoLink: "flex items-center gap-2 group z-[101]",
+    logoWrapper: "relative flex items-center justify-start",
+    logoImage: "w-auto h-10 sm:h-14 object-contain",
+    desktopNavContainer: "hidden md:flex items-center gap-8",
+    desktopNavItem: "relative text-sm font-medium transition-colors duration-200 py-1",
+    desktopNavItemActive: "text-white",
+    desktopNavItemInactive: "text-gray-400 hover:text-white",
+    navIndicator: "absolute bottom-0 left-0 right-0 h-px bg-white",
+    getStartedWrapperDesktop: "relative",
+    getStartedBtnDesktop: "relative px-6 py-2.5 rounded-full bg-white text-black text-sm font-medium hover:bg-gray-100 transition-colors duration-200 inline-block",
+    getStartedGlow: "absolute inset-0 rounded-full bg-white/20 blur-md -z-10",
+    mobileMenuBtn: "md:hidden w-10 h-10 flex items-center justify-center text-white z-[101]",
+    mobileBackdrop: "fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] md:hidden",
+    mobilePanel: "fixed top-0 right-0 bottom-0 w-[75%] max-w-[300px] bg-black/95 backdrop-blur-xl border-l border-white/10 z-[95] md:hidden",
+    mobileContainer: "flex flex-col h-full pt-20 px-6",
+    mobileNav: "flex flex-col gap-1",
+    mobileNavItem: "block px-4 py-3 rounded-lg text-lg font-medium transition-all duration-200",
+    mobileNavItemActive: "bg-white/10 text-white",
+    mobileNavItemInactive: "text-gray-400 hover:bg-white/5 hover:text-white",
+    getStartedWrapperMobile: "mt-8",
+    getStartedBtnMobile: "block w-full px-6 py-3 rounded-full bg-white text-black text-center text-sm font-medium hover:bg-gray-100 transition-colors duration-200"
+};
+
 const Header = () => {
     const pathname = usePathname();
     const [activeSection, setActiveSection] = useState('');
@@ -116,7 +142,7 @@ const Header = () => {
     return (
         <>
             <motion.header
-                className="fixed top-0 left-0 w-full z-[100] border-b border-white/5 transition-all duration-300"
+                className={styles.header}
                 style={{
                     backgroundColor: scrolled ? 'rgba(0, 0, 0, 0.8)' : 'transparent',
                     backdropFilter: scrolled ? 'blur(12px)' : 'blur(4px)',
@@ -125,10 +151,10 @@ const Header = () => {
                 animate={{ y: 0 }}
                 transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             >
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-                    <Link href="/" className="flex items-center gap-2 group z-[101]">
+                <div className={styles.container}>
+                    <Link href="/" className={styles.logoLink}>
                         <motion.div
-                            className="relative flex items-center justify-start"
+                            className={styles.logoWrapper}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >
@@ -137,20 +163,20 @@ const Header = () => {
                                 alt="Astegon Logo"
                                 width={300}
                                 height={150}
-                                className="w-auto h-10 sm:h-14 object-contain"
+                                className={styles.logoImage}
                                 priority
                             />
                         </motion.div>
                     </Link>
 
                     {/* Desktop Nav Items */}
-                    <div className="hidden md:flex items-center gap-8">
+                    <div className={styles.desktopNavContainer}>
                         {navItems.map((item) => (
                             <Link
                                 key={item.name}
                                 href={item.href}
                                 onClick={() => handleNavClick(item.href)}
-                                className="relative text-sm font-medium text-gray-400 hover:text-white transition-colors duration-200 py-1"
+                                className={`${styles.desktopNavItem} ${isActive(item.href) ? styles.desktopNavItemActive : styles.desktopNavItemInactive}`}
                             >
                                 {item.name}
 
@@ -158,7 +184,7 @@ const Header = () => {
                                 <AnimatePresence>
                                     {isActive(item.href) && (
                                         <motion.div
-                                            className="absolute bottom-0 left-0 right-0 h-px bg-white"
+                                            className={styles.navIndicator}
                                             layoutId="navbar-indicator"
                                             initial={{ opacity: 0, scaleX: 0 }}
                                             animate={{ opacity: 1, scaleX: 1 }}
@@ -174,19 +200,19 @@ const Header = () => {
                         <motion.div
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="relative"
+                            className={styles.getStartedWrapperDesktop}
                         >
                             <Link
                                 href="/"
                                 onClick={() => handleNavClick('#')}
-                                className="relative px-6 py-2.5 rounded-full bg-white text-black text-sm font-medium hover:bg-gray-100 transition-colors duration-200 inline-block"
+                                className={styles.getStartedBtnDesktop}
                             >
                                 Give Contest
                             </Link>
 
                             {/* Subtle glow on hover */}
                             <motion.div
-                                className="absolute inset-0 rounded-full bg-white/20 blur-md -z-10"
+                                className={styles.getStartedGlow}
                                 initial={{ opacity: 0, scale: 0.8 }}
                                 whileHover={{ opacity: 1, scale: 1.1 }}
                                 transition={{ duration: 0.3 }}
@@ -196,7 +222,7 @@ const Header = () => {
 
                     {/* Mobile Menu Button */}
                     <motion.button
-                        className="md:hidden w-10 h-10 flex items-center justify-center text-white z-[101]"
+                        className={styles.mobileMenuBtn}
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                         whileTap={{ scale: 0.95 }}
                         aria-label="Toggle menu"
@@ -216,7 +242,7 @@ const Header = () => {
                     <>
                         {/* Backdrop */}
                         <motion.div
-                            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] md:hidden"
+                            className={styles.mobileBackdrop}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
@@ -226,15 +252,15 @@ const Header = () => {
 
                         {/* Mobile Menu Panel */}
                         <motion.div
-                            className="fixed top-0 right-0 bottom-0 w-[75%] max-w-[300px] bg-black/95 backdrop-blur-xl border-l border-white/10 z-[95] md:hidden"
+                            className={styles.mobilePanel}
                             initial={{ x: '100%' }}
                             animate={{ x: 0 }}
                             exit={{ x: '100%' }}
                             transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
                         >
-                            <div className="flex flex-col h-full pt-20 px-6">
+                            <div className={styles.mobileContainer}>
                                 {/* Mobile Nav Items */}
-                                <nav className="flex flex-col gap-1">
+                                <nav className={styles.mobileNav}>
                                     {navItems.map((item, index) => (
                                         <motion.div
                                             key={item.name}
@@ -245,9 +271,9 @@ const Header = () => {
                                             <Link
                                                 href={item.href}
                                                 onClick={() => handleNavClick(item.href)}
-                                                className={`block px-4 py-3 rounded-lg text-lg font-medium transition-all duration-200 ${isActive(item.href)
-                                                    ? 'bg-white/10 text-white'
-                                                    : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                                className={`${styles.mobileNavItem} ${isActive(item.href)
+                                                    ? styles.mobileNavItemActive
+                                                    : styles.mobileNavItemInactive
                                                     }`}
                                             >
                                                 {item.name}
@@ -258,7 +284,7 @@ const Header = () => {
 
                                 {/* Mobile Get Started Button */}
                                 <motion.div
-                                    className="mt-8"
+                                    className={styles.getStartedWrapperMobile}
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.4, duration: 0.3 }}
@@ -266,7 +292,7 @@ const Header = () => {
                                     <Link
                                         href="/#contact"
                                         onClick={() => handleNavClick('#contact')}
-                                        className="block w-full px-6 py-3 rounded-full bg-white text-black text-center text-sm font-medium hover:bg-gray-100 transition-colors duration-200"
+                                        className={styles.getStartedBtnMobile}
                                     >
                                         Get Started
                                     </Link>
