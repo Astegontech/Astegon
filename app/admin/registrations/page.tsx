@@ -16,6 +16,39 @@ interface IRegistration {
     submittedAt: string;
 }
 
+const styles = {
+    headerContainer: "mb-8",
+    title: "text-3xl font-bold tracking-tight mb-2",
+    subtitle: "text-gray-400",
+    emptyState: "bg-white/5 border border-white/10 p-10 rounded-2xl text-center",
+    tableContainer: "bg-white/[0.02] border border-white/10 rounded-2xl overflow-x-auto",
+    table: "w-full text-left text-sm text-gray-400 min-w-[1000px]",
+    tableHeaderRow: "bg-white/5 text-xs uppercase border-b border-white/10",
+    tableHeaderCell: "px-6 py-4 font-medium text-gray-300",
+    tableHeaderCellRight: "px-6 py-4 font-medium text-gray-300 text-right",
+    tableRow: "border-b border-white/5 hover:bg-white/[0.02] transition-colors",
+    tableCell: "px-6 py-4 whitespace-nowrap",
+    entrantContainer: "flex items-center gap-3",
+    avatarBox: "w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0",
+    avatarIcon: "w-4 h-4 text-gray-400",
+    entrantDetails: "flex flex-col",
+    entrantName: "text-white font-medium text-sm",
+    entrantEmail: "text-xs text-gray-500 hover:text-white transition-colors mt-0.5",
+    categoryBadge: "inline-block px-3 py-1 bg-purple-500/10 text-purple-400 text-[10px] uppercase tracking-wider font-semibold rounded-full border border-purple-500/20",
+    problemCell: "px-6 py-4",
+    problemText: "text-xs text-gray-300 font-medium leading-relaxed line-clamp-2 max-w-[200px]",
+    contactLinksContainer: "flex flex-col gap-1.5 text-xs",
+    contactLinkRow: "flex items-center gap-2",
+    contactIcon: "w-3.5 h-3.5 text-gray-500",
+    portfolioLink: "text-blue-400 hover:text-white transition-colors truncate max-w-[150px]",
+    noLinkText: "flex items-center gap-2 text-gray-600",
+    emptyIcon: "w-3.5 h-3.5",
+    reasonCell: "px-6 py-4",
+    reasonText: "text-xs text-gray-400 leading-relaxed line-clamp-2 max-w-[200px]",
+    dateCell: "px-6 py-4 whitespace-nowrap text-right text-xs text-gray-500",
+    timeText: "text-[10px]"
+};
+
 export default async function AdminContestRegistrationsPage() {
     await connectDB();
 
@@ -25,75 +58,75 @@ export default async function AdminContestRegistrationsPage() {
 
     return (
         <div>
-            <div className="mb-8">
-                <h1 className="text-3xl font-bold tracking-tight mb-2">Registrations Inbox</h1>
-                <p className="text-gray-400">View and manage all incoming contest entries.</p>
+            <div className={styles.headerContainer}>
+                <h1 className={styles.title}>Registrations Inbox</h1>
+                <p className={styles.subtitle}>View and manage all incoming contest entries.</p>
             </div>
 
             {registrations.length === 0 ? (
-                <div className="bg-white/5 border border-white/10 p-10 rounded-2xl text-center">
-                    <p className="text-gray-400">No registrations found yet. Share your contest links!</p>
+                <div className={styles.emptyState}>
+                    <p className={styles.subtitle}>No registrations found yet. Share your contest links!</p>
                 </div>
             ) : (
-                <div className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-x-auto">
-                    <table className="w-full text-left text-sm text-gray-400 min-w-[1000px]">
-                        <thead className="bg-white/5 text-xs uppercase border-b border-white/10">
+                <div className={styles.tableContainer}>
+                    <table className={styles.table}>
+                        <thead className={styles.tableHeaderRow}>
                             <tr>
-                                <th scope="col" className="px-6 py-4 font-medium text-gray-300">Entrant</th>
-                                <th scope="col" className="px-6 py-4 font-medium text-gray-300">Category</th>
-                                <th scope="col" className="px-6 py-4 font-medium text-gray-300">Selected Problem</th>
-                                <th scope="col" className="px-6 py-4 font-medium text-gray-300">Contact & Links</th>
-                                <th scope="col" className="px-6 py-4 font-medium text-gray-300">Reason to Win</th>
-                                <th scope="col" className="px-6 py-4 font-medium text-gray-300 text-right">Submitted</th>
+                                <th scope="col" className={styles.tableHeaderCell}>Entrant</th>
+                                <th scope="col" className={styles.tableHeaderCell}>Category</th>
+                                <th scope="col" className={styles.tableHeaderCell}>Selected Problem</th>
+                                <th scope="col" className={styles.tableHeaderCell}>Contact & Links</th>
+                                <th scope="col" className={styles.tableHeaderCell}>Reason to Win</th>
+                                <th scope="col" className={styles.tableHeaderCellRight}>Submitted</th>
                             </tr>
                         </thead>
                         <tbody>
                             {registrations.map((reg) => (
-                                <tr key={reg._id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                                <tr key={reg._id} className={styles.tableRow}>
                                     {/* Entrant Profile */}
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-                                                <User className="w-4 h-4 text-gray-400" />
+                                    <td className={styles.tableCell}>
+                                        <div className={styles.entrantContainer}>
+                                            <div className={styles.avatarBox}>
+                                                <User className={styles.avatarIcon} />
                                             </div>
-                                            <div className="flex flex-col">
-                                                <span className="text-white font-medium text-sm">{reg.fullName}</span>
-                                                <a href={`mailto:${reg.email}`} className="text-xs text-gray-500 hover:text-white transition-colors mt-0.5">{reg.email}</a>
+                                            <div className={styles.entrantDetails}>
+                                                <span className={styles.entrantName}>{reg.fullName}</span>
+                                                <a href={`mailto:${reg.email}`} className={styles.entrantEmail}>{reg.email}</a>
                                             </div>
                                         </div>
                                     </td>
 
                                     {/* Category */}
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <span className="inline-block px-3 py-1 bg-purple-500/10 text-purple-400 text-[10px] uppercase tracking-wider font-semibold rounded-full border border-purple-500/20">
+                                    <td className={styles.tableCell}>
+                                        <span className={styles.categoryBadge}>
                                             {reg.category}
                                         </span>
                                     </td>
 
                                     {/* Selected Problem (Truncated) */}
-                                    <td className="px-6 py-4">
-                                        <div className="text-xs text-gray-300 font-medium leading-relaxed line-clamp-2 max-w-[200px]" title={reg.problemStatement}>
+                                    <td className={styles.problemCell}>
+                                        <div className={styles.problemText} title={reg.problemStatement}>
                                             {reg.problemStatement || 'N/A'}
                                         </div>
                                     </td>
 
                                     {/* Contact & Links */}
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <div className="flex flex-col gap-1.5 text-xs">
-                                            <div className="flex items-center gap-2">
-                                                <Phone className="w-3.5 h-3.5 text-gray-500" />
+                                    <td className={styles.tableCell}>
+                                        <div className={styles.contactLinksContainer}>
+                                            <div className={styles.contactLinkRow}>
+                                                <Phone className={styles.contactIcon} />
                                                 <span>{reg.phone}</span>
                                             </div>
                                             {reg.portfolio ? (
-                                                <div className="flex items-center gap-2">
-                                                    <LinkIcon className="w-3.5 h-3.5 text-gray-500" />
-                                                    <a href={reg.portfolio} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-white transition-colors truncate max-w-[150px]">
+                                                <div className={styles.contactLinkRow}>
+                                                    <LinkIcon className={styles.contactIcon} />
+                                                    <a href={reg.portfolio} target="_blank" rel="noopener noreferrer" className={styles.portfolioLink}>
                                                         {reg.portfolio}
                                                     </a>
                                                 </div>
                                             ) : (
-                                                <div className="flex items-center gap-2 text-gray-600">
-                                                    <LinkIcon className="w-3.5 h-3.5" />
+                                                <div className={styles.noLinkText}>
+                                                    <LinkIcon className={styles.emptyIcon} />
                                                     <span>No link provided</span>
                                                 </div>
                                             )}
@@ -101,17 +134,17 @@ export default async function AdminContestRegistrationsPage() {
                                     </td>
 
                                     {/* Reason (Truncated) */}
-                                    <td className="px-6 py-4">
-                                        <div className="text-xs text-gray-400 leading-relaxed line-clamp-2 max-w-[200px]" title={reg.reason}>
+                                    <td className={styles.reasonCell}>
+                                        <div className={styles.reasonText} title={reg.reason}>
                                             {reg.reason}
                                         </div>
                                     </td>
 
                                     {/* Date */}
-                                    <td className="px-6 py-4 whitespace-nowrap text-right text-xs text-gray-500">
+                                    <td className={styles.dateCell}>
                                         {new Date(reg.submittedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                         <br />
-                                        <span className="text-[10px]">{new Date(reg.submittedAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</span>
+                                        <span className={styles.timeText}>{new Date(reg.submittedAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</span>
                                     </td>
                                 </tr>
                             ))}

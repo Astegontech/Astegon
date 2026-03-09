@@ -134,32 +134,58 @@ export default function PublicContestRegistrationPage() {
         }
     };
 
-    return (
-        <main className="min-h-screen pt-16 pb-24 px-4 sm:px-6 relative selection:bg-white/20">
-            {/* Background elements */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.03),transparent_50%)] pointer-events-none" />
-            <div className="absolute top-0 right-0 w-full h-full bg-[url('/noise.png')] opacity-[0.03] pointer-events-none" />
+    const styles = {
+        mainWrapper: "min-h-screen pt-16 pb-24 px-4 sm:px-6 relative selection:bg-white/20",
+        bgPatternGradient: "absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.03),transparent_50%)] pointer-events-none",
+        bgPatternNoise: "absolute top-0 right-0 w-full h-full bg-[url('/noise.png')] opacity-[0.03] pointer-events-none",
+        contentContainer: "max-w-3xl mx-auto relative z-10",
+        backLink: "text-gray-400 hover:text-white transition-colors text-sm mb-8 inline-block select-none",
+        headerContainer: "mb-10",
+        title: "text-3xl sm:text-4xl font-bold tracking-tight mb-4",
+        subtitle: "text-gray-400",
+        formCard: "bg-white/5 border border-white/10 p-6 sm:p-10 rounded-2xl",
+        formLayout: "space-y-6",
+        label: "block text-sm font-medium text-gray-300 mb-2",
+        labelRequiredMark: "text-red-400",
+        inputBase: "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all sm:text-sm",
+        gridRow: "grid grid-cols-1 sm:grid-cols-2 gap-6",
+        errorText: "mt-1.5 text-xs text-red-400",
+        dropdownBase: "w-full bg-white/5 border rounded-xl px-4 py-3 appearance-none focus:outline-none focus:ring-2 transition-all sm:text-sm",
+        dropdownDefault: "text-white border-white/10",
+        dropdownSelected: "focus:ring-emerald-500/50 text-emerald-400 border-emerald-500/30 bg-emerald-500/5",
+        dropdownOptionPlaceholder: "text-gray-500",
+        textAreaBase: "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all sm:text-sm resize-none",
+        errorBanner: "bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-xl text-sm mb-6",
+        submitArea: "pt-4 flex justify-end",
+        submitButton: "w-full sm:w-auto px-10"
+    };
 
-            <div className="max-w-3xl mx-auto relative z-10">
-                <Link href="/contest" className="text-gray-400 hover:text-white transition-colors text-sm mb-8 inline-block select-none">
+    return (
+        <main className={styles.mainWrapper}>
+            {/* Background elements */}
+            <div className={styles.bgPatternGradient} />
+            <div className={styles.bgPatternNoise} />
+
+            <div className={styles.contentContainer}>
+                <Link href="/contest" className={styles.backLink}>
                     &larr; Back to Contests
                 </Link>
 
-                <div className="mb-10">
-                    <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+                <div className={styles.headerContainer}>
+                    <h1 className={styles.title}>
                         Contest Registration
                     </h1>
-                    <p className="text-gray-400">
+                    <p className={styles.subtitle}>
                         Fill out the form below to secure your spot.
                     </p>
                 </div>
 
-                <div className="bg-white/5 border border-white/10 p-6 sm:p-10 rounded-2xl">
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                <div className={styles.formCard}>
+                    <form onSubmit={handleSubmit} className={styles.formLayout}>
                         {/* Name */}
                         <div>
-                            <label htmlFor="fullName" className="block text-sm font-medium text-gray-300 mb-2">
-                                Full Name <span className="text-red-400">*</span>
+                            <label htmlFor="fullName" className={styles.label}>
+                                Full Name <span className={styles.labelRequiredMark}>*</span>
                             </label>
                             <input
                                 type="text"
@@ -169,15 +195,15 @@ export default function PublicContestRegistrationPage() {
                                 value={formData.fullName}
                                 onChange={handleChange}
                                 placeholder="John Doe"
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all sm:text-sm"
+                                className={styles.inputBase}
                             />
                         </div>
 
                         {/* Contact Info Row */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div className={styles.gridRow}>
                             <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                                    Email Address <span className="text-red-400">*</span>
+                                <label htmlFor="email" className={styles.label}>
+                                    Email Address <span className={styles.labelRequiredMark}>*</span>
                                 </label>
                                 <input
                                     type="email"
@@ -196,12 +222,12 @@ export default function PublicContestRegistrationPage() {
                                         }`}
                                 />
                                 {touched.email && !isEmailValid && (
-                                    <p className="mt-1.5 text-xs text-red-400">Please enter a valid email address.</p>
+                                    <p className={styles.errorText}>Please enter a valid email address.</p>
                                 )}
                             </div>
                             <div>
-                                <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">
-                                    Phone Number <span className="text-red-400">*</span>
+                                <label htmlFor="phone" className={styles.label}>
+                                    Phone Number <span className={styles.labelRequiredMark}>*</span>
                                 </label>
                                 <input
                                     type="tel"
@@ -221,7 +247,7 @@ export default function PublicContestRegistrationPage() {
                                         }`}
                                 />
                                 {touched.phone && !isPhoneValid && (
-                                    <p className="mt-1.5 text-xs text-red-400">Use format: +91xxxxxxxxxx or xxxxxxxxxx.</p>
+                                    <p className={styles.errorText}>Use format: +91xxxxxxxxxx or xxxxxxxxxx.</p>
                                 )}
                             </div>
                         </div>
@@ -229,7 +255,7 @@ export default function PublicContestRegistrationPage() {
                         {/* Select Category */}
                         <div>
                             <label htmlFor="category" className={`block text-sm font-medium mb-2 ${formData.category ? 'text-emerald-400' : 'text-gray-300'}`}>
-                                Select Contest <span className="text-red-400">*</span>
+                                Select Contest <span className={styles.labelRequiredMark}>*</span>
                             </label>
                             <select
                                 id="category"
@@ -237,10 +263,10 @@ export default function PublicContestRegistrationPage() {
                                 required
                                 value={formData.category}
                                 onChange={handleCategoryChange}
-                                className={`w-full bg-white/5 border rounded-xl px-4 py-3 appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all sm:text-sm ${formData.category ? 'text-emerald-400 border-emerald-500/30 bg-emerald-500/5' : 'text-white border-white/10'}`}
+                                className={`${styles.dropdownBase} ${formData.category ? styles.dropdownSelected : styles.dropdownDefault}`}
                                 style={{ backgroundColor: '#111' }} // override for dropdown options
                             >
-                                <option value="" disabled className="text-gray-500">
+                                <option value="" disabled className={styles.dropdownOptionPlaceholder}>
                                     Select a category...
                                 </option>
                                 {categories.map((c) => (
@@ -260,7 +286,7 @@ export default function PublicContestRegistrationPage() {
                                 return (
                                     <div>
                                         <label htmlFor="problemStatement" className={`block text-sm font-medium mb-2 ${formData.problemStatement ? 'text-emerald-400' : 'text-gray-300'}`}>
-                                            Select Problem Statement <span className="text-red-400">*</span>
+                                            Select Problem Statement <span className={styles.labelRequiredMark}>*</span>
                                         </label>
                                         <select
                                             id="problemStatement"
@@ -268,10 +294,10 @@ export default function PublicContestRegistrationPage() {
                                             required
                                             value={formData.problemStatement}
                                             onChange={handleChange}
-                                            className={`w-full bg-white/5 border rounded-xl px-4 py-3 appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all sm:text-sm ${formData.problemStatement ? 'text-emerald-400 border-emerald-500/30 bg-emerald-500/5' : 'text-white border-white/10'}`}
+                                            className={`${styles.dropdownBase} ${formData.problemStatement ? styles.dropdownSelected : styles.dropdownDefault}`}
                                             style={{ backgroundColor: '#111' }}
                                         >
-                                            <option value="" disabled className="text-gray-500">
+                                            <option value="" disabled className={styles.dropdownOptionPlaceholder}>
                                                 Select a problem statement...
                                             </option>
                                             {availableProblems.map((p: string, idx: number) => (
@@ -288,7 +314,7 @@ export default function PublicContestRegistrationPage() {
 
                         {/* Portfolio */}
                         <div>
-                            <label htmlFor="portfolio" className="block text-sm font-medium text-gray-300 mb-2">
+                            <label htmlFor="portfolio" className={styles.label}>
                                 Portfolio / GitHub Link <span className="text-gray-500 font-normal">(Optional)</span>
                             </label>
                             <input
@@ -298,14 +324,14 @@ export default function PublicContestRegistrationPage() {
                                 value={formData.portfolio}
                                 onChange={handleChange}
                                 placeholder="https://github.com/johndoe"
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all sm:text-sm"
+                                className={styles.inputBase}
                             />
                         </div>
 
                         {/* Reason */}
                         <div>
-                            <label htmlFor="reason" className="block text-sm font-medium text-gray-300 mb-2">
-                                Why should you win? <span className="text-red-400">*</span>
+                            <label htmlFor="reason" className={styles.label}>
+                                Why should you win? <span className={styles.labelRequiredMark}>*</span>
                             </label>
                             <textarea
                                 id="reason"
@@ -315,24 +341,24 @@ export default function PublicContestRegistrationPage() {
                                 value={formData.reason}
                                 onChange={handleChange}
                                 placeholder="Describe your experience and passion..."
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all sm:text-sm resize-none"
+                                className={styles.textAreaBase}
                             />
                         </div>
 
                         {errorMsg && (
-                            <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-xl text-sm mb-6">
+                            <div className={styles.errorBanner}>
                                 {errorMsg}
                             </div>
                         )}
 
                         {/* Submit */}
-                        <div className="pt-4 flex justify-end">
+                        <div className={styles.submitArea}>
                             <Button
                                 type="submit"
                                 variant="primary"
                                 disabled={!isFormValid || isLoading}
                                 isLoading={isLoading}
-                                className="w-full sm:w-auto px-10"
+                                className={styles.submitButton}
                             >
                                 Submit Registration
                             </Button>

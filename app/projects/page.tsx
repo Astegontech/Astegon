@@ -30,6 +30,35 @@ const projects = [
     }
 ];
 
+const styles = {
+    projectCell: "w-full",
+    projectCardBase: "group relative rounded-3xl bg-[#0a0a0a] border border-white/5 hover:border-white/20 transition-all duration-200 ease-out",
+    projectImageWrapper: "h-56 w-full relative overflow-hidden rounded-t-3xl",
+    projectImageOverlay: "absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors",
+    projectCategoryTag: "absolute bottom-4 left-4 transform translate-z-[60px]",
+    projectCategoryBadge: "px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-xs font-medium text-white border border-white/10 shadow-lg",
+    projectContent: "p-8 transform translate-z-[50px]",
+    projectHeader: "flex justify-between items-start mb-4",
+    projectTitle: "text-xl font-bold text-white group-hover:text-indigo-400 transition-colors transform translate-z-[60px]",
+    projectActions: "flex gap-2 transform translate-z-[70px]",
+    projectActionButton: "p-2 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors",
+    projectDescription: "text-gray-400 text-sm mb-6 leading-relaxed transform translate-z-[50px]",
+    projectTechList: "flex flex-wrap gap-2 transform translate-z-[40px]",
+    projectTechBadge: "text-xs font-mono text-gray-500 bg-[#000000] px-2 py-1 rounded border border-white/5 shadow-sm",
+    projectGlare: "absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-10 pointer-events-none bg-gradient-to-br from-white via-transparent to-transparent z-50 transition-opacity duration-500",
+
+    pageWrapper: "min-h-screen bg-[#000000]",
+    pageSection: "pt-32 pb-24 border-t border-white/5",
+    pageContainer: "max-w-7xl mx-auto px-6",
+    pageHeader: "mb-16",
+    backLink: "inline-flex items-center text-sm text-gray-400 hover:text-white mb-8 transition-colors group",
+    backLinkArrow: "mr-2 transform group-hover:-translate-x-1 transition-transform",
+    pageTitle: "text-4xl md:text-6xl font-bold text-white mb-6",
+    pageTitleHighlight: "text-indigo-400",
+    pageSubtitle: "text-gray-400 text-xl max-w-2xl",
+    gridContainer: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+};
+
 const ProjectCard = ({ project, index }: { project: typeof projects[0], index: number }) => {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
@@ -68,7 +97,7 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0], index: n
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="w-full"
+            className={styles.projectCell}
         >
             <motion.div
                 style={{
@@ -78,42 +107,42 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0], index: n
                 }}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
-                className="group relative rounded-3xl bg-[#0a0a0a] border border-white/5 hover:border-white/20 transition-all duration-200 ease-out"
+                className={styles.projectCardBase}
             >
                 {/* Visual Placeholder */}
                 <div
-                    className="h-56 w-full relative overflow-hidden rounded-t-3xl"
+                    className={styles.projectImageWrapper}
                     style={{ background: project.image, transform: "translateZ(50px)" }}
                 >
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
+                    <div className={styles.projectImageOverlay} />
                     {/* Overlay Content */}
-                    <div className="absolute bottom-4 left-4 transform translate-z-[60px]">
-                        <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-xs font-medium text-white border border-white/10 shadow-lg">
+                    <div className={styles.projectCategoryTag}>
+                        <span className={styles.projectCategoryBadge}>
                             {project.category}
                         </span>
                     </div>
                 </div>
 
-                <div className="p-8 transform translate-z-[50px]">
-                    <div className="flex justify-between items-start mb-4">
-                        <h3 className="text-xl font-bold text-white group-hover:text-indigo-400 transition-colors transform translate-z-[60px]">
+                <div className={styles.projectContent}>
+                    <div className={styles.projectHeader}>
+                        <h3 className={styles.projectTitle}>
                             {project.title}
                         </h3>
-                        <div className="flex gap-2 transform translate-z-[70px]">
-                            <button className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
+                        <div className={styles.projectActions}>
+                            <button className={styles.projectActionButton}>
                                 <Github size={18} />
                             </button>
-                            <button className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
+                            <button className={styles.projectActionButton}>
                                 <ExternalLink size={18} />
                             </button>
                         </div>
                     </div>
-                    <p className="text-gray-400 text-sm mb-6 leading-relaxed transform translate-z-[50px]">
+                    <p className={styles.projectDescription}>
                         {project.description}
                     </p>
-                    <div className="flex flex-wrap gap-2 transform translate-z-[40px]">
+                    <div className={styles.projectTechList}>
                         {project.tech.map((t, i) => (
-                            <span key={i} className="text-xs font-mono text-gray-500 bg-[#000000] px-2 py-1 rounded border border-white/5 shadow-sm">
+                            <span key={i} className={styles.projectTechBadge}>
                                 {t}
                             </span>
                         ))}
@@ -122,7 +151,7 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0], index: n
 
                 {/* Glare Effect */}
                 <div
-                    className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-10 pointer-events-none bg-gradient-to-br from-white via-transparent to-transparent z-50 transition-opacity duration-500"
+                    className={styles.projectGlare}
                     style={{ transform: "translateZ(80px)" }}
                 />
             </motion.div>
@@ -132,24 +161,24 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0], index: n
 
 export default function ProjectsPage() {
     return (
-        <main className="min-h-screen bg-[#000000]">
-            <section className="pt-32 pb-24 border-t border-white/5">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="mb-16">
+        <main className={styles.pageWrapper}>
+            <section className={styles.pageSection}>
+                <div className={styles.pageContainer}>
+                    <div className={styles.pageHeader}>
                         <Reveal>
-                            <Link href="/" className="inline-flex items-center text-sm text-gray-400 hover:text-white mb-8 transition-colors group">
-                                <span className="mr-2 transform group-hover:-translate-x-1 transition-transform">←</span> Back to Home
+                            <Link href="/" className={styles.backLink}>
+                                <span className={styles.backLinkArrow}>←</span> Back to Home
                             </Link>
-                            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">Featured <span className="text-indigo-400">Projects</span></h1>
+                            <h1 className={styles.pageTitle}>Featured <span className={styles.pageTitleHighlight}>Projects</span></h1>
                         </Reveal>
                         <Reveal delay={0.1}>
-                            <p className="text-gray-400 text-xl max-w-2xl">
+                            <p className={styles.pageSubtitle}>
                                 A curated selection of our most impactful work. Explore how we solve complex problems with elegant code.
                             </p>
                         </Reveal>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className={styles.gridContainer}>
                         {projects.map((project, index) => (
                             <ProjectCard key={index} project={project} index={index} />
                         ))}

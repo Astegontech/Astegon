@@ -6,9 +6,13 @@ import Technologies from '@/components/sections/Technologies';
 import Pricing from '@/components/sections/Pricing';
 import Contact from '@/components/sections/Contact';
 
+const styles = {
+  main: "min-h-screen bg-[#000000] selection:bg-indigo-500/30"
+};
+
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#000000] selection:bg-indigo-500/30">
+    <main className={styles.main}>
       <Hero />
       <About />
       <Services />

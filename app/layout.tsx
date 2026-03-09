@@ -125,20 +125,23 @@ const jsonLd = {
   }
 };
 
+const styles = {
+  html: "scroll-smooth",
+  body: "font-sans bg-neutral-950 text-white antialiased overflow-x-hidden selection:bg-white/20 selection:text-white"
+};
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body suppressHydrationWarning={true} className={`${sora.variable} ${spaceGrotesk.variable} font-sans bg-neutral-950 text-white antialiased overflow-x-hidden selection:bg-white/20 selection:text-white`}>
+    <html lang="en" className={styles.html}>
+      <body suppressHydrationWarning={true} className={`${sora.variable} ${spaceGrotesk.variable} ${styles.body}`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-
-
 
         <SmoothScroll>
           <ScrollProgress />

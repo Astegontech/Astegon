@@ -4,24 +4,42 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
+const styles = {
+    container: "min-h-screen bg-black flex flex-col items-center justify-center relative overflow-hidden text-white selection:bg-indigo-500/30",
+    gridBackground: "absolute inset-0 bg-grid opacity-20 pointer-events-none",
+    gradientOverlay: "absolute inset-0 bg-gradient-to-b from-black via-transparent to-black pointer-events-none",
+    glitchContainer: "relative z-10 flex flex-col items-center px-4",
+    textWrapper: "relative mb-8",
+    mainText: "text-[120px] md:text-[200px] font-bold leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/10 font-heading select-none",
+    glitchLayer1: "absolute inset-0 text-[120px] md:text-[200px] font-bold leading-none tracking-tighter text-indigo-500/30 font-heading select-none pointer-events-none mix-blend-screen",
+    glitchLayer2: "absolute inset-0 text-[120px] md:text-[200px] font-bold leading-none tracking-tighter text-red-500/30 font-heading select-none pointer-events-none mix-blend-screen",
+    messageContainer: "text-center",
+    title: "text-2xl md:text-3xl font-light text-white mb-4 tracking-wide uppercase",
+    description: "text-gray-400 max-w-md mx-auto mb-10 text-lg font-light leading-relaxed",
+    buttonLink: "group relative inline-flex items-center justify-center px-8 py-3 bg-white text-black rounded-full font-medium transition-all hover:bg-gray-200",
+    arrowIcon: "ml-2",
+    buttonGlow: "absolute inset-0 rounded-full bg-white/40 blur-md -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300",
+    particle: "absolute w-1 h-1 bg-white/20 rounded-full"
+};
+
 export default function NotFound() {
     return (
-        <div className="min-h-screen bg-black flex flex-col items-center justify-center relative overflow-hidden text-white selection:bg-indigo-500/30">
+        <div className={styles.container}>
             {/* Background Grids */}
-            <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black pointer-events-none" />
+            <div className={styles.gridBackground} />
+            <div className={styles.gradientOverlay} />
 
             {/* Glitch Effect Containers */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1 }}
-                className="relative z-10 flex flex-col items-center px-4"
+                className={styles.glitchContainer}
             >
                 {/* Animated 404 Text */}
-                <div className="relative mb-8">
+                <div className={styles.textWrapper}>
                     <motion.h1
-                        className="text-[120px] md:text-[200px] font-bold leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/10 font-heading select-none"
+                        className={styles.mainText}
                         initial={{ scale: 0.8, filter: 'blur(10px)' }}
                         animate={{ scale: 1, filter: 'blur(0px)' }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
@@ -31,7 +49,7 @@ export default function NotFound() {
 
                     {/* Glitch Overlay */}
                     <motion.div
-                        className="absolute inset-0 text-[120px] md:text-[200px] font-bold leading-none tracking-tighter text-indigo-500/30 font-heading select-none pointer-events-none mix-blend-screen"
+                        className={styles.glitchLayer1}
                         animate={{
                             x: [-2, 2, -1, 0],
                             y: [1, -1, 0],
@@ -45,7 +63,7 @@ export default function NotFound() {
                         404
                     </motion.div>
                     <motion.div
-                        className="absolute inset-0 text-[120px] md:text-[200px] font-bold leading-none tracking-tighter text-red-500/30 font-heading select-none pointer-events-none mix-blend-screen"
+                        className={styles.glitchLayer2}
                         animate={{
                             x: [2, -2, 1, 0],
                             y: [-1, 1, 0],
@@ -65,12 +83,12 @@ export default function NotFound() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4, duration: 0.6 }}
-                    className="text-center"
+                    className={styles.messageContainer}
                 >
-                    <h2 className="text-2xl md:text-3xl font-light text-white mb-4 tracking-wide uppercase">
+                    <h2 className={styles.title}>
                         Signal Lost in the Void
                     </h2>
-                    <p className="text-gray-400 max-w-md mx-auto mb-10 text-lg font-light leading-relaxed">
+                    <p className={styles.description}>
                         The coordinates you are looking for do not exist in this sector.
                         Realign your trajectory.
                     </p>
@@ -82,11 +100,11 @@ export default function NotFound() {
                     >
                         <Link
                             href="/"
-                            className="group relative inline-flex items-center justify-center px-8 py-3 bg-white text-black rounded-full font-medium transition-all hover:bg-gray-200"
+                            className={styles.buttonLink}
                         >
                             <span>Return to Base</span>
                             <motion.span
-                                className="ml-2"
+                                className={styles.arrowIcon}
                                 initial={{ x: 0 }}
                                 whileHover={{ x: 3 }}
                                 transition={{ duration: 0.2 }}
@@ -95,7 +113,7 @@ export default function NotFound() {
                             </motion.span>
 
                             {/* Button Glow */}
-                            <div className="absolute inset-0 rounded-full bg-white/40 blur-md -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                            <div className={styles.buttonGlow} />
                         </Link>
                     </motion.div>
                 </motion.div>
@@ -122,7 +140,7 @@ function Particles() {
             {[...Array(5)].map((_, i) => (
                 <motion.div
                     key={i}
-                    className="absolute w-1 h-1 bg-white/20 rounded-full"
+                    className={styles.particle}
                     initial={{
                         x: Math.random() * window.innerWidth,
                         y: Math.random() * window.innerHeight

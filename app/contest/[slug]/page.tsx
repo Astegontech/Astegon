@@ -24,6 +24,29 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
 }
 
+const styles = {
+    mainWrapper: "min-h-screen pt-16 pb-24 px-4 sm:px-6 relative selection:bg-white/20",
+    bgPatternGradient: "absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.03),transparent_50%)] pointer-events-none",
+    bgPatternNoise: "absolute top-0 right-0 w-full h-full bg-[url('/noise.png')] opacity-[0.03] pointer-events-none",
+    contentContainer: "max-w-4xl mx-auto relative z-10",
+    backLink: "text-gray-400 hover:text-white transition-colors text-sm mb-8 inline-block select-none",
+    headerSection: "mb-12 border-b border-white/10 pb-8",
+    title: "text-4xl sm:text-5xl font-bold tracking-tight mb-4",
+    deadlineContainer: "flex items-center text-gray-400 text-sm mb-6",
+    deadlineIcon: "w-4 h-4 mr-2",
+    descriptionText: "text-lg text-gray-300 leading-relaxed max-w-3xl",
+    gridSection: "grid md:grid-cols-2 gap-12 mb-12",
+    sectionTitle: "text-2xl font-semibold mb-6 flex items-center",
+    listContainer: "space-y-4",
+    ruleItem: "flex items-start text-gray-300",
+    ruleBulletContainer: "mt-1 mr-3 min-w-[20px]",
+    ruleBullet: "w-1.5 h-1.5 rounded-full bg-white bg-opacity-80",
+    ruleText: "leading-relaxed",
+    criteriaItem: "flex items-start text-gray-300 bg-white/5 p-4 rounded-xl border border-white/5",
+    criteriaIcon: "w-5 h-5 mr-3 text-gray-400 shrink-0",
+    criteriaText: "leading-relaxed text-sm sm:text-base font-medium"
+};
+
 export default async function PublicContestDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params;
     const contest = await getContestBySlug(resolvedParams.slug);
@@ -37,26 +60,26 @@ export default async function PublicContestDetailsPage({ params }: { params: Pro
     const formattedDeadline = new Date(contest.deadline).toLocaleDateString('en-US', dateOpts);
 
     return (
-        <main className="min-h-screen pt-16 pb-24 px-4 sm:px-6 relative selection:bg-white/20">
+        <main className={styles.mainWrapper}>
             {/* Background elements */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.03),transparent_50%)] pointer-events-none" />
-            <div className="absolute top-0 right-0 w-full h-full bg-[url('/noise.png')] opacity-[0.03] pointer-events-none" />
+            <div className={styles.bgPatternGradient} />
+            <div className={styles.bgPatternNoise} />
 
-            <div className="max-w-4xl mx-auto relative z-10">
-                <Link href="/contest" className="text-gray-400 hover:text-white transition-colors text-sm mb-8 inline-block select-none">
+            <div className={styles.contentContainer}>
+                <Link href="/contest" className={styles.backLink}>
                     &larr; Back to Contests
                 </Link>
 
                 {/* Header */}
-                <div className="mb-12 border-b border-white/10 pb-8">
-                    <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">
+                <div className={styles.headerSection}>
+                    <h1 className={styles.title}>
                         {contest.title}
                     </h1>
-                    <div className="flex items-center text-gray-400 text-sm mb-6">
-                        <Calendar className="w-4 h-4 mr-2" />
+                    <div className={styles.deadlineContainer}>
+                        <Calendar className={styles.deadlineIcon} />
                         <span>Deadline: {formattedDeadline}</span>
                     </div>
-                    <p className="text-lg text-gray-300 leading-relaxed max-w-3xl">
+                    <p className={styles.descriptionText}>
                         {contest.description}
                     </p>
                 </div>
@@ -65,19 +88,19 @@ export default async function PublicContestDetailsPage({ params }: { params: Pro
                 <ProblemSelector problemStatements={contest.problemStatements} contestSlug={contest.slug} />
 
 
-                <div className="grid md:grid-cols-2 gap-12 mb-12">
+                <div className={styles.gridSection}>
                     {/* Rules */}
                     <div>
-                        <h2 className="text-2xl font-semibold mb-6 flex items-center">
+                        <h2 className={styles.sectionTitle}>
                             Guidelines
                         </h2>
-                        <ul className="space-y-4">
+                        <ul className={styles.listContainer}>
                             {contest.rules.map((rule: string, idx: number) => (
-                                <li key={idx} className="flex items-start text-gray-300">
-                                    <div className="mt-1 mr-3 min-w-[20px]">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-white bg-opacity-80" />
+                                <li key={idx} className={styles.ruleItem}>
+                                    <div className={styles.ruleBulletContainer}>
+                                        <div className={styles.ruleBullet} />
                                     </div>
-                                    <span className="leading-relaxed">{rule}</span>
+                                    <span className={styles.ruleText}>{rule}</span>
                                 </li>
                             ))}
                         </ul>
@@ -85,12 +108,12 @@ export default async function PublicContestDetailsPage({ params }: { params: Pro
 
                     {/* Criteria */}
                     <div>
-                        <h2 className="text-2xl font-semibold mb-6">Evaluation Criteria</h2>
-                        <ul className="space-y-4">
+                        <h2 className={styles.sectionTitle}>Evaluation Criteria</h2>
+                        <ul className={styles.listContainer}>
                             {contest.criteria.map((criterion: string, idx: number) => (
-                                <li key={idx} className="flex items-start text-gray-300 bg-white/5 p-4 rounded-xl border border-white/5">
-                                    <CheckCircle2 className="w-5 h-5 mr-3 text-gray-400 shrink-0" />
-                                    <span className="leading-relaxed text-sm sm:text-base font-medium">{criterion}</span>
+                                <li key={idx} className={styles.criteriaItem}>
+                                    <CheckCircle2 className={styles.criteriaIcon} />
+                                    <span className={styles.criteriaText}>{criterion}</span>
                                 </li>
                             ))}
                         </ul>
