@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import Image from 'next/image';
 import { Reveal } from '@/components/ui/Reveal';
 import { ProjectCard } from '@/components/contest/ProjectCard';
 import { projectAssignments } from '@/lib/data/assignments';
@@ -30,12 +31,23 @@ export default async function PublicContestsListingPage() {
                 {/* Hero Section */}
                 <div className={styles.heroSection}>
                     <Reveal delay={0.1}>
+                        <Image
+                            src="/logos/Astegon_Logo.svg"
+                            alt="Astegon Logo"
+                            width={240}
+                            height={80}
+                            className="mb-8 w-auto h-12 md:h-16 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+                            priority
+                        />
+                    </Reveal>
+
+                    <Reveal delay={0.2}>
                         <div className={styles.heroHeaderBadge}>
                             Developer Contests
                         </div>
                     </Reveal>
 
-                    <Reveal delay={0.2}>
+                    <Reveal delay={0.3}>
                         <h1 className={styles.heroTitle}>
                             Build the next generation of software.
                         </h1>
