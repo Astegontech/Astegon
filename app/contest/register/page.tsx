@@ -4,12 +4,12 @@ import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
+import { FileText } from 'lucide-react';
 
 export default function PublicContestRegistrationPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const initialCategory = searchParams.get('category') || '';
-    const initialProblemIndex = searchParams.get('problem');
+    const assignmentName = searchParams.get('assignment') || 'General Project Assignment';
 
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -17,52 +17,8 @@ export default function PublicContestRegistrationPage() {
         email: '',
         phone: '',
         portfolio: '',
-        category: initialCategory,
-        problemStatement: '', // will be set after categories are loaded
         reason: '',
     });
-
-    const [categories, setCategories] = useState<any[]>([]);
-
-    useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const res = await fetch('/api/contests');
-                const json = await res.json();
-                if (json.success && json.data) {
-                    setCategories(json.data);
-
-                    // Set initial problem statement if available
-                    if (initialCategory && initialProblemIndex) {
-                        const selectedCategory = json.data.find((c: any) => c.slug === initialCategory);
-                        const pIndex = parseInt(initialProblemIndex) - 1;
-                        if (selectedCategory && selectedCategory.problemStatements && selectedCategory.problemStatements[pIndex]) {
-                            setFormData(prev => ({
-                                ...prev,
-                                problemStatement: selectedCategory.problemStatements[pIndex]
-                            }));
-                        }
-                    }
-                }
-            } catch (err) {
-                console.error('Failed to fetch categories:', err);
-            }
-        };
-        fetchCategories();
-    }, [initialCategory, initialProblemIndex]);
-
-    // Update problem statement when category changes if needed
-    const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const newCategorySlug = e.target.value;
-        const selectedCategory = categories.find(c => c.slug === newCategorySlug);
-
-        setFormData({
-            ...formData,
-            category: newCategorySlug,
-            // Reset problem statement when category changes unless it has no problems
-            problemStatement: selectedCategory?.problemStatements?.length > 0 ? '' : 'N/A'
-        });
-    };
 
     // Track which fields have been touched (to show errors only after interaction)
     const [touched, setTouched] = useState<Record<string, boolean>>({});
@@ -72,16 +28,12 @@ export default function PublicContestRegistrationPage() {
     };
 
     // Validations
-    // RFC 5322 compliant email regex
     const isEmailValid = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/.test(formData.email);
-    // Supports: +91XXXXXXXXXX or XXXXXXXXXX (10-digit)
     const isPhoneValid = /^(\+91\d{10}|\d{10})$/.test(formData.phone.trim());
     const isFormValid =
         formData.fullName.trim().length > 0 &&
         isEmailValid &&
         isPhoneValid &&
-        formData.category !== '' &&
-        formData.problemStatement !== '' &&
         formData.reason.trim().length > 0;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -93,8 +45,6 @@ export default function PublicContestRegistrationPage() {
 
     const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
-        // If starts with +91, allow max 13 chars (+91 + 10 digits)
-        // Otherwise allow max 10 digits only
         const max = val.startsWith('+') ? 13 : 10;
         if (val.length <= max) {
             setFormData({ ...formData, phone: val });
@@ -111,10 +61,17 @@ export default function PublicContestRegistrationPage() {
         setIsLoading(true);
 
         try {
+            // Map the new assignment structure to the existing backend schema
+            const payload = {
+                ...formData,
+                category: "Project Assignment",
+                problemStatement: assignmentName
+            };
+
             const res = await fetch('/api/registrations', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(payload)
             });
 
             const data = await res.json();
@@ -150,10 +107,9 @@ export default function PublicContestRegistrationPage() {
         inputBase: "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all sm:text-sm",
         gridRow: "grid grid-cols-1 sm:grid-cols-2 gap-6",
         errorText: "mt-1.5 text-xs text-red-400",
-        dropdownBase: "w-full bg-white/5 border rounded-xl px-4 py-3 appearance-none focus:outline-none focus:ring-2 transition-all sm:text-sm",
-        dropdownDefault: "text-white border-white/10",
-        dropdownSelected: "focus:ring-emerald-500/50 text-emerald-400 border-emerald-500/30 bg-emerald-500/5",
-        dropdownOptionPlaceholder: "text-gray-500",
+        assignmentBox: "w-full bg-emerald-500/10 border border-emerald-500/30 rounded-xl px-4 py-4 flex items-center gap-3",
+        assignmentIcon: "w-5 h-5 text-emerald-400 shrink-0",
+        assignmentText: "text-sm font-medium text-emerald-400",
         textAreaBase: "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all sm:text-sm resize-none",
         errorBanner: "bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-xl text-sm mb-6",
         submitArea: "pt-4 flex justify-end",
@@ -168,20 +124,31 @@ export default function PublicContestRegistrationPage() {
 
             <div className={styles.contentContainer}>
                 <Link href="/contest" className={styles.backLink}>
-                    &larr; Back to Contests
+                    &larr; Back to Projects
                 </Link>
 
                 <div className={styles.headerContainer}>
                     <h1 className={styles.title}>
-                        Contest Registration
+                        Project Registration
                     </h1>
                     <p className={styles.subtitle}>
-                        Fill out the form below to secure your spot.
+                        Register to view and submit the selected project assignment! The PDF will be securely sent to your email.
                     </p>
                 </div>
 
                 <div className={styles.formCard}>
                     <form onSubmit={handleSubmit} className={styles.formLayout}>
+                        {/* Selected Assignment Read-Only Display */}
+                        <div>
+                            <label className={styles.label}>
+                                Selected Assignment
+                            </label>
+                            <div className={styles.assignmentBox}>
+                                <FileText className={styles.assignmentIcon} />
+                                <span className={styles.assignmentText}>{assignmentName}</span>
+                            </div>
+                        </div>
+
                         {/* Name */}
                         <div>
                             <label htmlFor="fullName" className={styles.label}>
@@ -252,66 +219,6 @@ export default function PublicContestRegistrationPage() {
                             </div>
                         </div>
 
-                        {/* Select Category */}
-                        <div>
-                            <label htmlFor="category" className={`block text-sm font-medium mb-2 ${formData.category ? 'text-emerald-400' : 'text-gray-300'}`}>
-                                Select Contest <span className={styles.labelRequiredMark}>*</span>
-                            </label>
-                            <select
-                                id="category"
-                                name="category"
-                                required
-                                value={formData.category}
-                                onChange={handleCategoryChange}
-                                className={`${styles.dropdownBase} ${formData.category ? styles.dropdownSelected : styles.dropdownDefault}`}
-                                style={{ backgroundColor: '#111' }} // override for dropdown options
-                            >
-                                <option value="" disabled className={styles.dropdownOptionPlaceholder}>
-                                    Select a category...
-                                </option>
-                                {categories.map((c) => (
-                                    <option key={c.id} value={c.slug}>
-                                        {c.title}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-
-                        {/* Problem Statement Selection */}
-                        {(() => {
-                            const selectedCategoryData = categories.find(c => c.slug === formData.category);
-                            const availableProblems = selectedCategoryData?.problemStatements || [];
-
-                            if (availableProblems.length > 0) {
-                                return (
-                                    <div>
-                                        <label htmlFor="problemStatement" className={`block text-sm font-medium mb-2 ${formData.problemStatement ? 'text-emerald-400' : 'text-gray-300'}`}>
-                                            Select Problem Statement <span className={styles.labelRequiredMark}>*</span>
-                                        </label>
-                                        <select
-                                            id="problemStatement"
-                                            name="problemStatement"
-                                            required
-                                            value={formData.problemStatement}
-                                            onChange={handleChange}
-                                            className={`${styles.dropdownBase} ${formData.problemStatement ? styles.dropdownSelected : styles.dropdownDefault}`}
-                                            style={{ backgroundColor: '#111' }}
-                                        >
-                                            <option value="" disabled className={styles.dropdownOptionPlaceholder}>
-                                                Select a problem statement...
-                                            </option>
-                                            {availableProblems.map((p: string, idx: number) => (
-                                                <option key={idx} value={p}>
-                                                    0{idx + 1}: {p}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                );
-                            }
-                            return null;
-                        })()}
-
                         {/* Portfolio */}
                         <div>
                             <label htmlFor="portfolio" className={styles.label}>
@@ -331,7 +238,7 @@ export default function PublicContestRegistrationPage() {
                         {/* Reason */}
                         <div>
                             <label htmlFor="reason" className={styles.label}>
-                                Why should you win? <span className={styles.labelRequiredMark}>*</span>
+                                Why are you interested in this project? <span className={styles.labelRequiredMark}>*</span>
                             </label>
                             <textarea
                                 id="reason"
@@ -340,7 +247,7 @@ export default function PublicContestRegistrationPage() {
                                 rows={4}
                                 value={formData.reason}
                                 onChange={handleChange}
-                                placeholder="Describe your experience and passion..."
+                                placeholder="Describe your experience and interest..."
                                 className={styles.textAreaBase}
                             />
                         </div>
@@ -360,7 +267,7 @@ export default function PublicContestRegistrationPage() {
                                 isLoading={isLoading}
                                 className={styles.submitButton}
                             >
-                                Submit Registration
+                                Register & Receive PDF
                             </Button>
                         </div>
                     </form>

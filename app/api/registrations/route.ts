@@ -2,6 +2,19 @@ import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import connectDB from '@/lib/mongodb';
 import ContestRegistrationModel from '@/lib/models/ContestRegistration';
+import path from 'path';
+
+// Map assignment names back to their file paths
+const assignmentFiles: Record<string, string> = {
+    "3D Game Development": "3D_Game_Assignment.pdf",
+    "Education ERP": "Education_ERP_Assignment.pdf",
+    "Hospital Management System": "Hospital_Management_System_Assignment.pdf",
+    "Logistics Management System": "Logistics_Management_System_Assignment.pdf",
+    "Multi-Vendor E-commerce": "MultiVendor_Ecommerce_Assignment.pdf",
+    "Point of Sale (POS)": "Point_of_Sale_Assignment.pdf",
+    "RAG System": "RAG_System_Assignment.pdf",
+    "Social Media Application": "Social_Media_Application_Assignment.pdf"
+};
 
 export async function POST(req: NextRequest) {
     try {
@@ -29,11 +42,11 @@ export async function POST(req: NextRequest) {
         // Connect to DB
         await connectDB();
 
-        // Check if user already registered for this category
-        const existingReg = await ContestRegistrationModel.findOne({ email: email.toLowerCase().trim(), category });
+        // Check if user already registered for this specific assignment
+        const existingReg = await ContestRegistrationModel.findOne({ email: email.toLowerCase().trim(), problemStatement: problemStatement.trim() });
         if (existingReg) {
             return NextResponse.json({
-                error: 'You have already registered for this contest using this email.'
+                error: 'You have already registered for this specific project assignment.'
             }, { status: 400 });
         }
 
@@ -62,34 +75,49 @@ export async function POST(req: NextRequest) {
 
             // 1. Notify Admin
             await transporter.sendMail({
-                from: `"Contest Registration" <${process.env.SMTP_USER}>`,
+                from: `"Project Registration" <${process.env.SMTP_USER}>`,
                 to: process.env.SMTP_USER,
-                subject: `New Contest Registration: ${category}`,
+                subject: `New Project Registration: ${problemStatement}`,
                 html: `
                     <div style="font-family: Arial, sans-serif; max-width: 600px; padding: 20px;">
-                        <h2>New Registration for ${category}</h2>
+                        <h2>New Registration for ${problemStatement}</h2>
                         <p><strong>Name:</strong> ${fullName}</p>
                         <p><strong>Email:</strong> ${email}</p>
                         <p><strong>Phone:</strong> ${phone}</p>
-                        <p><strong>Selected Problem:</strong> ${problemStatement}</p>
                         ${portfolio ? `<p><strong>Portfolio:</strong> <a href="${portfolio}">${portfolio}</a></p>` : ''}
-                        <p><strong>Reason to win:</strong></p>
+                        <p><strong>Interest/Reason:</strong></p>
                         <p style="background: #f4f4f4; padding: 10px; border-left: 4px solid #333;">${reason}</p>
                     </div>
                 `,
             }).catch(e => console.error("Admin Email Failed:", e));
 
+            // Attach the requested PDF
+            const fileName = assignmentFiles[problemStatement.trim()];
+            const attachments = [];
+
+            if (fileName) {
+                const filePath = path.join(process.cwd(), 'public', 'project_pdfs', fileName);
+                attachments.push({
+                    filename: fileName,
+                    path: filePath
+                });
+            } else {
+                console.warn(`Could not find a mapped PDF file for assignment: ${problemStatement}`);
+            }
+
             // 2. Notify User 
             await transporter.sendMail({
                 from: `"Astegon Tech" <${process.env.SMTP_USER}>`,
                 to: email,
-                subject: 'Contest Registration Confirmation - Astegon Tech',
+                subject: `Your Assignment Details: ${problemStatement} - Astegon Tech`,
+                attachments,
                 html: `
                     <div style="font-family: Arial, sans-serif; max-width: 600px; padding: 20px;">
                         <h2>Registration Confirmed!</h2>
                         <p>Hi ${fullName},</p>
-                        <p>You have successfully registered for the <strong>${category}</strong> contest.</p>
-                        <p>Our team is currently reviewing applications and will reach out soon with the next steps.</p>
+                        <p>You have successfully registered for the <strong>${problemStatement}</strong> project.</p>
+                        <p>We have attached the PDF detailing the requirements and guidelines for your assignment to this email. Please review it carefully.</p>
+                        <p>Our team is currently reviewing applications and will reach out soon with the next steps regarding submission deadlines.</p>
                         <br/>
                         <p>Best of luck,</p>
                         <p><strong>The Astegon Engineering Team</strong></p>
