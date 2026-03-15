@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { projectAssignments } from '@/lib/data/assignments';
+import { projectAssignments } from '@/data/assignments';
 import { Button } from '@/components/ui/Button';
 import { CheckCircle2, FileText, ArrowRight } from 'lucide-react';
 

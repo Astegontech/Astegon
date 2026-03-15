@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import connectDB from '@/lib/mongodb';
-import ContestRegistrationModel from '@/lib/models/ContestRegistration';
+import connectDB from '@/lib/db/client';
+import ContestRegistrationModel from '@/models/ContestRegistration';
 import path from 'path';
 
 // Map assignment names back to their file paths

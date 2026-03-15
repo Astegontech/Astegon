@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import connectDB from '@/lib/mongodb';
-import ContactModel from '@/lib/models/Contact';
+import connectDB from '@/lib/db/client';
+import ContactModel from '@/models/Contact';
 
 export async function POST(req: NextRequest) {
     try {

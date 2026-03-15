@@ -1,5 +1,5 @@
-import connectDB from '@/lib/mongodb';
-import ContestRegistrationModel from '@/lib/models/ContestRegistration';
+import connectDB from '@/lib/db/client';
+import ContestRegistrationModel from '@/models/ContestRegistration';
 import { User, Phone, LinkIcon } from 'lucide-react';
 
 export const revalidate = 0; // Ensure fresh data on every load

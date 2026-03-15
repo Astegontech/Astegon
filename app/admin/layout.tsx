@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import AdminAuth from '@/components/admin/AdminAuth';
+import AdminAuth from '@/features/admin/components/AdminAuth';
 import { Database, FolderKanban, Shield } from 'lucide-react';
 
 const styles = {

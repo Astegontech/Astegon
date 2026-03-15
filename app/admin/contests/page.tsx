@@ -1,6 +1,6 @@
-import connectDB from '@/lib/mongodb';
-import ContestModel from '@/lib/models/Contest';
-import ContestStatusRow from '@/components/contest/ContestStatusRow';
+import connectDB from '@/lib/db/client';
+import ContestModel from '@/models/Contest';
+import ContestStatusRow from '@/features/contest/components/ContestStatusRow';
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
 

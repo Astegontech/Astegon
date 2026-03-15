@@ -3,17 +3,24 @@
 import { useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Star, BookOpen } from 'lucide-react';
 
 interface ProjectCardProps {
     assignment: {
         id: string;
         title: string;
         file: string;
-        coverImage: string;
+        description: string;
+        rules: string[];
     };
     index: number;
 }
+
+const difficultyConfig: Record<string, { color: string; dot: string }> = {
+    Easy: { color: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20', dot: 'bg-emerald-400' },
+    Medium: { color: 'text-amber-400 bg-amber-400/10 border-amber-400/20', dot: 'bg-amber-400' },
+    Hard: { color: 'text-rose-400 bg-rose-400/10 border-rose-400/20', dot: 'bg-rose-400' },
+};
 
 export function ProjectCard({ assignment, index }: ProjectCardProps) {
     const boxWrapper = useRef<HTMLDivElement>(null);
@@ -80,40 +87,36 @@ export function ProjectCard({ assignment, index }: ProjectCardProps) {
                     }}
                 />
 
-                {/* Top specific cover image section */}
-                <div className="relative h-32 w-full shrink-0 overflow-hidden bg-white/5 border-b border-white/5">
-                    <img
-                        src={assignment.coverImage}
-                        alt={assignment.title}
-                        className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105 opacity-80 group-hover:opacity-100"
-                        onError={(e) => {
-                            // Fallback gradient if image not found
-                            e.currentTarget.src = '';
-                            e.currentTarget.className = 'w-full h-full bg-gradient-to-br from-gray-900 to-black';
-                        }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent opacity-80" />
-                </div>
+                <div className="relative z-10 flex flex-col flex-grow px-6 pb-6 pt-5">
 
-                <div className="relative z-10 flex flex-col flex-grow px-6 pb-6 pt-4 min-h-[14rem]">
-                    {/* Content Section */}
+                    {/* Title + description */}
                     <Link
                         href={`/contest/projects/${assignment.id}`}
                         className="flex flex-col flex-grow outline-none"
                     >
-
-                        <h3 className="text-lg font-bold text-gray-100 mb-3 group-hover:text-white transition-colors line-clamp-2">
+                        <h3 className="text-base font-bold text-gray-100 mb-2 group-hover:text-white transition-colors line-clamp-2 leading-snug">
                             {assignment.title}
                         </h3>
 
-                        <p className="text-sm text-gray-500 mb-6 flex items-center gap-2 group-hover:text-gray-300 transition-colors">
-                            <span>View Requirements</span>
-                            <ArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                        <p className="text-xs text-gray-500 leading-relaxed line-clamp-3 group-hover:text-gray-400 transition-colors mb-4">
+                            {assignment.description}
                         </p>
+
+                        {/* Meta row — rules count + view link */}
+                        <div className="flex items-center justify-between mt-auto mb-5">
+                            <span className="flex items-center gap-1.5 text-[11px] text-gray-600">
+                                <BookOpen className="w-3 h-3" />
+                                {assignment.rules.length} rules
+                            </span>
+                            <span className="flex items-center gap-1 text-[11px] text-gray-500 group-hover:text-gray-300 transition-colors">
+                                View requirements
+                                <ArrowRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                            </span>
+                        </div>
                     </Link>
 
-                    {/* Bottom Section - Action */}
-                    <div className="mt-auto pt-4 border-t border-white/5 transform-gpu" style={{ transform: "translateZ(30px)" }}>
+                    {/* Bottom — Register CTA */}
+                    <div className="pt-4 border-t border-white/5 transform-gpu" style={{ transform: "translateZ(30px)" }}>
                         <Link
                             href={`/contest/register?assignment=${encodeURIComponent(assignment.title)}`}
                             className="relative flex items-center justify-center w-full bg-white text-black font-semibold text-sm py-3 px-4 rounded-xl overflow-hidden transition-all duration-300 hover:bg-gray-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:scale-[1.02] active:scale-[0.98] outline-none"

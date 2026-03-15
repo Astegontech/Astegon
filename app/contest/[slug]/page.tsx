@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { getContests, getContestBySlug } from '@/lib/services/contest';
+import { getContests, getContestBySlug } from '@/services/contest.service';
 import { Button } from '@/components/ui/Button';
 import { Calendar, CheckCircle2 } from 'lucide-react';
-import { ProblemSelector } from '@/components/contest/ProblemSelector';
+import { ProblemSelector } from '@/features/contest/components/ProblemSelector';
 
 export const revalidate = 60;
 

@@ -1,10 +1,10 @@
-import Hero from '@/components/sections/Hero';
-import About from '@/components/sections/About';
-import Services from '@/components/sections/Services';
-// import Projects from '@/components/sections/Projects';
-import Technologies from '@/components/sections/Technologies';
-import Pricing from '@/components/sections/Pricing';
-import Contact from '@/components/sections/Contact';
+import Hero from '@/features/home/components/Hero';
+import About from '@/features/home/components/About';
+import Services from '@/features/home/components/Services';
+// import Projects from '@/features/home/components/Projects';
+import Technologies from '@/features/home/components/Technologies';
+import Pricing from '@/features/home/components/Pricing';
+import Contact from '@/features/home/components/Contact';
 
 const styles = {
   main: "min-h-screen bg-[#000000] selection:bg-indigo-500/30"

@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { Reveal } from '@/components/ui/Reveal';
-import { ProjectCard } from '@/components/contest/ProjectCard';
-import { projectAssignments } from '@/lib/data/assignments';
+import { ProjectCard } from '@/features/contest/components/ProjectCard';
+import { projectAssignments } from '@/data/assignments';
 
 export const revalidate = 60; // Revalidate at most every minute
 

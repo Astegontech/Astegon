@@ -1,7 +1,7 @@
 'use server';
 
-import connectDB from '@/lib/mongodb';
-import ContestModel from '@/lib/models/Contest';
+import connectDB from '@/lib/db/client';
+import ContestModel from '@/models/Contest';
 import { revalidatePath } from 'next/cache';
 
 export async function updateContestStatus(formData: FormData) {
