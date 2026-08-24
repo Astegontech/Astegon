@@ -1,7 +1,7 @@
 import Hero from '@/features/home/components/Hero';
 import About from '@/features/home/components/About';
 import Services from '@/features/home/components/Services';
-// import Projects from '@/features/home/components/Projects';
+import Projects from '@/features/home/components/Projects';
 import Technologies from '@/features/home/components/Technologies';
 import Pricing from '@/features/home/components/Pricing';
 import Contact from '@/features/home/components/Contact';
@@ -16,7 +16,7 @@ export default function Home() {
       <Hero />
       <About />
       <Services />
-      {/* <Projects /> */}
+      <Projects />
       <Technologies />
       <Pricing />
       <Contact />

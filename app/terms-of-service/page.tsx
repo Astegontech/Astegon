@@ -21,7 +21,9 @@ export default function TermsOfService() {
             <div className={styles.container}>
                 <Reveal>
                     <h1 className={styles.title}>Terms of Service</h1>
-                    <p className={styles.date}>Last updated: {new Date().toLocaleDateString()}</p>
+                    <p className={styles.date}>
+                        Last updated: {new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toLocaleDateString()}
+                    </p>
                 </Reveal>
 
                 <div className={styles.contentWrapper}>
