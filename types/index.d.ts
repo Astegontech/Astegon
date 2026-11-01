@@ -31,6 +31,7 @@ export interface IContestRegistrationBase {
 export interface IContactBase {
     name: string;
     email: string;
+    mobileNumber: string;
     company?: string;
     message: string;
     verified: boolean;

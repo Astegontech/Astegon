@@ -11,6 +11,16 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
         }
 
+        const smtpHost = process.env.SMTP_HOST;
+        const smtpUser = process.env.SMTP_USER;
+        const smtpPass = process.env.SMTP_PASS;
+
+        if (!smtpHost || !smtpUser || !smtpPass) {
+            return NextResponse.json({
+                error: 'Email service is not configured. Add SMTP_HOST, SMTP_USER, and SMTP_PASS to .env.'
+            }, { status: 503 });
+        }
+
         // Connect to MongoDB
         await connectDB();
 
@@ -27,12 +37,12 @@ export async function POST(req: NextRequest) {
 
         // Configure nodemailer
         const transporter = nodemailer.createTransport({
-            host: process.env.SMTP_HOST,
-            port: Number(process.env.SMTP_PORT),
-            secure: false,
+            host: smtpHost,
+            port: Number(process.env.SMTP_PORT || 587),
+            secure: process.env.SMTP_SECURE === 'true' || process.env.SMTP_PORT === '465',
             auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS,
+                user: smtpUser,
+                pass: smtpPass,
             },
         });
 

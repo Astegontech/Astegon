@@ -416,12 +416,13 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { Reveal } from '@/components/ui/Reveal';
-import { Mail, MapPin, Phone, Instagram, Linkedin, Github } from 'lucide-react';
+import { Mail, Phone, Instagram, Linkedin, MapPin } from 'lucide-react';
 import { toast, Toaster } from 'react-hot-toast';
 
 interface FormData {
     name: string;
     email: string;
+    mobileNumber: string;
     company: string;
     message: string;
     website: string; // honeypot
@@ -431,20 +432,41 @@ const CONTACT_EMAIL = 'contact@astegon.com';
 const CONTACT_NUMBER = '7259399284';
 const INSTAGRAM_URL = 'https://instagram.com/astegontech';
 const LINKEDIN_URL = 'https://www.linkedin.com/company/astegon/';
-const GITHUB_URL = 'https://github.com/astegontech';
 
 const Contact = () => {
     const [formData, setFormData] = useState<FormData>({
         name: '',
         email: '',
+        mobileNumber: '',
         company: '',
         message: '',
         website: '',
     });
 
     const [mounted, setMounted] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [otpSent, setOtpSent] = useState(false);
+    const [otpInput, setOtpInput] = useState('');
+    const [otpVerified, setOtpVerified] = useState(false);
+    const [otpLoading, setOtpLoading] = useState(false);
+    const [otpTimer, setOtpTimer] = useState(0);
+    const [resendCooldown, setResendCooldown] = useState(0);
 
     useEffect(() => setMounted(true), []);
+
+    useEffect(() => {
+        if (!otpSent || otpTimer <= 0) return;
+
+        const interval = setInterval(() => setOtpTimer((time) => time - 1), 1000);
+        return () => clearInterval(interval);
+    }, [otpSent, otpTimer]);
+
+    useEffect(() => {
+        if (resendCooldown <= 0) return;
+
+        const interval = setInterval(() => setResendCooldown((time) => time - 1), 1000);
+        return () => clearInterval(interval);
+    }, [resendCooldown]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -452,7 +474,78 @@ const Contact = () => {
 
     const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const isValidMobileNumber = (mobileNumber: string) => {
+        const normalizedNumber = mobileNumber.replace(/[\s-]/g, '');
+        return /^(?:\+91)?[6-9]\d{9}$/.test(normalizedNumber);
+    };
+
+    const formatTime = (seconds: number) => {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+    };
+
+    const sendOtp = async () => {
+        if (!isValidEmail(formData.email)) {
+            toast.error('Please enter a valid email first.');
+            return;
+        }
+
+        setOtpLoading(true);
+        try {
+            const response = await fetch('/api/auth/otp/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: formData.email.trim() }),
+            });
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to send OTP.');
+            }
+
+            setOtpSent(true);
+            setOtpTimer(300);
+            setResendCooldown(30);
+            setOtpVerified(false);
+            toast.success('OTP sent to your email.');
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : 'Failed to send OTP.');
+        } finally {
+            setOtpLoading(false);
+        }
+    };
+
+    const verifyOtp = async () => {
+        if (!/^\d{6}$/.test(otpInput)) {
+            toast.error('Please enter the 6-digit OTP.');
+            return;
+        }
+
+        setOtpLoading(true);
+        try {
+            const response = await fetch('/api/auth/otp/verify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: formData.email.trim(), otp: otpInput }),
+            });
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Invalid OTP.');
+            }
+
+            setOtpVerified(true);
+            setOtpTimer(0);
+            toast.success('Email verified.');
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : 'OTP verification failed.');
+        } finally {
+            setOtpLoading(false);
+        }
+    };
+
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         // Honeypot check — silently ignore bots
@@ -460,7 +553,12 @@ const Contact = () => {
             return;
         }
 
-        if (!formData.name || !formData.email || !formData.message) {
+        if (!otpVerified) {
+            toast.error('Please verify your email first.');
+            return;
+        }
+
+        if (!formData.name.trim() || !formData.email.trim() || !formData.mobileNumber.trim() || !formData.message.trim()) {
             toast.error('Please fill all required fields.');
             return;
         }
@@ -470,11 +568,50 @@ const Contact = () => {
             return;
         }
 
-        const subject = `New inquiry from ${formData.name}${formData.company ? ` (${formData.company})` : ''}`;
+        if (!isValidMobileNumber(formData.mobileNumber)) {
+            toast.error('Please enter a valid mobile number.');
+            return;
+        }
 
+        setLoading(true);
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: formData.name.trim(),
+                    email: formData.email.trim(),
+                    mobileNumber: formData.mobileNumber.trim(),
+                    company: formData.company.trim(),
+                    message: formData.message.trim(),
+                }),
+            });
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to submit your message.');
+            }
+
+            toast.success("Thank you! We'll get back to you within 24 hours.");
+            setFormData({ name: '', email: '', mobileNumber: '', company: '', message: '', website: '' });
+            setOtpSent(false);
+            setOtpInput('');
+            setOtpVerified(false);
+            setOtpTimer(0);
+            setResendCooldown(0);
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : 'Failed to send message.');
+        } finally {
+            setLoading(false);
+        }
+        return;
+
+        /* legacy mailto submission removed */
+        /*
         const body =
             `Name: ${formData.name}\n` +
             `Email: ${formData.email}\n` +
+            `Mobile Number: ${formData.mobileNumber}\n` +
             `Company: ${formData.company || '-'}\n\n` +
             `Message:\n${formData.message}`;
 
@@ -486,6 +623,7 @@ const Contact = () => {
         link.click();
 
         toast.success('Opening your email app…');
+        */
     };
 
     if (!mounted) return null;
@@ -538,7 +676,7 @@ const Contact = () => {
 
                     <Reveal delay={0.1}>
                         <h2 className={styles.title}>
-                            Let's Connect
+                            Let&apos;s Connect
                         </h2>
                     </Reveal>
 
@@ -548,7 +686,7 @@ const Contact = () => {
 
                     <Reveal delay={0.3}>
                         <p className={styles.description}>
-                            Have a project in mind? We'd love to hear about it. Send us a message and we'll get back to you within 24 hours.
+                            Have a project in mind? We&apos;d love to hear about it. Send us a message and we&apos;ll get back to you within 24 hours.
                         </p>
                     </Reveal>
                 </div>
@@ -563,7 +701,8 @@ const Contact = () => {
                         transition={{ duration: 0.6 }}
                     >
                         <div className={styles.infoGroup}>
-                            <motion.div
+                            <motion.a
+                                href={`mailto:${CONTACT_EMAIL}`}
                                 className={styles.infoItem}
                                 whileHover={{ x: 4, transition: { duration: 0.2 } }}
                             >
@@ -572,11 +711,12 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <h4 className={styles.infoTitle}>Email Us</h4>
-                                    <a href={`mailto:${CONTACT_EMAIL}`} className={styles.infoTextLink}>{CONTACT_EMAIL}</a>
+                                    <span className={styles.infoTextLink}>{CONTACT_EMAIL}</span>
                                 </div>
-                            </motion.div>
+                            </motion.a>
 
-                            <motion.div
+                            <motion.a
+                                href={`tel:${CONTACT_NUMBER}`}
                                 className={styles.infoItem}
                                 whileHover={{ x: 4, transition: { duration: 0.2 } }}
                             >
@@ -585,12 +725,14 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <h4 className={styles.infoTitle}>Contact Us</h4>
-                                    <a href={`tel:${CONTACT_NUMBER}`}
-                                        className={styles.infoTextLink}>{CONTACT_NUMBER}</a>
+                                    <span className={styles.infoTextLink}>{CONTACT_NUMBER}</span>
                                 </div>
-                            </motion.div>
+                            </motion.a>
 
-                            <motion.div
+                            <motion.a
+                                href={INSTAGRAM_URL}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className={styles.infoItem}
                                 whileHover={{ x: 4, transition: { duration: 0.2 } }}
                             >
@@ -600,37 +742,32 @@ const Contact = () => {
                                 <div>
                                     <h4 className={styles.infoTitle}>Instagram</h4>
 
-                                    <a href={INSTAGRAM_URL}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className={styles.infoTextLink}
-                                    >
+                                    <span className={styles.infoTextLink}>
                                         @astegontech
-                                    </a>
+                                    </span>
                                 </div>
-                            </motion.div>
+                            </motion.a>
 
-                            <motion.div
+                            <motion.a
+                                href={LINKEDIN_URL}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className={styles.infoItem}
                                 whileHover={{ x: 4, transition: { duration: 0.2 } }}
                             >
-                                <div className={styles.iconWrapperLinkedin}>
-                                    <Linkedin size={24} />
-                                </div>
-                                <div>
-                                    <h4 className={styles.infoTitle}>LinkedIn</h4>
+                                    <div className={styles.iconWrapperLinkedin}>
+                                        <Linkedin size={24} />
+                                    </div>
+                                    <div>
+                                        <h4 className={styles.infoTitle}>LinkedIn</h4>
 
-                                    <a href={LINKEDIN_URL}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className={styles.infoTextLink}
-                                    >
-                                        Follow us on LinkedIn
-                                    </a>
-                                </div>
-                            </motion.div>
+                                    <span className={styles.infoTextLink}>
+                                            Follow us on LinkedIn
+                                    </span>
+                                    </div>
+                            </motion.a>
 
-                            <motion.div
+                            {/* <motion.div
                                 className={styles.infoItem}
                                 whileHover={{ x: 4, transition: { duration: 0.2 } }}
                             >
@@ -648,9 +785,9 @@ const Contact = () => {
                                         View our repos
                                     </a>
                                 </div>
-                            </motion.div>
+                            </motion.div> */}
 
-                            {/* <motion.div
+                            <motion.div
                                 className={styles.infoItem}
                                 whileHover={{ x: 4, transition: { duration: 0.2 } }}
                             >
@@ -661,7 +798,7 @@ const Contact = () => {
                                     <h4 className={styles.infoTitle}>Global HQ</h4>
                                     <p className={styles.infoText}>BTM Layout, Bangalore, Karnataka</p>
                                 </div>
-                            </motion.div> */}
+                            </motion.div>
                         </div>
                     </motion.div>
 
@@ -701,14 +838,82 @@ const Contact = () => {
 
                             <div>
                                 <label className={styles.label}>Email *</label>
+                                <div className="flex flex-col gap-2 sm:flex-row">
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        required
+                                        disabled={otpVerified}
+                                        className={styles.inputFull}
+                                        placeholder="you@company.com"
+                                    />
+                                    {!otpVerified && (
+                                        <button
+                                            type="button"
+                                            onClick={sendOtp}
+                                            disabled={otpLoading || resendCooldown > 0}
+                                            className="whitespace-nowrap rounded-lg bg-indigo-600 px-4 py-3 text-white transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-50"
+                                        >
+                                            {otpLoading
+                                                ? 'Sending...'
+                                                : resendCooldown > 0
+                                                    ? `Resend (${resendCooldown}s)`
+                                                    : otpSent
+                                                        ? 'Resend OTP'
+                                                        : 'Verify Email'}
+                                        </button>
+                                    )}
+                                    {otpVerified && (
+                                        <span className="whitespace-nowrap rounded-lg border border-green-500/30 bg-green-600/20 px-4 py-3 text-green-400">
+                                            ✓ Verified
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+
+                            {otpSent && !otpVerified && (
+                                <div>
+                                    <label className={styles.label}>
+                                        Enter OTP (expires in {formatTime(otpTimer)}) *
+                                    </label>
+                                    <div className="flex flex-col gap-2 sm:flex-row">
+                                        <input
+                                            type="text"
+                                            value={otpInput}
+                                            onChange={(event) => setOtpInput(event.target.value.replace(/\D/g, '').slice(0, 6))}
+                                            inputMode="numeric"
+                                            autoComplete="one-time-code"
+                                            maxLength={6}
+                                            className={styles.inputFull}
+                                            placeholder="Enter 6-digit OTP"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={verifyOtp}
+                                            disabled={otpLoading || otpTimer <= 0}
+                                            className="whitespace-nowrap rounded-lg bg-green-600 px-4 py-3 text-white transition hover:bg-green-500 disabled:cursor-not-allowed disabled:opacity-50"
+                                        >
+                                            {otpLoading ? 'Verifying...' : 'Verify OTP'}
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+
+                            <div>
+                                <label className={styles.label}>Mobile Number *</label>
                                 <input
-                                    type="email"
-                                    name="email"
-                                    value={formData.email}
+                                    type="tel"
+                                    name="mobileNumber"
+                                    value={formData.mobileNumber}
                                     onChange={handleChange}
                                     required
+                                    inputMode="tel"
+                                    autoComplete="tel"
+                                    maxLength={14}
                                     className={styles.inputFull}
-                                    placeholder="you@company.com"
+                                    placeholder="+91 9876543210"
                                 />
                             </div>
 
@@ -737,9 +942,10 @@ const Contact = () => {
 
                             <button
                                 type="submit"
+                                disabled={loading}
                                 className={styles.submitButton}
                             >
-                                Send Message
+                                {loading ? 'Sending...' : 'Send Message'}
                             </button>
                         </form>
                     </motion.div>

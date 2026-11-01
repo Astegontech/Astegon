@@ -307,10 +307,10 @@ const styles = {
     projectCell: "w-full",
 
     projectCardBase:
-        "group relative rounded-3xl bg-[#0a0a0a] border border-white/5 hover:border-white/20 transition-all duration-200 ease-out",
+        "group relative flex h-full flex-col overflow-hidden rounded-3xl bg-[#050505] border border-white/10 hover:border-white/20 transition-all duration-200 ease-out",
 
     projectImageWrapper:
-        "h-56 w-full relative overflow-hidden rounded-xl bg-[#111]",
+        "relative h-64 sm:h-72 lg:h-64 w-full shrink-0 overflow-hidden rounded-t-3xl bg-[#080808]",
 
     projectImage:
         "object-cover transition-transform duration-700 ease-out group-hover:scale-105",
@@ -325,7 +325,7 @@ const styles = {
         "px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-xs font-medium text-white border border-white/10 shadow-lg",
 
     projectContent:
-        "p-8 transform translate-z-[50px]",
+        "relative flex flex-1 flex-col p-6 sm:p-7 lg:p-8",
 
     projectHeader:
         "flex justify-between items-start mb-4",
@@ -334,10 +334,10 @@ const styles = {
         "text-xl font-bold text-white group-hover:text-indigo-400 transition-colors transform translate-z-[60px]",
 
     projectDescription:
-        "text-gray-400 text-sm mb-6 leading-relaxed transform translate-z-[50px]",
+        "text-gray-400 text-sm mb-7 leading-7",
 
     projectTechList:
-        "flex flex-wrap gap-2 transform translate-z-[40px]",
+        "mt-auto flex flex-wrap gap-2",
 
     projectTechBadge:
         "text-xs font-mono text-gray-500 bg-black px-2 py-1 rounded border border-white/5 shadow-sm",
@@ -468,9 +468,6 @@ const ProjectCard = ({
                 {/* Project Image */}
                 <div
                     className={styles.projectImageWrapper}
-                    style={{
-                        transform: "translateZ(35px)",
-                    }}
                 >
                     <Image
                         src={project.image}
