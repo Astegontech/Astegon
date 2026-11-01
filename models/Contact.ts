@@ -3,6 +3,7 @@ import mongoose, { Schema, Model } from 'mongoose';
 export interface IContact {
     name: string;
     email: string;
+    mobileNumber: string;
     company?: string;
     message: string;
     verified: boolean;
@@ -19,6 +20,11 @@ const ContactSchema = new Schema<IContact>({
         type: String,
         required: true,
         lowercase: true,
+        trim: true,
+    },
+    mobileNumber: {
+        type: String,
+        required: true,
         trim: true,
     },
     company: {

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Twitter, Linkedin, Github, Instagram, Download } from 'lucide-react';
+import { Twitter, Linkedin, Github, Instagram } from 'lucide-react';
 
 const styles = {
     footerWrapper: "bg-[#000000] border-t border-white/5 py-12 relative z-10",
@@ -61,16 +61,6 @@ const Footer = () => {
                                 <Icon size={18} />
                             </a>
                         ))}
-                        <a
-                            href="/Astegon.apk"
-                            download="Astegon.apk"
-                            className={styles.downloadBtn}
-                        >
-                            <span className={styles.downloadSpan}>
-                                <Download size={16} className={styles.downloadIcon} />
-                                Download App
-                            </span>
-                        </a>
                     </div>
                 </div>
 

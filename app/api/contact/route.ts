@@ -5,12 +5,12 @@ import ContactModel from '@/models/Contact';
 
 export async function POST(req: NextRequest) {
     try {
-        const { name, email, company, message } = await req.json();
+        const { name, email, mobileNumber, company, message } = await req.json();
 
         // Validate required fields
-        if (!name || !email || !message) {
+        if (!name || !email || !mobileNumber || !message) {
             return NextResponse.json({
-                error: 'Name, email, and message are required'
+                error: 'Name, email, mobile number, and message are required'
             }, { status: 400 });
         }
 
@@ -21,6 +21,21 @@ export async function POST(req: NextRequest) {
             }, { status: 400 });
         }
 
+        const normalizedMobileNumber = String(mobileNumber).replace(/[\s-]/g, '');
+        if (!/^(?:\+91)?[6-9]\d{9}$/.test(normalizedMobileNumber)) {
+            return NextResponse.json({ error: 'Invalid mobile number' }, { status: 400 });
+        }
+
+        const smtpHost = process.env.SMTP_HOST;
+        const smtpUser = process.env.SMTP_USER;
+        const smtpPass = process.env.SMTP_PASS;
+
+        if (!smtpHost || !smtpUser || !smtpPass) {
+            return NextResponse.json({
+                error: 'Email service is not configured. Add SMTP_HOST, SMTP_USER, and SMTP_PASS to .env.'
+            }, { status: 503 });
+        }
+
         // Connect to MongoDB
         await connectDB();
 
@@ -28,6 +43,7 @@ export async function POST(req: NextRequest) {
         const contact = await ContactModel.create({
             name: name.trim(),
             email: email.toLowerCase().trim(),
+            mobileNumber: normalizedMobileNumber,
             company: company?.trim() || '',
             message: message.trim(),
             verified: true,
@@ -36,12 +52,12 @@ export async function POST(req: NextRequest) {
 
         // Configure nodemailer
         const transporter = nodemailer.createTransport({
-            host: process.env.SMTP_HOST,
-            port: Number(process.env.SMTP_PORT),
-            secure: false,
+            host: smtpHost,
+            port: Number(process.env.SMTP_PORT || 587),
+            secure: process.env.SMTP_SECURE === 'true' || process.env.SMTP_PORT === '465',
             auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS,
+                user: smtpUser,
+                pass: smtpPass,
             },
         });
 
@@ -56,6 +72,7 @@ export async function POST(req: NextRequest) {
                     <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px;">
                         <p><strong>Name:</strong> ${name}</p>
                         <p><strong>Email:</strong> ${email}</p>
+                        <p><strong>Mobile Number:</strong> ${normalizedMobileNumber}</p>
                         ${company ? `<p><strong>Company:</strong> ${company}</p>` : ''}
                         <p><strong>Message:</strong></p>
                         <p style="white-space: pre-wrap;">${message}</p>

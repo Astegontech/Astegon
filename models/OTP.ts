@@ -30,9 +30,6 @@ const OTPSchema = new Schema<IOTP>({
     },
 });
 
-// Index for faster email lookups
-OTPSchema.index({ email: 1 });
-
 // Model
 const OTPModel: Model<IOTP> = mongoose.models.OTP || mongoose.model<IOTP>('OTP', OTPSchema);
 

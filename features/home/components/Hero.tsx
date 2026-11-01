@@ -185,7 +185,7 @@ const Hero = () => {
                         className={styles.secondaryButtonWrapper}
                     >
                         <Link
-                            href="/#projects"
+                            href="/projects"
                             className={styles.secondaryButton}
                         >
                             View Work

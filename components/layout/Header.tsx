@@ -43,7 +43,7 @@ const Header = () => {
         { name: 'Home', href: '/#home' },
         { name: 'About', href: '/#about' },
         { name: 'Services', href: '/#services' },
-        // { name: 'Projects', href: '/#projects' },
+        { name: 'Projects', href: '/#projects' },
     ];
 
     useEffect(() => {
@@ -197,7 +197,7 @@ const Header = () => {
                         ))}
 
                         {/* Get Started Button */}
-                        <motion.div
+                        {/* <motion.div
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             className={styles.getStartedWrapperDesktop}
@@ -209,15 +209,13 @@ const Header = () => {
                             >
                                 Give Contest
                             </Link>
-
-                            {/* Subtle glow on hover */}
                             <motion.div
                                 className={styles.getStartedGlow}
                                 initial={{ opacity: 0, scale: 0.8 }}
                                 whileHover={{ opacity: 1, scale: 1.1 }}
                                 transition={{ duration: 0.3 }}
                             />
-                        </motion.div>
+                        </motion.div> */}
                     </div>
 
                     {/* Mobile Menu Button */}
